@@ -11,7 +11,6 @@ class App
     public function run(): void
     {
         try {
-            session_start();
             $this->handle();
         } catch (\Exception $e) {
             print_r($e->getMessage());

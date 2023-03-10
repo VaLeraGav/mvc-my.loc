@@ -1,5 +1,5 @@
 {
-    "name": "halon/mvc-my.loc",
+    "name": "halon/mvp-my.loc",
     "config": {
         "platform": {
             "php": "7.4"

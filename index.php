@@ -6,8 +6,12 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-define('ROOT', __DIR__); // начала папки
+define('ROOT', __DIR__);             // начала папки
 define('CONF', __DIR__ . '/config');
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 use App\Application\App;
 

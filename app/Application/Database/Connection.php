@@ -25,7 +25,7 @@ class Connection
         $this->password = $conf_db['password'];
     }
 
-    public function connect(array $options = null)
+    public function connect(array $options = null): \PDO
     {
         try {
 

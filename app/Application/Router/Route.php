@@ -31,7 +31,6 @@ class Route
     public static function all(array $routers): void
     {
         foreach ($routers as $url => [$controller, $method, $type]) {
-
             // по умолчанию
             $type = $type ?? 'get';
             $method = $method ?? 'index';
