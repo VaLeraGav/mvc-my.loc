@@ -1,0 +1,33 @@
+name: linter and tests
+
+on:
+  push:
+    branches:
+      [ main ]
+  pull_request:
+    branches:
+      [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-versions: [ '7.4' ]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up PHP ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+
+#      - name: Install
+#        run: make setup
+#
+#      - name: Execute tests via PHPUnit
+#        run: make test
+#
+#      - name: Check lint
+#        run: make lint

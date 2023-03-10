@@ -1,0 +1,39 @@
+{
+    "name": "halon/mvc-my.loc",
+    "config": {
+        "platform": {
+            "php": "7.4"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "files": [
+            "app/Libs/function.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "your.user.name"
+        }
+    ],
+    "scripts": {
+        "phpcs": "phpcs",
+        "phpcbf": "phpcbf",
+        "phpunit": "phpunit",
+        "test": "phpunit tests"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "v5.2.11",
+        "phpunit/phpunit": "9.*"
+    },
+    "require": {
+        "ext-pdo": "*"
+    }
+}
