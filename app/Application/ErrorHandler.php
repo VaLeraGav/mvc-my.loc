@@ -55,7 +55,7 @@ class ErrorHandler
     {
         $constError = $this->errors[$errno];
         http_response_code($response);
-        if ($response === 404 && !DEBUG) {
+        if ($response == 404 && !DEBUG) {
             require VIEW . '/errors/404.html';
             die;
         }
@@ -107,11 +107,13 @@ class ErrorHandler
         ];
         $constError = $this->errors[$error] ?? $error;
 
+        $path = ROOT . '/tmp/errorHandler.log';
+
         $log->setMessage($constError, $message, $backtrace);
         error_log(
             $log->getMessage() . PHP_EOL,
             3,
-            ROOT . '/tmp/errorHandler.log'
+            $path
         );
     }
 

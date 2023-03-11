@@ -35,8 +35,8 @@ class Logger
 
     public function createLogFile(): void
     {
-        if (!file_exists(__DIR__ . '/tmp')) {
-            mkdir(__DIR__ . '/tmp', 0777, true);
+        if (!file_exists(ROOT . '/tmp')) {
+            mkdir(ROOT . '/tmp', 0777, true);
         }
 
         if (!file_exists($this->logFile)) {
@@ -150,7 +150,7 @@ class Logger
     }
 
     //-------------------------------------------------
-    //Абсолютный путь в относительный URL
+    //Абсолютный путь в относительный URL ?
     public function absToRelPath($pathToConvert)
     {
         $pathAbs = str_replace(['/', '\\'], '/', $pathToConvert);
