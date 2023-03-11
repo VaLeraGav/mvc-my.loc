@@ -21,22 +21,6 @@ class View
         include $path;
     }
 
-    public static function exception(\Exception $e): void
-    {
-        extract([
-            'message' => $e->getMessage(),
-            'trace' => $e->getTraceAsString()
-        ]);
-
-        $path = self::$pathToViews . "/app/exception.view.php";
-        if (!file_exists($path)) {
-            echo $e->getMessage() . "<br><hr>";
-            echo "<pre>" . $e->getTraceAsString() . "</pre>";
-            return;
-        }
-        include $path;
-    }
-
     public static function component(string $component): void
     {
         $path = self::$pathToViews . "/components/$component.component.php";

@@ -30,10 +30,11 @@ class Route
 
     public static function all(array $routers): void
     {
-        foreach ($routers as $url => [$controller, $method, $type]) {
+        foreach ($routers as $url => $item) {
+            $controller = $item[0];
             // по умолчанию
-            $type = $type ?? 'get';
-            $method = $method ?? 'index';
+            $method = $item[1] ?? 'index';
+            $type = $item[2] ?? 'get';
 
             self::define($type, $url, $controller, $method);
         }

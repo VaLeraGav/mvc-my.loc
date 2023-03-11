@@ -24,7 +24,7 @@ abstract class Model
         return $db->connect();
     }
 
-    public function query(string $sql, array $params = null): bool|\PDOStatement
+    public function query(string $sql, array $params = null)
     {
         if (!$params) {
             return $this->connect->query($sql);
@@ -39,7 +39,7 @@ abstract class Model
     }
 
     // возвращает все данные из таблицы
-    public function findAll(): bool|\PDOStatement
+    public function findAll()
     {
         $sql = "SELECT * FROM {$this->table}";
         return $this->connect->query($sql);

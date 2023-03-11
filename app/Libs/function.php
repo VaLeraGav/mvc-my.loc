@@ -1,7 +1,7 @@
 <?php
 
 
-function dpre($value)
+function dpre($value): void
 {
     echo '<pre>';
     print_r($value);
@@ -18,4 +18,9 @@ function redirect($route = '/', $statusCode = 302)
     }
     header('Location: ' . $redirect, true, $statusCode);
     return null;
+}
+
+function h($str): string
+{
+    return htmlspecialchars($str, ENT_QUOTES);
 }

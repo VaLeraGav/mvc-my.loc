@@ -25,7 +25,7 @@ class PageController
 
 //        $db = UserModel::setup()->query('SELECT * FROM user')->fetchAll();
 
-        // dpre($db);
+        dpre($db);
 
         View::show('pages/index', [
             'title' => 'Home'

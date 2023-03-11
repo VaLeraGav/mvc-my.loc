@@ -4,7 +4,6 @@ namespace App\Application\Database;
 
 class Connection
 {
-    private static \PDO $connect;
 
     private string $driver;
     private string $host;
@@ -29,7 +28,7 @@ class Connection
     {
         try {
 
-            $this->connect = new \PDO(
+            $connect = new \PDO(
                 "$this->driver:host=$this->host;port=$this->port;dbname=$this->dbname",
                 $this->user,
                 $this->password,
@@ -38,6 +37,6 @@ class Connection
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int)$e->getCode());
         }
-        return $this->connect;
+        return $connect;
     }
 }

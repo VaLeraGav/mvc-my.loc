@@ -25,6 +25,7 @@ Route::get('/show/(\w+)', function ($name) {
 
 Route::all(
     [
-        '/login' => [PageController::class]
+        '/login' => [PageController::class],
+        '/aut' => [PageController::class],
     ]
 );
