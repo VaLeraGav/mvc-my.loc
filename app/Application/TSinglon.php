@@ -1,7 +1,6 @@
 <?php
 
-
-use JetBrains\PhpStorm\NoReturn;
+// Защищенный, просто пусть будет
 
 trait Singleton
 {

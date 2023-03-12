@@ -7,7 +7,8 @@ use App\Application\Views\View;
 <?php View::component('header'); ?>
 
     <body>
-        index
+
+    <?php dpre($title); ?>
     </body>
 
 <?php View::component('footer'); ?>

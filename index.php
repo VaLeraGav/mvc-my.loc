@@ -9,7 +9,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 define('ROOT', __DIR__);             // начала папки
 define('CONF', __DIR__ . '/config');
 define("DEBUG", 1); // режим разработки 1-разработки 0-чистовик
-define("VIEW", __DIR__ . '/views'); // режим разработки 1-разработки 0-чистовик
+define("VIEW", __DIR__ . '/resources/views'); // режим разработки 1-разработки 0-чистовик
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();

@@ -1,31 +1,49 @@
 <?php
 
-
-use App\Application\Views\View;
-use App\Controllers\PageController;
 use App\Application\Router\Route;
+use App\Controllers\LoginController;
+use App\Controllers\StaticController;
+use App\Controllers\RegistrationController;
+use App\Controllers\ServicesController;
 
 //dd($_SERVER);
 
-Route::get('/', PageController::class, 'index');
-Route::get('/home', PageController::class, 'home');
 
-Route::get('/contacts', PageController::class, 'contacts');
-Route::post('/contacts', PageController::class, 'submit');
+Route::get('/', StaticController::class, 'index');
 
-Route::get('/blog/(\w+)/(\d+)', function($category, $id){
-    print $category . ':' . $id;
-});
+Route::get('/about', StaticController::class, 'about');
 
-Route::get('/show/(\w+)', function ($name) {
-        View::show('pages/show', [
-        'name' => $name
-    ]);
-});
+Route::get('/close', StaticController::class, 'close');
 
-Route::all(
-    [
-        '/login' => [PageController::class],
-        '/aut' => [PageController::class],
-    ]
-);
+Route::get('/services/(\w+)', ServicesController::class, 'contacts');
+
+// ---------------- logout / login  ----------------
+
+Route::get('/logout', LoginController::class, 'destroy');
+
+Route::get('/login', LoginController::class, 'index');
+
+Route::post('/login', LoginController::class, 'auth');
+
+// ---------------- registration ----------------
+
+Route::get('/registration', RegistrationController::class, 'index');
+
+Route::post('/registration', RegistrationController::class, 'registration');
+
+
+//Route::get('/blog/(\w+)/(\d+)', function($category, $id){
+//    print $category . ':' . $id;
+//});
+//Route::get('/show/(\w+)', function ($name) {
+//        View::show('pages/show', [
+//        'name' => $name
+//    ]);
+//});
+//
+//Route::all(
+//    [
+//        '/login' => [PageController::class],
+//        '/aut' => [PageController::class],
+//    ]
+//);

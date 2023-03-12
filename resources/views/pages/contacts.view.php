@@ -7,7 +7,7 @@ use App\Application\Views\View;
 <?php View::component('header'); ?>
 
     <body>
-        <form action="/contacts" method="post" class="form-example">
+        <form action="../../../index.php" method="post" class="form-example">
             <div class="form-example">
                 <label for="name">Enter your name: </label>
                 <input type="text" name="name" id="name" required>

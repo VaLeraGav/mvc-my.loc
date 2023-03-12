@@ -7,7 +7,7 @@ use App\Exceptions\ViewNotFoundException;
 
 class View
 {
-    private static string $pathToViews = ROOT . '/views';
+    private static string $pathToViews = ROOT . '/resources/views';
 
     public static function show(string $view, array $params = []): void
     {

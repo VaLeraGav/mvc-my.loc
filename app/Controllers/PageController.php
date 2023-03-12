@@ -6,6 +6,8 @@ use App\Application\Database\Connection;
 use App\Application\Views\View;
 use App\Models\UserModel;
 
+// Как пример
+
 class PageController
 {
     public function index(): void

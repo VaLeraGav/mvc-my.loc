@@ -4,8 +4,8 @@ namespace App\Application;
 
 class Logger
 {
-    protected static $options = [
-        'logFormat' => 'H:i:s d.m.Y' //формат даты и времени для записи лога
+    protected static array $options = [
+        'logFormat' => 'H:i:s d.m.Y'
     ];
 
     public string $logFile = ROOT . "/tmp/error.log";

@@ -21,6 +21,8 @@ class ErrorHandler
         '16384' => 'E_USER_DEPRECATED',
     ];
 
+    private bool $all = false;
+
     public function __construct()
     {
         if (DEBUG) {
@@ -43,13 +45,16 @@ class ErrorHandler
     public function errorHandler($errno, $errstr, $errfile, $errline): bool
     {
         $this->logErrors($errno, $errstr, $errfile, $errline);
-        //if (DEBUG || in_array($errno, [E_USER_ERROR, E_RECOVERABLE_ERROR])) { // для фатальных и смешенных
 
-        if (DEBUG) { // для всех
+        $typeOfCaughtErrors = [E_USER_ERROR, E_RECOVERABLE_ERROR];
+
+        if (DEBUG || in_array($errno, $typeOfCaughtErrors)) {
             $this->displayError($errno, $errstr, $errfile, $errline);
         }
+
         return true;
     }
+
 
     protected function displayError($errno, $errstr, $errfile, $errline, $response = 500)
     {
@@ -69,13 +74,13 @@ class ErrorHandler
 
     public function fatalErrorHandler(): void
     {
-        $error = error_get_last(); // по завершении скрипта, всегда, сообщение о последней ошибки
+        $error = error_get_last();
 
         if (!empty($error) && $error['type'] & (E_ERROR | E_PARSE | E_COMPILE_ERROR | E_CORE_ERROR)) {
             $this->logErrors($error['type'], $error['message'], $error['file'], $error['line']);
 
             ob_end_clean();
-            // запускаем обработчик ошибок
+
             $this->displayError($error['type'], $error['message'], $error['file'], $error['line']);
         } else {
             ob_end_flush();
