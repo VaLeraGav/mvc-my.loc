@@ -7,18 +7,30 @@ use App\Exceptions\ViewNotFoundException;
 
 class View
 {
-    private static string $pathToViews = ROOT . '/resources/views';
+    private static string $pathToViews = VIEW;
 
     public static function show(string $view, array $params = []): void
     {
-        extract($params);
-
-        $path = self::$pathToViews . "/$view.view.php";
-
-        if (!file_exists($path)) {
-            throw new ViewNotFoundException("View ($view) not found");
+        if (is_array($params)) {
+            extract($params);
         }
-        include $path;
+
+        $viewFile = self::$pathToViews . "/$view.view.php";
+
+        if (is_file($viewFile)) {
+            ob_start();
+            require_once $viewFile;
+            $content = ob_get_clean();
+        } else {
+            throw new \Exception("На найден вид {$viewFile}", 500);
+        }
+
+        $layoutFile = ROOT . "/resources/layouts/default.php";
+        if (is_file($layoutFile)) {
+            require_once $layoutFile;
+        } else {
+            throw new \Exception("На найден шаблон {default}", 500);
+        }
     }
 
     public static function component(string $component): void

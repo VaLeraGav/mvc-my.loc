@@ -1,14 +1,5 @@
-<?php
+<body>
 
-use App\Application\Views\View;
+<h4><?= $title ?></h4>
+</body>
 
-?>
-
-<?php View::component('header'); ?>
-
-    <body>
-
-    <?php dpre($title); ?>
-    </body>
-
-<?php View::component('footer'); ?>
