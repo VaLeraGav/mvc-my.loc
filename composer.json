@@ -19,11 +19,6 @@
             "Tests\\": "tests/"
         }
     },
-    "authors": [
-        {
-            "name": "your.user.name"
-        }
-    ],
     "scripts": {
         "phpcs": "phpcs",
         "phpcbf": "phpcbf",

@@ -2,28 +2,31 @@
 
 namespace App\Controllers;
 
-use Core\Base\View;
+use Core\Base\Controller;
 
-class StaticController
+class StaticController extends Controller
 {
+    // public $layout = 'other';
+
     public function index(): void
     {
-        View::show('pages/index', [
-            'title' => 'StaticController: Home'
+        $this->view('pages/index', [
+            'title' => 'Home'
         ]);
     }
 
     public function about(): void
     {
-        View::show('pages/index', [
-            'title' => 'about'
+        $this->setMeta('About', "desc", 'keywords');
+        $this->view('pages/index', [
+            'title' => 'Home'
         ]);
     }
 
-    public function close(): void
-    {
-        View::show('pages/index', [
-            'title' => 'close'
-        ]);
-    }
+//    public function close(): void
+//    {
+//        View::show('pages/index', [
+//            'title' => 'close'
+//        ]);
+//    }
 }

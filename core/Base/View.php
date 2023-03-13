@@ -7,15 +7,28 @@ use Core\Exceptions\ViewNotFoundException;
 
 class View
 {
-    private static string $pathToViews = VIEW;
+    public $layout;
+    public $view;
+    public $meta = [];
 
-    public static function show(string $view, array $params = []): void
+    public function __construct($layout = '', $view = '', $meta = '')
     {
-        if (is_array($params)) {
-            extract($params);
+        $this->view = $view;
+        $this->meta = $meta;
+        if ($layout === false) {
+            $this->layout = false;
+        } else {
+            $this->layout = $layout ?: LAYOUT;
+        }
+    }
+
+    public function renderView($data = []): void
+    {
+        if (is_array($data)) {
+            extract($data);
         }
 
-        $viewFile = self::$pathToViews . "/$view.view.php";
+        $viewFile = VIEW . "/$this->view.view.php";
 
         if (is_file($viewFile)) {
             ob_start();
@@ -25,17 +38,27 @@ class View
             throw new \Exception("На найден вид {$viewFile}", 500);
         }
 
-        $layoutFile = VIEW . "/layouts/default.php";
-        if (is_file($layoutFile)) {
-            require_once $layoutFile;
-        } else {
-            throw new \Exception("На найден шаблон {default}", 500);
+        if (false !== $this->layout) {
+            $layoutFile = VIEW . "/layouts/{$this->layout}.php";
+            if (is_file($layoutFile)) {
+                require_once $layoutFile;
+            } else {
+                throw new \Exception("На найден шаблон {$this->layout}", 500);
+            }
         }
+    }
+
+    public function getMeta()
+    {
+        $output = '<title>' . $this->meta['title'] . '</title>' . PHP_EOL;
+        $output .= '<meta name="description" content="' . $this->meta['desc'] . '">' . PHP_EOL;
+        $output .= '<meta name="keywords" content="' . $this->meta['keywords'] . '">' . PHP_EOL;
+        return $output;
     }
 
     public static function component(string $component): void
     {
-        $path = self::$pathToViews . "/components/$component.component.php";
+        $path = VIEW . "/components/$component.component.php";
 
         if (!file_exists($path)) {
             throw new ComponentNotFoundException("Component ($component) not found");
