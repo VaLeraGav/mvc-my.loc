@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\Router\Route;
+use Core\Route;
 use App\Controllers\LoginController;
 use App\Controllers\StaticController;
 use App\Controllers\RegistrationController;

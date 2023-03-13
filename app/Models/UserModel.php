@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Application\Database\Model;
+use Core\Base\Model;
 
 class UserModel extends Model
 {

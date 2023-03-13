@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Application\Views;
+namespace Core\Base;
 
-use App\Exceptions\ComponentNotFoundException;
-use App\Exceptions\ViewNotFoundException;
+use Core\Exceptions\ComponentNotFoundException;
+use Core\Exceptions\ViewNotFoundException;
 
 class View
 {
@@ -25,7 +25,7 @@ class View
             throw new \Exception("На найден вид {$viewFile}", 500);
         }
 
-        $layoutFile = ROOT . "/resources/layouts/default.php";
+        $layoutFile = VIEW . "/layouts/default.php";
         if (is_file($layoutFile)) {
             require_once $layoutFile;
         } else {

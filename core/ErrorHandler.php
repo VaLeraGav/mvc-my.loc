@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application;
+namespace Core;
 
 class ErrorHandler
 {
@@ -20,8 +20,6 @@ class ErrorHandler
         '8192' => 'E_DEPRECATED',
         '16384' => 'E_USER_DEPRECATED',
     ];
-
-    private bool $all = false;
 
     public function __construct()
     {
@@ -54,7 +52,6 @@ class ErrorHandler
 
         return true;
     }
-
 
     protected function displayError($errno, $errstr, $errfile, $errline, $response = 500)
     {
@@ -89,7 +86,7 @@ class ErrorHandler
 
     public function exceptionHandler($e): bool
     {
-        $this->logErrors($e->getMessage(), $e->getFile(), $e->getLine());
+        $this->logErrors('Exception', $e->getMessage(), $e->getFile(), $e->getLine());
 
         $this->displayError(
             'Exception',
@@ -110,9 +107,14 @@ class ErrorHandler
                 'line' => $line
             ]
         ];
-        $constError = $this->errors[$error] ?? $error;
 
-        $path = ROOT . '/tmp/errorHandler.log';
+        $path = TMP . '/errorHandler.log';
+
+        if (!file_exists($path)) {
+            throw new \Exception("Не нашел путь в logErrors {$path}");
+        }
+
+        $constError = $this->errors[$error] ?? "Indefinite ERROR";
 
         $log->setMessage($constError, $message, $backtrace);
         error_log(

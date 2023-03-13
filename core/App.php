@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Application;
+namespace Core;
 
-use App\Application\Router\Route;
-use App\Application\Router\Router;
-use App\Exceptions\ComponentNotFoundException;
-use App\Exceptions\ViewNotFoundException;
+use Core\Route;
+use Core\Router;
+use Core\Exceptions\ComponentNotFoundException;
+use Core\Exceptions\ViewNotFoundException;
 
 class App
 {

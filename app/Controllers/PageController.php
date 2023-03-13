@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Application\Database\Connection;
-use App\Application\Views\View;
+use Core\Connection;
+use Core\Base\View;
 use App\Models\UserModel;
 
 // Как пример

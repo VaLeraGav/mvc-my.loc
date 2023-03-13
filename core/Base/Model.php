@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Application\Database;
+namespace Core\Base;
+
+use Core\Connection;
 
 abstract class Model
 {

@@ -1,5 +1,5 @@
 start:
-	php -S localhost:3000
+	php -S localhost:3000 public/index.php
 
 test:
 	./vendor/bin/phpunit tests

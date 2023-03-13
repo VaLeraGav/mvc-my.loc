@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Application\Views\View;
+use Core\Base\View;
 
 class ServicesController
 {

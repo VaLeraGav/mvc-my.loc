@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application;
+namespace Core;
 
 class Logger
 {
@@ -8,7 +8,7 @@ class Logger
         'logFormat' => 'H:i:s d.m.Y'
     ];
 
-    public string $logFile = ROOT . "/tmp/error.log";
+    public string $logFile = TMP . "/error.log";
 
     public string $logLevel;
 
@@ -86,11 +86,10 @@ class Logger
         $time = date(self::$options['logFormat']);
 
         $backtrace = array_shift($backtrace);
-        $btLine = $backtrace['line'];
-        $btLineLog = is_null($btLine) ? 'N/A' : $btLine;
 
-        $btPath = $backtrace['file'];
-        $btPathLog = is_null($btPath) ? 'N/A' : $btPath;
+        $btLineLog = $this->variableNotAvailable($backtrace['line']);
+
+        $btPathLog = $this->variableNotAvailable($backtrace['file']);
 
         $context = json_encode($context);
         $contextLog = empty($args['context']) ? '' : "{$context}";
@@ -105,6 +104,11 @@ class Logger
             $btLineLog,
             $contextLog
         );
+    }
+
+    public function variableNotAvailable($variable): string
+    {
+        return empty($variable) ? 'N/A' : $variable;
     }
 
     public function debug($message, array $context = [])

@@ -1,6 +1,5 @@
 <?php
 
-
 function dpre($value): void
 {
     echo '<pre>';
