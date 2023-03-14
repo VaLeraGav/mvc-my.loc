@@ -3,6 +3,7 @@
 namespace Core\Base;
 
 use Core\Connection;
+use Core\Validator;
 
 abstract class Model
 {
@@ -10,6 +11,7 @@ abstract class Model
     protected string $pk = 'id'; // первичный ключ
     public array $attributes = []; // // атрибуты для модели
 
+    public array $rules;
     private $connect;
 
     public function __construct()
@@ -22,6 +24,7 @@ abstract class Model
     {
         return $this->connect;
     }
+
 
     public static function setup(): \PDO
     {
@@ -49,5 +52,32 @@ abstract class Model
         return $this->connect->query($sql);
     }
 
+    //-------
+    // строить attributes через post
+    public function load($data)
+    {
+        foreach ($this->attributes as $name) {
+            if (isset($data[$name])) {
+                $this->attributes[$name] = $data[$name];
+            }
+        }
+    }
+
+    public function validate($data)
+    {
+        $validator = new Validator();
+
+        $validator->setRules($this->rules);
+
+        return $validator->validate($data);
+    }
+
+    public function find($key, $value)
+    {
+        $sql = "SELECT * FROM {$this->table} WHERE " . $key . " = :value";
+        $search = $this->query($sql, [':value' => $value])->fetch();
+
+        return empty($search) ? false : $search;
+    }
 
 }

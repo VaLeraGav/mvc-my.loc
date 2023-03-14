@@ -8,10 +8,10 @@ function dpre($value): void
     echo '</pre>';
 }
 
-function redirect($route = '/', $statusCode = 302)
+function redirect($http = false, $statusCode = 302)
 {
-    if ($route !== '/') {
-        $redirect = $route; // адрес куда нужно отправить
+    if ($http) {
+        $redirect = $http;
     } else {
         $redirect = $_SERVER['HTTP_REFERER'] ?? '/'; // на ту же самую
     }

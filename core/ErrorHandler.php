@@ -93,7 +93,7 @@ class ErrorHandler
             $e->getMessage(),
             $e->getFile(),
             $e->getLine(),
-            $e->getCode()
+            // $e->getCode() - выкидывает ошибку при SQLSTATE[HY000]
         );
         return true;
     }
