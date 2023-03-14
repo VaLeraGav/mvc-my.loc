@@ -19,7 +19,7 @@ class StaticController extends Controller
     {
         $this->setMeta('About', "desc", 'keywords');
         $this->view('pages/index', [
-            'title' => 'Home'
+            'title' => 'About'
         ]);
     }
 

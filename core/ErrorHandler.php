@@ -58,7 +58,7 @@ class ErrorHandler
         $constError = $this->errors[$errno];
         http_response_code($response);
         if ($response == 404 && !DEBUG) {
-            require VIEW . '/errors/404.html';
+            require VIEW . '/errors/404.php';
             die;
         }
         if (DEBUG) {

@@ -2,7 +2,7 @@
 
 use App\Controllers\admin\AdminController;
 use Core\Route;
-use App\Controllers\LoginController;
+use App\Controllers\AuthController;
 use App\Controllers\StaticController;
 use App\Controllers\RegistrationController;
 use App\Controllers\ServicesController;
@@ -22,18 +22,18 @@ Route::get('/about', StaticController::class, 'about');
 //
 //// ---------------- logout / login  ----------------
 //
-//Route::get('/logout', LoginController::class, 'destroy');
-//
-//Route::get('/login', LoginController::class, 'index');
-//
-//Route::post('/login', LoginController::class, 'auth');
+
+Route::get('/login', AuthController::class, 'index');
+
+Route::post('/login', AuthController::class, 'login');
+
+Route::get('/logout', AuthController::class, 'destroy');
 //
 //// ---------------- registration ----------------
-//
-//Route::get('/registration', RegistrationController::class, 'index');
-//
-//Route::post('/registration', RegistrationController::class, 'registration');
+///
+Route::get('/registration', RegistrationController::class, 'index');
 
+Route::post('/registration', RegistrationController::class, 'registration');
 
 Route::get('/admin$', AdminController::class, 'index');
 

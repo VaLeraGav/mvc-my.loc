@@ -10,20 +10,22 @@ abstract class Model
     protected string $pk = 'id'; // первичный ключ
     public array $attributes = []; // // атрибуты для модели
 
-    private \PDO $connect;
+    private $connect;
 
     public function __construct()
     {
-        // $this->connect = Connection::instance();
-        $db = new Connection();
-        $this->connect = $db->connect();
+        $db = Connection::connectInstance();
+        $this->connect = $db->otherConnect();
     }
 
-    // для удобного статического обращения
+    public function getConnect(): \PDO
+    {
+        return $this->connect;
+    }
+
     public static function setup(): \PDO
     {
-        $db = new Connection();
-        return $db->connect();
+        return (Connection::connectInstance())->connection();
     }
 
     public function query(string $sql, array $params = null)
@@ -35,7 +37,7 @@ abstract class Model
         $result = $connect->execute($params);
 
         if (!$result) {
-            throw new \Exception('не верный запрос');
+            throw new \Exception('Не верный запрос');
         }
         return $connect;
     }
@@ -47,7 +49,5 @@ abstract class Model
         return $this->connect->query($sql);
     }
 
-
-    // TODO: описать основные методы для моделей
 
 }

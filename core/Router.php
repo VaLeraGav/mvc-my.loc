@@ -23,10 +23,12 @@ class Router
             if (preg_match($pattern, $urlPath, $params)) // сравнение идет через регулярное выражение
             {
                 self::controller($route, $params);
-            } else {
-                header("HTTP/1.1 404 Not Found");
+                die();
             }
         }
+        require VIEW . '/errors/404.php';
+        header("HTTP/1.1 404 Not Found");
+        die();
     }
 
 }

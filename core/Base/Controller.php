@@ -8,7 +8,7 @@ abstract class Controller
     public $layout;
     public $meta = ['title' => '', 'desc' => '', 'keywords' => ''];
 
-    public function view($view, $params): void
+    public function view($view, $params = []): void
     {
         $viewObject = new View($this->layout, $view, $this->meta);
         $viewObject->renderView($params);
