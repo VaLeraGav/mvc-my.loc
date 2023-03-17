@@ -4,6 +4,7 @@ namespace Core\Base;
 
 use Core\Connection;
 use Core\Validator;
+use Exception;
 
 abstract class Model
 {
@@ -12,7 +13,7 @@ abstract class Model
     public array $attributes = []; // // атрибуты для модели
 
     public array $rules;
-    private $connect;
+    private \PDO $connect;
 
     public function __construct()
     {
@@ -25,45 +26,71 @@ abstract class Model
         return $this->connect;
     }
 
-
     public static function setup(): \PDO
     {
         return (Connection::connectInstance())->connection();
     }
 
-    public function query(string $sql, array $params = null)
+    /**
+     * Пользовательская query
+     *
+     * @param string $sql
+     * @param array|null $params
+     * @return false|\PDOStatement
+     * @throws Exception
+     */
+    public function query($sql, array $params = null)
     {
         if (!$params) {
             return $this->connect->query($sql);
         }
-        $connect = $this->connect->prepare($sql);
-        $result = $connect->execute($params);
-
-        if (!$result) {
-            throw new \Exception('Не верный запрос');
+        try {
+            $connect = $this->connect->prepare($sql);
+            $connect->execute($params);
+        } catch (Exception $e) {
+            throw new Exception("Не верный запрос {$sql}");
         }
         return $connect;
     }
 
-    // возвращает все данные из таблицы
-    public function findAll()
+    /**
+     * Возвращает все данные из таблицы
+     *
+     * @return false|\PDOStatement
+     */
+    public function findAll(): bool|\PDOStatement
     {
         $sql = "SELECT * FROM {$this->table}";
-        return $this->connect->query($sql);
+        return $this->connect->query($sql)->fetchAll();
     }
 
-    //-------
-    // строить attributes через post
-    public function load($data)
+    /**
+     * Объявляет поля у метода
+     *
+     * @param string[] $PostData
+     * @param string[] $ignores
+     * @return void
+     */
+    public function load($PostData, $ignores): void
     {
-        foreach ($this->attributes as $name) {
-            if (isset($data[$name])) {
-                $this->attributes[$name] = $data[$name];
+        $removeFields = array_filter($PostData, function ($name) use ($ignores) {
+            return !in_array($name, $ignores);
+        }, ARRAY_FILTER_USE_KEY);
+
+        foreach ($removeFields as $name => $value) {
+            if (isset($PostData[$name])) {
+                $this->attributes[$name] = $PostData[$name];
             }
         }
     }
 
-    public function validate($data)
+    /**
+     * Запустите проверки и возвращает массив ошибок
+     *
+     * @param array $data
+     * @return array
+     */
+    public function validate($data): array
     {
         $validator = new Validator();
 
@@ -72,6 +99,15 @@ abstract class Model
         return $validator->validate($data);
     }
 
+
+    /**
+     * Поиск строки
+     *
+     * @param string $key
+     * @param string $value
+     * @return false|mixed
+     * @throws Exception
+     */
     public function find($key, $value)
     {
         $sql = "SELECT * FROM {$this->table} WHERE " . $key . " = :value";
@@ -80,4 +116,40 @@ abstract class Model
         return empty($search) ? false : $search;
     }
 
+    /**
+     * Вставка в Модель с явно указанными переменными
+     *
+     * @param array $dataUser
+     * @return void
+     */
+    public function insertGetModel($dataUser): void
+    {
+        $ignores = ['created_at', 'update_at'];
+
+        $fields = array_filter($this->attributes, function ($name) use ($ignores) {
+            return !in_array($name, $ignores);
+        }, ARRAY_FILTER_USE_KEY);
+
+        $keysFields = implode(', ', array_keys($fields));
+
+        foreach ($fields as $k => $v) {
+            $params[':' . $k] = $dataUser[$k];
+        }
+
+        $strParams = implode(', ', array_keys($params));
+
+        $sql = "INSERT INTO {$this->table} ({$keysFields}) VALUES ({$strParams})";
+
+        $this->query($sql, $params);
+    }
+
+    /**
+     * Сохраняет модель
+     *
+     * @return void
+     */
+    public function save(): void
+    {
+        $this->insertGetModel($this->attributes);
+    }
 }

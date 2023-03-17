@@ -14,12 +14,12 @@ class Validator
      * @param  $rules
      * @return void
      */
-    public function setRules($rules)
+    public function setRules($rules): void
     {
         $this->rules = $rules;
     }
 
-    public function validate($data)
+    public function validate($data): array
     {
         $errors = [];
 
@@ -42,8 +42,8 @@ class Validator
     /**
      * Удаляет поля в которых не установлены правила
      *
-     * @param $keyRules
-     * @param $data
+     * @param array $keyRules
+     * @param array $data
      * @return array
      */
     private function deletesUnusedFields($keyRules, $data): array
@@ -51,7 +51,7 @@ class Validator
         return array_filter($data, fn($keyData) => in_array($keyData, $keyRules, true), ARRAY_FILTER_USE_KEY);
     }
 
-    public function cleanEmpty($array)
+    public function cleanEmpty($array): array
     {
         foreach ($array as $key => $value) {
             if (is_array($value)) {
@@ -103,7 +103,7 @@ class Validator
      * @param string $rulesCondition
      * @return bool
      */
-    public static function haveField($prepareData, $rulesCondition)
+    public static function haveField($prepareData, $rulesCondition): bool
     {
         $res = array_filter($prepareData, function ($k) use ($rulesCondition) {
             return $k === $rulesCondition;

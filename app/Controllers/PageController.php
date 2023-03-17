@@ -13,8 +13,6 @@ class PageController
     public function index(): void
     {
         $db = new UserModel();
-        $db = $db->findAll()->fetchAll();
-
 
 //        $db = new UserModel();
 //        $db->query('CREATE TABLE user

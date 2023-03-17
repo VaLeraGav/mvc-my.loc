@@ -8,14 +8,14 @@ class UserModel extends Model
 {
     public string $table = 'users'; // как таблица
 
-    // public string $pk = 'category_id'; // теперь по умолчанию у нас в findOne будет не id поиск а по заданному полю
+    public string $pk = 'category_id'; // теперь по умолчанию у нас в findOne будет не id поиск а по заданному полю
 
     public array $attributes = [
-        'name',
-        'email',
-        'password',
-        'created_at',
-        'update_at'
+        'name' => '',
+        'email' => '',
+        'password' => '',
+        'created_at' => '',
+        'update_at' => '',
     ];
 
     public array $rules = [
@@ -24,24 +24,5 @@ class UserModel extends Model
         'password' => 'require|match:password_confirmation',
         'password_confirmation' => 'require'
     ];
-
-    public function insertGetModel($dataUser)
-    {
-        $filds = array_diff($this->attributes, ['created_at', 'update_at']);
-
-        $strFilds = implode(', ', $filds);
-
-        // TODO: доделать, чтобы можно было ставить в Model
-
-        $sql = "INSERT INTO {$this->table} ({$strFilds}) VALUES
-            (:name, :email, :password)";
-        $params = [
-            ':name' => $dataUser['name'],
-            ':email' => $dataUser['email'],
-            ':password' => $dataUser['password'],
-        ];
-
-        $this->query($sql, $params);
-    }
 
 }

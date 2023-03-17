@@ -4,7 +4,7 @@ namespace Core;
 
 class Connection
 {
-    private static Connection $instance;
+    private static self $instance;
     private \PDO $connect;
     private array $options = [];
 

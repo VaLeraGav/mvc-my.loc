@@ -21,34 +21,20 @@ class RegistrationController extends Controller
     {
         $this->setMeta('Регистрация');
 
-
-        [
-            'name' => $name,
-            'email' => $email,
-            'password' => $password,
-            'password_confirmation' => $password_confirmation
-        ] = $post;
-
         $user = new UserModel();
 
-        // $user->load($post);
+        $user->load($post, ['password_confirmation']);
 
         $errors = $user->validate($post);
 
         if (!empty($errors)) {
-            $user->insertGetModel([
-                'name' => $name,
-                'email' => $email,
-                'password' => password_hash($password, PASSWORD_DEFAULT)
-            ]);
-
             $this->view('pages/register', [
                 'users' => $post,
                 'errors' => $errors
             ]);
-
         } else {
-
+            $user->attributes['password'] = password_hash($user->attributes['password'], PASSWORD_DEFAULT);
+            $user->save();
             redirect('/');
         }
     }
