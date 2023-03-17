@@ -2,11 +2,12 @@
 
 namespace App\Controllers;
 
+use App\Models\UserModel;
 use Core\Base\Controller;
 
 class StaticController extends Controller
 {
-    // public $layout = 'other';
+    public $meta = ['title' => 'About', 'desc' => 'desc', 'keywords' => 'keywords'];
 
     public function index(): void
     {
@@ -17,16 +18,19 @@ class StaticController extends Controller
 
     public function about(): void
     {
-        $this->setMeta('About', "desc", 'keywords');
         $this->view('pages/index', [
             'title' => 'About'
         ]);
     }
 
-//    public function close(): void
-//    {
-//        View::show('pages/index', [
-//            'title' => 'close'
-//        ]);
-//    }
+    public function close(): void
+    {
+        $user = new UserModel();
+        if (!$user::isAuth()) {
+            redirect("/login");
+        }
+        $this->view('pages/index', [
+            'title' => 'Close'
+        ]);
+    }
 }

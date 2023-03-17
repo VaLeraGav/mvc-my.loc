@@ -1,16 +1,5 @@
-<main>
-    <?php
-    if (!empty($message)) : ?>
-        <p>
-            <?php
-            print_r($message); ?>
-            <?php
-            dpre($email); ?>
-        </p>
-    <?php
-    endif; ?>
-</main>
 
+<?php //dpre($login); ?>
 <section class="vh-100 bg-image"
          style="background-color: #CCCCCC;">
     <div class="mask d-flex align-items-center h-100 gradient-custom-3">
@@ -26,8 +15,13 @@
                                 <div class="form-outline mb-4">
                                     <label class="form-label">Your Email</label>
                                     <input type="email" name="email" class="form-control form-control-lg" value="<?=
-                                    $email ?? '' ?>"/>
+                                        $login ?>"/>
                                 </div>
+
+
+                                <?php if(!empty($message)): ?>
+                                    <p class="text-danger"><?php print_r($message); ?></p>
+                                <?php endif; ?>
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label">Password</label>

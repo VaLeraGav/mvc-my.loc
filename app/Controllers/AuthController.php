@@ -2,32 +2,45 @@
 
 namespace App\Controllers;
 
+use App\Models\UserModel;
 use Core\Base\Controller;
-use Core\Base\View;
 
 class AuthController extends Controller
 {
-    public function index($login = [], $message = [])
+    public function index($login = '', $message = '')
     {
-        $this->view('pages/login', ['login' => $login, 'message' => $message]);
+        $this->setMeta('Вход');
+
+        $this->view('pages/login', [
+            'login' => $login,
+            'message' => $message
+        ]);
     }
 
     public function login($request)
     {
-        [
-            'email' => $email,
-            'password' => $password,
-        ] = $request;
+        $auth = new UserModel();
 
-        $this->view('pages/login', ['email' => $email, 'message' => $password]);
+        $auth->load($request);
+
+        if (!empty($auth->checkLogin($request['email']))) {
+            $message = 'Аккаунт авторизован';
+            $auth->addAuth($auth->attributes['email']);
+            redirect('/');
+        } else {
+            $message = 'Аккаунт не найден';
+        }
+        $this->view('pages/login', ['login' => $auth->attributes['email'], 'message' => $message]);
     }
 
     public function destroy()
     {
-        unset($_SESSION);
-        session_destroy();
+        if (isset($_SESSION['user'])) {
+            unset($_SESSION['user']);
+        }
 
-        $this->view('pages/index');
+        session_destroy();
+        redirect('/');
     }
 
 

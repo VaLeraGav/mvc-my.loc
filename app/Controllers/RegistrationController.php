@@ -4,32 +4,29 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 use Core\Base\Controller;
-use Core\Base\View;
-use Core\Connection;
-use Core\Validator;
 
 class RegistrationController extends Controller
 {
     public function index($data = []): void
     {
+        $this->setMeta('Регистрация');
+
         $this->view('pages/register', [
             'data' => $data
         ]);
     }
 
-    public function registration($post)
+    public function registration($request)
     {
-        $this->setMeta('Регистрация');
-
         $user = new UserModel();
 
-        $user->load($post, ['password_confirmation']);
+        $user->load($request, ['password_confirmation']);
 
-        $errors = $user->validate($post);
+        $errors = $user->validate($request);
 
         if (!empty($errors)) {
             $this->view('pages/register', [
-                'users' => $post,
+                'users' => $user->attributes,
                 'errors' => $errors
             ]);
         } else {

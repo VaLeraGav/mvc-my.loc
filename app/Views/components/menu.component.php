@@ -10,11 +10,15 @@
                 <a class="nav-link" href="/about">About</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/404">Pricing</a>
+                <a class="nav-link" href="/close">Сlose</a>
             </li>
         </ul>
     </div>
-    <a class="text-uppercase nav-link" href="/logout">logout</a>
-    <a class="text-uppercase nav-link" href="/login">login</a>
-    <a class="text-uppercase nav-link" href="/registration">Register</a>
+
+    <?php if (!empty(\App\Models\UserModel::isAuth())) : ?>
+        <a class="text-uppercase nav-link" href="/logout">logout</a>
+    <?php else : ?>
+        <a class="text-uppercase nav-link" href="/login">login</a>
+        <a class="text-uppercase nav-link" href="/registration">Register</a>
+    <?php endif; ?>
 </nav>

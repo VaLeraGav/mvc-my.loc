@@ -33,18 +33,13 @@ abstract class Model
 
     /**
      * Пользовательская query
-     *
-     * @param string $sql
-     * @param array|null $params
-     * @return false|\PDOStatement
-     * @throws Exception
      */
     public function query($sql, array $params = null)
     {
-        if (!$params) {
-            return $this->connect->query($sql);
-        }
         try {
+            if (!$params) {
+                return $this->connect->query($sql);
+            }
             $connect = $this->connect->prepare($sql);
             $connect->execute($params);
         } catch (Exception $e) {
@@ -55,10 +50,8 @@ abstract class Model
 
     /**
      * Возвращает все данные из таблицы
-     *
-     * @return false|\PDOStatement
      */
-    public function findAll(): bool|\PDOStatement
+    public function findAll()
     {
         $sql = "SELECT * FROM {$this->table}";
         return $this->connect->query($sql)->fetchAll();
@@ -67,11 +60,8 @@ abstract class Model
     /**
      * Объявляет поля у метода
      *
-     * @param string[] $PostData
-     * @param string[] $ignores
-     * @return void
      */
-    public function load($PostData, $ignores): void
+    public function load($PostData, $ignores = []): void
     {
         $removeFields = array_filter($PostData, function ($name) use ($ignores) {
             return !in_array($name, $ignores);
@@ -86,11 +76,8 @@ abstract class Model
 
     /**
      * Запустите проверки и возвращает массив ошибок
-     *
-     * @param array $data
-     * @return array
      */
-    public function validate($data): array
+    public function validate(array $data): array
     {
         $validator = new Validator();
 
@@ -99,16 +86,10 @@ abstract class Model
         return $validator->validate($data);
     }
 
-
     /**
      * Поиск строки
-     *
-     * @param string $key
-     * @param string $value
-     * @return false|mixed
-     * @throws Exception
      */
-    public function find($key, $value)
+    public function find(string $key, string $value)
     {
         $sql = "SELECT * FROM {$this->table} WHERE " . $key . " = :value";
         $search = $this->query($sql, [':value' => $value])->fetch();
@@ -118,11 +99,8 @@ abstract class Model
 
     /**
      * Вставка в Модель с явно указанными переменными
-     *
-     * @param array $dataUser
-     * @return void
      */
-    public function insertGetModel($dataUser): void
+    public function insertGetModel(array $dataUser): void
     {
         $ignores = ['created_at', 'update_at'];
 
@@ -145,8 +123,6 @@ abstract class Model
 
     /**
      * Сохраняет модель
-     *
-     * @return void
      */
     public function save(): void
     {

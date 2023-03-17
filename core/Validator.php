@@ -8,13 +8,26 @@ class Validator
 
     public array $cleanData;
 
+    public array $message = [
+        'require' =>
+            'The field :name must not be empty',
+        'max' =>
+            'The field :name must not be larger than :max',
+        'min' =>
+            'The field :name must not be less than :mix',
+        'unique' =>
+            'This field :value is already in use in another account',
+        'match' =>
+            'Password and confirmation don\'t match',
+        'email' =>
+            'The email was entered incorrectly'
+    ];
+
     /**
      * Sets the rules
      *
-     * @param  $rules
-     * @return void
      */
-    public function setRules($rules): void
+    public function setRules($rules)
     {
         $this->rules = $rules;
     }
@@ -41,10 +54,6 @@ class Validator
 
     /**
      * Удаляет поля в которых не установлены правила
-     *
-     * @param array $keyRules
-     * @param array $data
-     * @return array
      */
     private function deletesUnusedFields($keyRules, $data): array
     {
@@ -79,7 +88,7 @@ class Validator
 
         $this->checkAvailableRule($ruleName);
 
-        $callable = [self::class, $ruleName];
+        $callable = [$this, $ruleName];
 
         if (strpos($rule, ':')) {
             $argument = $ruleByParts[1];
@@ -98,12 +107,9 @@ class Validator
 
 
     /**
-     * Проверяет наличие поля в данных из запроса.
-     * @param array $prepareData
-     * @param string $rulesCondition
-     * @return bool
+     * Проверяет наличие поля в данных из запроса
      */
-    public static function haveField($prepareData, $rulesCondition): bool
+    public function haveField($prepareData, $rulesCondition): bool
     {
         $res = array_filter($prepareData, function ($k) use ($rulesCondition) {
             return $k === $rulesCondition;
@@ -114,43 +120,87 @@ class Validator
 
     /**
      * Правила
-     * @return string
      */
-    private static function require($field, $value): ?string
+    private function require($field, $value): ?string
     {
-        return empty($value) ? "The field \"$field\" must not be empty" : null;
+        return empty($value) ? $this->getMessage('require', $field) : null;
     }
 
-    private static function max($field, $value, $matchValue): ?string
+    private function max($field, $value, $matchValue): ?string
     {
-        return $matchValue < strlen($value) ? "The field \"$field\" must not be larger than $matchValue" : null;
+        return $matchValue < strlen($value) ? $this->getMessage('max', $field, $matchValue) : null;
     }
 
-    private static function min($field, $value, $matchValue): ?string
+    private function min($field, $value, $matchValue): ?string
     {
-        return $matchValue > strlen($value) ? "The field \"$field\" must not be less than $matchValue" : null;
+        return $matchValue > strlen($value) ? $this->getMessage('min', $field, $matchValue) : null;
     }
 
-    private static function unique($field, $value): ?string
+    private function unique($field, $value): ?string
     {
         // TODO: подключение к оперделенному методу
         $db = new \App\Models\UserModel();
         $dbData = $db->find($field, $value);
 
-        return $dbData ? "This field  \"{$value}\" is already in use in another account" : null;
+        return $dbData ? $this->getMessage('unique', $value) : null;
     }
 
-    private static function match($field, $value, $matchValue): ?string
+    private function match($field, $value, $matchValue): ?string
     {
-        return $value !== $matchValue ? "Password and confirmation don't match" : null;
+        return $value !== $matchValue ? $this->getMessage('match') : null;
     }
 
-    private static function email($field, $value): ?string
+    private function email($field, $value): ?string
     {
         if (!filter_var($value, FILTER_VALIDATE_EMAIL) ?? preg_match('/@.+./', $value)) {
-            return "The email was entered incorrectly";
+            return $this->getMessage('email');
         }
         return null;
     }
+
+    public function getMessage($name, ...$params)
+    {
+        // мерзость
+        switch ($name) {
+            case 'require':
+                $str = str_replace([":name"], [$params[0]], $this->message['require']);
+                break;
+            case 'min':
+                $str = str_replace([':name', ':mix'], [$params[0], $params[1]], $this->message['min']);
+                break;
+            case 'max':
+                $str = str_replace([':name', ':max'], [$params[0], $params[1]], $this->message['max']);
+                break;
+            case 'unique':
+                $str = str_replace([':value'], [$params[0]], $this->message['unique']);
+                break;
+            case 'match':
+                $str = $this->message['match'];
+                break;
+            case 'email':
+                $str = $this->message['email'];
+                break;
+            default:
+                $str = 'Error';
+        }
+        return $str;
+    }
+
+//    public function setMessage($names)
+//    {
+//    }
+//
+//    public array $messages = [
+//        'name' => [
+//            'require' =>
+//                'Имя не должно быть пустым',
+//            'max' =>
+//                'Имя не должно превышать 30 символов',
+//            'min' =>
+//                'Имя не должно быть меньше 1 символов',
+//            'unique' =>
+//                'Имя должно быть уникальным',
+//        ]
+//    ];
 
 }
