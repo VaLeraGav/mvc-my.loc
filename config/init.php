@@ -6,6 +6,7 @@ define("WWW", ROOT . '/public');
 define("APP", ROOT . '/app');
 define("VIEW", ROOT . '/app/Views');
 define("TMP", ROOT . '/tmp');
+define("CACHE", ROOT . '/tmp/cache');
 
 define("LAYOUT", 'default');
 

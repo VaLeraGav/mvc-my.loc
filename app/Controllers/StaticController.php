@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 use Core\Base\Controller;
+use Core\Cache;
 
 class StaticController extends Controller
 {
@@ -18,8 +19,18 @@ class StaticController extends Controller
 
     public function about(): void
     {
+        $name = ['андрей', 'матвей', 'n123'];
+
+//        $date = Cache::get('new');
+//        var_dump($date);
+//        if(!$date) {
+//            Cache::set('new', $name, 10);
+//        }
+//        var_dump($date);
+
         $this->view('pages/index', [
-            'title' => 'About'
+            'title' => 'About',
+            'arrayName' => $name
         ]);
     }
 
