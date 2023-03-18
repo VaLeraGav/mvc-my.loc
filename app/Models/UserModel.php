@@ -23,6 +23,19 @@ class UserModel extends Model
         'password_confirmation' => 'require'
     ];
 
+    public array $rulesMessage = [
+        'name' => [
+            'require' =>
+                'Имя не должно быть пустым',
+            'max' =>
+                'Имя не должно превышать :max символов',
+            'min' =>
+                'Имя не должно быть меньше :min символов',
+            'unique' =>
+                'Имя должно быть уникальным',
+        ]
+    ];
+
     /**
      * Поверяет существования пользователь
      */
@@ -51,7 +64,6 @@ class UserModel extends Model
         $_SESSION['user']["login"] = $login;
         return null;
     }
-
 
     /**
      * Возвращает авторизован пользователь или нет

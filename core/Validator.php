@@ -14,13 +14,13 @@ class Validator
         'max' =>
             'The field :name must not be larger than :max',
         'min' =>
-            'The field :name must not be less than :mix',
+            'The field :name must not be less than :min',
         'unique' =>
             'This field :value is already in use in another account',
         'match' =>
             'Password and confirmation don\'t match',
         'email' =>
-            'The email was entered incorrectly'
+            'The email was entered incorrectly',
     ];
 
     /**
@@ -30,6 +30,11 @@ class Validator
     public function setRules($rules)
     {
         $this->rules = $rules;
+    }
+
+    public function setRuleMessage($messError = [])
+    {
+        $this->message = array_merge($this->message, $messError);
     }
 
     public function validate($data): array
@@ -90,21 +95,15 @@ class Validator
 
         $callable = [$this, $ruleName];
 
+        // вызов правила по количеству аргументов
         if (strpos($rule, ':')) {
             $argument = $ruleByParts[1];
-
-            if ($this->haveField($this->cleanData, $argument)) {
-                $argumentField = $this->cleanData[$argument];
-                $methodCall = call_user_func_array($callable, [$field, $value, $argumentField]);
-            } else {
-                $methodCall = call_user_func_array($callable, [$field, $value, $argument]);
-            }
+            $methodCall = call_user_func_array($callable, [$ruleName, $field, $value, $argument]);
         } else {
-            $methodCall = call_user_func_array($callable, [$field, $value]);
+            $methodCall = call_user_func_array($callable, [$ruleName, $field, $value]);
         }
         return $methodCall;
     }
-
 
     /**
      * Проверяет наличие поля в данных из запроса
@@ -115,92 +114,84 @@ class Validator
             return $k === $rulesCondition;
         }, ARRAY_FILTER_USE_KEY);
 
-        return !empty($res);
+        return empty($res);
     }
 
     /**
      * Правила
      */
-    private function require($field, $value): ?string
+    private function require($ruleName, $field, $value): ?string
     {
-        return empty($value) ? $this->getMessage('require', $field) : null;
+        $raw = $this->getRuleMessage($ruleName, $field);
+        $str = $this->replaceLines($raw, [":name"], [$field]);
+        return empty($value) ? $str : null;
     }
 
-    private function max($field, $value, $matchValue): ?string
+    private function unique($ruleName, $field, $value): ?string
     {
-        return $matchValue < strlen($value) ? $this->getMessage('max', $field, $matchValue) : null;
-    }
-
-    private function min($field, $value, $matchValue): ?string
-    {
-        return $matchValue > strlen($value) ? $this->getMessage('min', $field, $matchValue) : null;
-    }
-
-    private function unique($field, $value): ?string
-    {
-        // TODO: подключение к оперделенному методу
+        // TODO: подключение к определенному методу
         $db = new \App\Models\UserModel();
         $dbData = $db->find($field, $value);
 
-        return $dbData ? $this->getMessage('unique', $value) : null;
+        $raw = $this->getRuleMessage($ruleName, $field);
+        $str = $this->replaceLines($raw, [':value'], [$value]);
+        return $dbData ? $str : null;
     }
 
-    private function match($field, $value, $matchValue): ?string
+    private function email($ruleName, $field, $value): ?string
     {
-        return $value !== $matchValue ? $this->getMessage('match') : null;
-    }
-
-    private function email($field, $value): ?string
-    {
-        if (!filter_var($value, FILTER_VALIDATE_EMAIL) ?? preg_match('/@.+./', $value)) {
-            return $this->getMessage('email');
+        if (filter_var($value, FILTER_VALIDATE_EMAIL) ?? preg_match('/@.+./', $value)) {
+            return null;
         }
-        return null;
-    }
-
-    public function getMessage($name, ...$params)
-    {
-        // мерзость
-        switch ($name) {
-            case 'require':
-                $str = str_replace([":name"], [$params[0]], $this->message['require']);
-                break;
-            case 'min':
-                $str = str_replace([':name', ':mix'], [$params[0], $params[1]], $this->message['min']);
-                break;
-            case 'max':
-                $str = str_replace([':name', ':max'], [$params[0], $params[1]], $this->message['max']);
-                break;
-            case 'unique':
-                $str = str_replace([':value'], [$params[0]], $this->message['unique']);
-                break;
-            case 'match':
-                $str = $this->message['match'];
-                break;
-            case 'email':
-                $str = $this->message['email'];
-                break;
-            default:
-                $str = 'Error';
-        }
+        $raw = $this->getRuleMessage($ruleName, $field);
+        // dpre($raw);
+        $str = $this->replaceLines($raw);
         return $str;
     }
 
-//    public function setMessage($names)
-//    {
-//    }
-//
-//    public array $messages = [
-//        'name' => [
-//            'require' =>
-//                'Имя не должно быть пустым',
-//            'max' =>
-//                'Имя не должно превышать 30 символов',
-//            'min' =>
-//                'Имя не должно быть меньше 1 символов',
-//            'unique' =>
-//                'Имя должно быть уникальным',
-//        ]
-//    ];
+    private function max($ruleName, $field, $value, $matchValue): ?string
+    {
+        $raw = $this->getRuleMessage($ruleName, $field);
+        $str = $this->replaceLines($raw, [':name', ':max'], [$field, $matchValue]);
+        return $matchValue < strlen($value) ? $str : null;
+    }
+
+    private function min($ruleName, $field, $value, $matchValue): ?string
+    {
+        $raw = $this->getRuleMessage($ruleName, $field);
+        $str = $this->replaceLines($raw, [':name', ':min'], [$field, $matchValue]);
+        return $matchValue > strlen($value) ? $str : null;
+    }
+
+    private function match($ruleName, $field, $value, $matchValue): ?string
+    {
+        if ($this->haveField($this->cleanData, $matchValue)) {
+            return "Неправильное имя поля для совпадения {$field}";
+        }
+        $argumentField = $this->cleanData[$matchValue];
+
+        $raw = $this->getRuleMessage($ruleName, $field);
+        $str = $this->replaceLines($raw);
+        return $value !== $argumentField ? $str : null;
+    }
+
+    public function replaceLines($strMessRule, $search = [], $replace = [])
+    {
+        return str_replace($search, $replace, $strMessRule);
+    }
+
+    public function getRuleMessage($ruleName, $field)
+    {
+        if (!empty($this->message[$field]) && is_array($this->message[$field])) {
+            if (empty($this->message[$field][$ruleName])) {
+                return "У поля {$field} нет текста ошибки: {$ruleName}";
+            }
+            return $this->message[$field][$ruleName];
+        }
+        if (empty($this->message[$ruleName])) {
+            return "Полe $field является пустым";
+        }
+        return $this->message[$ruleName];
+    }
 
 }

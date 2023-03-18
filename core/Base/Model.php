@@ -13,6 +13,7 @@ abstract class Model
     public array $attributes = []; // // атрибуты для модели
 
     public array $rules;
+    public array $rulesMessage;
     private \PDO $connect;
 
     public function __construct()
@@ -82,6 +83,7 @@ abstract class Model
         $validator = new Validator();
 
         $validator->setRules($this->rules);
+        $validator->setRuleMessage($this->rulesMessage);
 
         return $validator->validate($data);
     }

@@ -21,7 +21,7 @@
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label">Your Email</label>
-                                    <input type="email" name="email" class="form-control form-control-lg"
+                                    <input type="text" name="email" class="form-control form-control-lg"
                                            value="<?= $users['email'] ?? "" ?>"/>
                                 </div>
                                 <?php if(!empty($errors['email'])): ?>
