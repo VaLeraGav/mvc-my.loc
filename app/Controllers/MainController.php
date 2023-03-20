@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Models\UserModel;
 use Core\Cache;
 
-class StaticController extends AppController
+class MainController extends AppController
 {
     public $meta = ['title' => 'About', 'desc' => 'desc', 'keywords' => 'keywords'];
 
@@ -40,19 +40,12 @@ class StaticController extends AppController
         if (!$user::isAuth()) {
             redirect("/login");
         }
-        $this->view('pages/index', [
-            'title' => 'Close'
-        ]);
+        $this->view('pages/index');
     }
 
-    public function services(): void
+    public function single(): void
     {
-//        self::$app->setProperty('title', 'name');
-//        dpre(self::$app->getProperties());
-
-        $this->view('pages/test', [
-            'id' => $_GET['id']
-        ]);
+        $this->view('pages/show',);
     }
 
 }

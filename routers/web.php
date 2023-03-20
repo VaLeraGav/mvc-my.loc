@@ -3,18 +3,18 @@
 use App\Controllers\admin\AdminController;
 use Core\Route;
 use App\Controllers\AuthController;
-use App\Controllers\StaticController;
+use App\Controllers\MainController;
 use App\Controllers\RegistrationController;
 
 //dd($_SERVER);
 
-Route::get('/', StaticController::class, 'index');
+Route::get('/', MainController::class, 'index');
 
-Route::get('/about', StaticController::class, 'about');
+Route::get('/about', MainController::class, 'about');
 
-Route::get('/close', StaticController::class, 'close');
+Route::get('/close', MainController::class, 'close');
 
-Route::get('/services', StaticController::class, 'services');
+Route::get('/single', MainController::class, 'single');
 
 // ---------------- logout / login  ----------------
 
@@ -31,20 +31,3 @@ Route::get('/registration', RegistrationController::class, 'index');
 Route::post('/registration', RegistrationController::class, 'registration');
 
 Route::get('/admin$', AdminController::class, 'index');
-
-
-//Route::get('/blog/(\w+)/(\d+)', function($category, $id){
-//    print $category . ':' . $id;
-//});
-//Route::get('/show/(\w+)', function ($name) {
-//        View::show('pages/show', [
-//        'name' => $name
-//    ]);
-//});
-//
-//Route::all(
-//    [
-//        '/login' => [PageController::class],
-//        '/aut' => [PageController::class],
-//    ]
-//);

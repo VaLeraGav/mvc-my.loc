@@ -8,6 +8,6 @@ define("VIEW", ROOT . '/app/Views');
 define("TMP", ROOT . '/tmp');
 define("CACHE", ROOT . '/tmp/cache');
 
-define("LAYOUT", 'default');
+define("LAYOUT", 'watches');
 
 define("DEBUG", 1);    // режим разработки 1-разработки 0-чистовик

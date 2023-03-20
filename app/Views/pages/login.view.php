@@ -1,42 +1,45 @@
+<!-- хлебные крошки -->
+<!--start-breadcrumbs-->
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="breadcrumbs-main">
+            <ol class="breadcrumb">
+                <li><a href="/">Home</a></li>
+                <li>Login</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<!--end-breadcrumbs-->
+<!--prdt-starts-->
+<div class="prdt">
+    <div class="container">
+        <div class="prdt-top">
+            <div class="col-md-12">
+                <div class="product-one login">
+                    <div class="register-top heading">
+                        <h2>LOGIN</h2>
+                    </div>
 
-<?php //dpre($login); ?>
-<section class="vh-100 bg-image"
-         style="background-color: #CCCCCC;">
-    <div class="mask d-flex align-items-center h-100 gradient-custom-3">
-        <div class="container h-100">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-                    <div class="card" style="border-radius: 15px;">
-                        <div class="card-body p-5">
-                            <h2 class="text-center mb-5">Sign In</h2>
-
-                            <form action="/login" method="post">
-
-                                <div class="form-outline mb-4">
-                                    <label class="form-label">Your Email</label>
-                                    <input type="email" name="email" class="form-control form-control-lg" value="<?=
-                                        $login ?>"/>
+                    <div class="register-main">
+                        <div class="col-md-6 account-left">
+                            <form method="post" action="user/login" id="login" role="form" data-toggle="validator">
+                                <div class="form-group has-feedback">
+                                    <label for="login">Login</label>
+                                    <input type="text" name="login" class="form-control" id="login" placeholder="Login" required>
+                                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 </div>
-
-
-                                <?php if(!empty($message)): ?>
-                                    <p class="text-danger"><?php print_r($message); ?></p>
-                                <?php endif; ?>
-
-                                <div class="form-outline mb-4">
-                                    <label class="form-label">Password</label>
-                                    <input type="password" name="password" class="form-control form-control-lg"/>
+                                <div class="form-group has-feedback">
+                                    <label for="pasword">Password</label>
+                                    <input type="password" name="password" class="form-control" id="pasword" placeholder="Password" required>
+                                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 </div>
-
-                                <div class="d-flex justify-content-center text-light">
-                                    <button type="submit" class="btn btn-dark btn-block btn-lg ">Sibmit</button>
-                                </div>
+                                <button type="submit" class="btn btn-default">Submit</button>
                             </form>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</div>
