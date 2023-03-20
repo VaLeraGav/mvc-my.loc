@@ -7,12 +7,5 @@
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 require_once dirname(__DIR__) . '/config/init.php';
 
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-
-use Core\App;
-
-$app = new App();
-$app->run();
+new \Core\App();
 

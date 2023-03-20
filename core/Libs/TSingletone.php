@@ -2,11 +2,8 @@
 
 namespace Core\Libs;
 
-// пусть будет
-
 trait TSingletone
 {
-
     private static $instance;
 
     public static function instance()

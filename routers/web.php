@@ -14,7 +14,7 @@ Route::get('/about', StaticController::class, 'about');
 
 Route::get('/close', StaticController::class, 'close');
 
-// Route::get('/services/(\w+)', ServicesController::class, 'contacts');
+Route::get('/services', StaticController::class, 'services');
 
 // ---------------- logout / login  ----------------
 

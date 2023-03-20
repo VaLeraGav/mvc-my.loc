@@ -3,9 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
-use Core\Base\Controller;
 
-class RegistrationController extends Controller
+class RegistrationController extends AppController
 {
     public function index($data = []): void
     {

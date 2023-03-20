@@ -2,17 +2,17 @@
 
 namespace Core;
 
+use Core\Libs\TSingletone;
+
 class Cache
 {
-    public function __construct()
-    {
-    }
+    use TSingletone;
 
-    public static function set($key, $data, $second = 3600)
+    public function set($key, $data, $second = 3600)
     {
         if ($second)  // для тестирования
         {
-            $content['date'] = $data;
+            $content['data'] = $data;
             $content['end_time'] = time() + $second;
 
             $pathDir = CACHE . '/';
@@ -26,32 +26,31 @@ class Cache
         return false;
     }
 
-    public static function get($key)
+    public function get($key)
     {
         $file = CACHE . '/' . md5($key) . '.txt';
         if (file_exists($file)) {
             $content = unserialize(file_get_contents($file));
 
             if (time() <= $content['end_time']) {
-                return $content['date'];
+                return $content['data'];
             }
             unlink($file);
         }
         return false;
     }
 
-    public static function delete($key)
+    public function delete($key)
     {
         $file = CACHE . '/' . md5($key) . '.txt';
         if (file_exists($file)) {
             unlink($file);
         }
-        return false;
     }
 
 
     /**
-     * Буферизирует
+     * Буферизирует вывод
      *
      *  if (\Core\CacheMy::begin('testdiv')) {
      *      echo '<div>какоц то массив1</div>';
@@ -63,7 +62,8 @@ class Cache
      */
     public static function begin($key)
     {
-        if ($content = self::get($key)) {
+        $content = self::instance()->get($key);
+        if ($content) {
             echo $content;
             return false;
         } else {
@@ -74,7 +74,7 @@ class Cache
 
     public static function end($key, $second = 3600)
     {
-        echo self::set($key, ob_get_clean(), $second);
+        echo self::instance()->set($key, ob_get_clean(), $second);
     }
 
 }

@@ -3,9 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
-use Core\Base\Controller;
 
-class AuthController extends Controller
+class AuthController extends AppController
 {
     public function index($login = '', $message = '')
     {

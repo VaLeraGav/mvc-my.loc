@@ -3,34 +3,34 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
-use Core\Base\Controller;
 use Core\Cache;
 
-class StaticController extends Controller
+class StaticController extends AppController
 {
     public $meta = ['title' => 'About', 'desc' => 'desc', 'keywords' => 'keywords'];
 
     public function index(): void
     {
         $this->view('pages/index', [
-            'title' => 'Home'
+            'title' => 'Home',
+            'get' => $_GET
         ]);
     }
 
     public function about(): void
     {
-        $name = ['андрей', 'матвей', 'n123'];
+        $arr = ['привет', 'fylhtqwdww'];
 
-//        $date = Cache::get('new');
-//        var_dump($date);
-//        if(!$date) {
-//            Cache::set('new', $name, 10);
-//        }
-//        var_dump($date);
+        $cash = Cache::instance();
+
+        $cash1 = $cash->get('title');
+        if (!$cash1) {
+            $cash->set('title', $arr, 100);
+        }
 
         $this->view('pages/index', [
             'title' => 'About',
-            'arrayName' => $name
+            'arrayName' => $cash->get('title')
         ]);
     }
 
@@ -44,4 +44,15 @@ class StaticController extends Controller
             'title' => 'Close'
         ]);
     }
+
+    public function services(): void
+    {
+//        self::$app->setProperty('title', 'name');
+//        dpre(self::$app->getProperties());
+
+        $this->view('pages/test', [
+            'id' => $_GET['id']
+        ]);
+    }
+
 }
