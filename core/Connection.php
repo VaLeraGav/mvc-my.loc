@@ -18,7 +18,7 @@ class Connection
         }
     }
 
-    private function setOption($option = [])
+    public function setOption($option = [])
     {
         if (empty($option)) {
             $this->options = [
@@ -51,13 +51,12 @@ class Connection
         );
     }
 
-    // временная
-    public function otherConnect($dbName = null, $userName = null, $password = null)
+    public static function otherConnect($dbName = null, $userName = null, $password = null, $options = null)
     {
         if (is_null($dbName)) {
             $dbName = 'sqlite:' . ROOT . '/identifier.sqlite';
         }
-        return new \PDO($dbName, $userName, $password, $this->options);
+        return new \PDO($dbName, $userName, $password, $options);
     }
 
     public static function connectInstance(): Connection

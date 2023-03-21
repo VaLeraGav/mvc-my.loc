@@ -19,7 +19,7 @@ abstract class Model
     public function __construct()
     {
         $db = Connection::connectInstance();
-        $this->connect = $db->otherConnect();
+        $this->connect = $db->connection();
     }
 
     public function getConnect(): \PDO
@@ -30,6 +30,12 @@ abstract class Model
     public static function setup(): \PDO
     {
         return (Connection::connectInstance())->connection();
+    }
+
+    public static function request($sql)
+    {
+        $arrays = (Connection::connectInstance())->connection()->query($sql)->fetchAll();
+        return makeObj($arrays);
     }
 
     /**

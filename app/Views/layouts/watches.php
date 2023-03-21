@@ -2,11 +2,12 @@
 <html>
 
 <head>
-    <link href="/public/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
 
-    <script src="/public/js/jquery-1.11.0.min.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
 
-    <link href="/public/css/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <script src="/js/jquery-1.11.0.min.js"></script>
+
+    <link href="/css/style.css" rel="stylesheet" type="text/css" media="all"/>
 
     <!--//theme-style-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,11 +15,12 @@
     <meta name="keywords" content=""/>
 
     <!--start-menu-->
-    <link href="/public/css/memenu.css" rel="stylesheet" type="text/css" media="all"/>
-    <script type="text/javascript" src="/public/js/memenu.js"></script>
+    <link href="/css/memenu.css" rel="stylesheet" type="text/css" media="all"/>
+    <script type="text/javascript" src="/js/memenu.js"></script>
 
     <!--dropdown-->
-    <script src="/public/js/jquery.easydropdown.js"></script>
+    <script src="/js/jquery.easydropdown.js"></script>
+
 
     <?= $this->getMeta(); ?>
 </head>
@@ -32,10 +34,8 @@
             <div class="col-md-6 top-header-left">
                 <div class="drop">
                     <div class="box">
-                        <select tabindex="4" class="dropdown drop">
-                            <option value="" class="label">Dollar :</option>
-                            <option value="1">Dollar</option>
-                            <option value="2">Euro</option>
+                        <select id="currency" tabindex="4" class="dropdown drop">
+                            <?php new \app\widgets\currency\Currency(); ?>
                         </select>
                     </div>
                     <div class="box1">
@@ -55,7 +55,7 @@
                         <div class="total">
                             <span class="simpleCart_total"></span>
                         </div>
-                        <img src="/public/images/cart-1.png" alt=""/>
+                        <img src="/images/cart-1.png" alt=""/>
                     </a>
                     <p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
                     <div class="clearfix"></div>
@@ -112,24 +112,10 @@
     </div>
 </div>
 <!--bottom-header-->
-<!--banner-starts-->
 
 <?= $content ?>
 
-<!--banner-ends-->
-<!--End-slider-script-->
 
-<?php
-//dpre($content); ?>
-
-<!--about-starts-->
-
-
-<!--about-end-->
-<!--product-starts-->
-
-
-<!--product-end-->
 <!--information-starts-->
 <div class="information">
     <div class="container">
@@ -202,8 +188,8 @@
     </div>
 </div>
 <!--information-end-->
-<!--footer-starts-->
 
+<!--footer-starts-->
 <div class="footer">
     <div class="container">
         <div class="footer-top">
@@ -222,12 +208,11 @@
         </div>
     </div>
 </div>
-
-
 <!--footer-end-->
 
 <!--Slider-Starts-Here-->
-<script src="/public/js/responsiveslides.min.js"></script>
+<script src="/js/responsiveslides.min.js"></script>
+<script src="/js/main.js"></script>
 <script>
     // You can also use "$(window).load(function() {"
     $(function () {
@@ -249,7 +234,7 @@
     });
 </script>
 
-<script src="/public/js/jquery.easydropdown.js"></script>
+<script src="/js/jquery.easydropdown.js"></script>
 <script type="text/javascript">
     $(function () {
 

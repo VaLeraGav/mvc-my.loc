@@ -23,3 +23,12 @@ function h($str): string
 {
     return htmlspecialchars($str, ENT_QUOTES);
 }
+
+
+function makeObj($arrays)
+{
+    foreach ($arrays as $k => $v) {
+        $var[$k] = (object)$v;
+    }
+    return $var;
+}

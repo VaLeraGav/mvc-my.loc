@@ -3,35 +3,30 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
+use Core\App;
+use Core\Base\Model;
 use Core\Cache;
+use Core\Connection;
 
 class MainController extends AppController
 {
-    public $meta = ['title' => 'About', 'desc' => 'desc', 'keywords' => 'keywords'];
+    public $meta = ['title' => 'Главная страница', 'desc' => 'desc', 'keywords' => 'keywords'];
 
     public function index(): void
     {
+        $brands = Model::request("SELECT * FROM brand LIMIT 3");
+
+        $hits = Model::request("SELECT * FROM product WHERE hit = '1' AND status = '1' LIMIT 8");
+
         $this->view('pages/index', [
-            'title' => 'Home',
-            'get' => $_GET
+            'brands' => $brands,
+            'hits' => $hits,
         ]);
     }
 
     public function about(): void
     {
-        $arr = ['привет', 'fylhtqwdww'];
-
-        $cash = Cache::instance();
-
-        $cash1 = $cash->get('title');
-        if (!$cash1) {
-            $cash->set('title', $arr, 100);
-        }
-
-        $this->view('pages/index', [
-            'title' => 'About',
-            'arrayName' => $cash->get('title')
-        ]);
+        $this->view('pages/index');
     }
 
     public function close(): void
@@ -46,6 +41,21 @@ class MainController extends AppController
     public function single(): void
     {
         $this->view('pages/show',);
+    }
+
+    // выбор валюты
+    public function changeCurrency(): void
+    {
+        $currency = !empty($_GET['curr']) ? $_GET['curr'] : null;
+        if ($currency) {
+            $curr = App::$app->getProperty('currencies');
+            $hasCurr = array_key_exists($currency, $curr);
+
+            if ($hasCurr) {
+                setcookie('currency', $currency, time() + 3600 * 24 * 7, '/');
+            }
+        }
+        redirect();
     }
 
 }

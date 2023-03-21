@@ -9,9 +9,12 @@ class UserModel extends Model
     public string $table = 'users';
 
     public array $attributes = [
-        'name' => '',
-        'email' => '',
+        'login' => '',
         'password' => '',
+        'email' => '',
+        'name' => '',
+        'address' => '',
+        'role' => '',
         'created_at' => '',
         'update_at' => '',
     ];

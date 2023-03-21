@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\admin\AdminController;
+use App\Controllers\CurrencyController;
 use Core\Route;
 use App\Controllers\AuthController;
 use App\Controllers\MainController;
@@ -15,6 +16,8 @@ Route::get('/about', MainController::class, 'about');
 Route::get('/close', MainController::class, 'close');
 
 Route::get('/single', MainController::class, 'single');
+
+Route::get('/currency/change', MainController::class, 'changeCurrency');
 
 // ---------------- logout / login  ----------------
 
