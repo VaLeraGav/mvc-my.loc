@@ -32,10 +32,31 @@ abstract class Model
         return (Connection::connectInstance())->connection();
     }
 
-    public static function request($sql)
+    public static function requestObj($sql, $key = '')
     {
-        $arrays = (Connection::connectInstance())->connection()->query($sql)->fetchAll();
+        $arrays = self::setup()->query($sql)->fetchAll();
+        if (!empty($key)) {
+            return self::changeKey($arrays, $key);
+        }
         return makeObj($arrays);
+    }
+
+    public static function requestArr($sql, $key = '')
+    {
+        $arrays = self::setup()->query($sql)->fetchAll();
+        if (!empty($key)) {
+            return self::changeKey($arrays, $key);
+        }
+        return $arrays;
+    }
+
+    protected static function changeKey($arrays, $key = '')
+    {
+        foreach ($arrays as $arr) {
+            $cur = $arr[$key];
+            $newCurr[$cur] = $arr;
+        }
+        return $newCurr;
     }
 
     /**

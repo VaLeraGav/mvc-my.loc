@@ -15,8 +15,9 @@
     <meta name="keywords" content=""/>
 
     <!--start-menu-->
-    <link href="/css/memenu.css" rel="stylesheet" type="text/css" media="all"/>
-    <script type="text/javascript" src="/js/memenu.js"></script>
+
+    <link rel="stylesheet" href="/public/megamenu/css/style.css">
+    <link rel="stylesheet" href="/megamenu/css/ionicons.min.css">
 
     <!--dropdown-->
     <script src="/js/jquery.easydropdown.js"></script>
@@ -78,25 +79,12 @@
     <div class="container">
         <div class="header">
             <div class="col-md-9 header-left">
-                <div class="top-nav">
-                    <ul class="memenu skyblue">
-                        <li class="active"><a href="/">Home</a></li>
-
-                        <li class="grid"><a href="/">Men</a>
-
-                        </li>
-                        <li class="grid"><a href="/">Women</a>
-
-                        </li>
-
-                        <li class="grid"><a href="/single">Single</a>
-
-                        </li>
-                        <li class="grid"><a href="/login">Login</a>
-                        </li>
-                        <li class="grid"><a href="/registration">Register</a>
-                        </li>
-                    </ul>
+                <div class="menu-container">
+                    <div class="menu">
+                        <?php new \App\Widgets\Menu\Menu([
+                            'tpl' => WWW . '/menu/menu.php',
+                        ]) ?>
+                    </div>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -213,6 +201,8 @@
 <!--Slider-Starts-Here-->
 <script src="/js/responsiveslides.min.js"></script>
 <script src="/js/main.js"></script>
+<script src="/megamenu/js/megamenu.js"></script>
+
 <script>
     // You can also use "$(window).load(function() {"
     $(function () {

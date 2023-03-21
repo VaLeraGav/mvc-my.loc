@@ -27,15 +27,10 @@ class Currency
 
     public static function getCurrencies()
     {
-        $arrays = Model::setup()->query(
-            "SELECT code, title, symbol_left, symbol_right, value, base FROM currency ORDER BY base DESC"
-        )->fetchAll();
-        // меняет ключ на code валюты
-        foreach ($arrays as $arr) {
-            $cur = $arr['code'];
-            $newCurr[$cur] = $arr;
-        }
-        return $newCurr;
+        return Model::requestArr(
+            "SELECT code, title, symbol_left, symbol_right, value, base FROM currency ORDER BY base DESC",
+            'code'
+        );
     }
 
     public static function getCurrency($currencies)

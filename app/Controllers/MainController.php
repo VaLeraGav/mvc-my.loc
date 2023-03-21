@@ -14,9 +14,9 @@ class MainController extends AppController
 
     public function index(): void
     {
-        $brands = Model::request("SELECT * FROM brand LIMIT 3");
+        $brands = Model::requestObj("SELECT * FROM brand LIMIT 3");
 
-        $hits = Model::request("SELECT * FROM product WHERE hit = '1' AND status = '1' LIMIT 8");
+        $hits = Model::requestObj("SELECT * FROM product WHERE hit = '1' AND status = '1' LIMIT 8");
 
         $this->view('pages/index', [
             'brands' => $brands,
