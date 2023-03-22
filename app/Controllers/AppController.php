@@ -23,7 +23,7 @@ class  AppController extends Controller
         $cache = Cache::instance();
         $cats = $cache->get('cats');
         if(!$cats) {
-            $cats = Model::requestArr("SELECT * FROM category",'id');
+            $cats = Model::requestArr("SELECT * FROM category", 'id');
             $cache->set('cats', $cats);
         }
         return $cats;

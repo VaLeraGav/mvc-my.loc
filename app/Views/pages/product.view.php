@@ -5,6 +5,17 @@ $cats = \Core\App::$app->getProperty('cats');
 
 ?>
 
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="breadcrumbs-main">
+            <ol class="breadcrumb">
+                <li><a href="index.html">Home</a></li>
+                <li class="active">Single</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
 <div class="single contact">
     <div class="container">
         <div class="single-main">
