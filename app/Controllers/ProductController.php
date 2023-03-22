@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\BreadCrumbs;
 use App\Models\ProductModel;
-use App\Models\UserModel;
 use Core\Base\Model;
 
 class ProductController extends AppController
@@ -28,12 +28,18 @@ class ProductController extends AppController
             $recentlyViewed = Model::requestArr("SELECT * FROM product  WHERE id IN ({$slot}) LIMIT 3");
         }
 
+        $mods = Model::requestObj("SELECT * FROM modification WHERE product_id = '{$product->id}'");
+
+        $breadcrumbs = BreadCrumbs::getBreadCrumbs($product->category_id, $product->title);
+
         $this->setMeta($product->title, $product->description, $product->keywords);
         $this->view('pages/product', [
             'product' => $product,
             'related' => $related,
             'gallery' => $gallery,
-            'recentlyViewed' => $recentlyViewed
+            'recentlyViewed' => $recentlyViewed,
+            'breadcrumbs' => $breadcrumbs,
+            'mods' => $mods
         ]);
     }
 }

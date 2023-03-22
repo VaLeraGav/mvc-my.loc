@@ -14,14 +14,12 @@
     <meta name="keywords" content=""/>
 
     <!--start-menu-->
-
-    <link rel="stylesheet" href="megamenu/css/style.css">
-    <link rel="stylesheet" href="megamenu/css/ionicons.min.css">
-
-    <!--dropdown-->
     <script src="js/jquery-1.11.0.min.js"></script>
     <script src="js/jquery.easydropdown.js"></script>
 
+
+    <link rel="stylesheet" href="megamenu/css/style.css">
+    <link rel="stylesheet" href="megamenu/css/ionicons.min.css">
 
     <?= $this->getMeta(); ?>
 </head>
@@ -199,8 +197,11 @@
 <!--footer-end-->
 
 <!--Slider-Starts-Here-->
+
+<!--dropdown-->
+
 <script src="js/responsiveslides.min.js"></script>
-<script src="js/main.js"></script>
+
 <script src="megamenu/js/megamenu.js"></script>
 <!--dropdown-->
 <script src="js/jquery.easydropdown.js"></script>
@@ -255,6 +256,15 @@
 
     });
 </script>
+
+<?php $curr = \Core\App::$app->getProperty('currency'); ?>
+<script>
+    var path = '<?= PATH; ?>',
+        course = <?= $curr['value']; ?>,
+        symboleLeft = '<?= $curr['symbol_left']; ?>',
+        symboleRight = '<?= $curr['symbol_right']; ?>';
+</script>
+<script src="js/main.js"></script>
 </body>
 
 </html>
