@@ -453,3 +453,8 @@ Stack trace:
 [23:38:09 21.03.2023] | E_NOTICE . errorHand : Undefined variable: var | [C:\OpenServer\domains\mvp-my.loc\core\Libs\function.php : 33] | []
 [23:46:20 21.03.2023] | Exception . errorHand : syntax error, unexpected end of file, expecting elseif (T_ELSEIF) or else (T_ELSE) or endif (T_ENDIF) | [C:\OpenServer\domains\mvp-my.loc\app\Views\pages\product.view.php : 337] | []
 [23:48:20 21.03.2023] | Exception . errorHand : syntax error, unexpected ')' | [C:\OpenServer\domains\mvp-my.loc\app\Views\pages\product.view.php : 14] | []
+[12:14:15 22.03.2023] | Exception . errorHand : syntax error, unexpected '$r_viewed' (T_VARIABLE) | [C:\OpenServer\domains\mvp-my.loc\app\Controllers\ProductController.php : 31] | []
+[12:14:37 22.03.2023] | Exception . errorHand : syntax error, unexpected '$r_viewed' (T_VARIABLE) | [C:\OpenServer\domains\mvp-my.loc\app\Controllers\ProductController.php : 31] | []
+[12:17:28 22.03.2023] | Exception . errorHand : AppSQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '2, 5, 7 LIMIT 3' at line 1 | [C:\OpenServer\domains\mvp-my.loc\core\App.php : 27] | []
+[12:24:04 22.03.2023] | Exception . errorHand : Cannot use object of type stdClass as array | [C:\OpenServer\domains\mvp-my.loc\app\Views\pages\product.view.php : 219] | []
+[12:24:20 22.03.2023] | Exception . errorHand : Cannot use object of type stdClass as array | [C:\OpenServer\domains\mvp-my.loc\app\Views\pages\product.view.php : 219] | []
