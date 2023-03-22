@@ -2,6 +2,7 @@
 
 use App\Controllers\admin\AdminController;
 use App\Controllers\CurrencyController;
+use App\Controllers\ProductController;
 use Core\Route;
 use App\Controllers\AuthController;
 use App\Controllers\MainController;
@@ -11,13 +12,15 @@ use App\Controllers\RegistrationController;
 
 Route::get('/', MainController::class, 'index');
 
-Route::get('/about', MainController::class, 'about');
-
 Route::get('/close', MainController::class, 'close');
 
-Route::get('/single', MainController::class, 'single');
-
 Route::get('/currency/change', MainController::class, 'changeCurrency');
+
+
+Route::get('/product/([a-z0-9-]+)/?', function ($alias) {
+    $app = new ProductController();
+    $app->index($alias);
+});
 
 // ---------------- logout / login  ----------------
 

@@ -1325,13 +1325,13 @@ a.mask {
 }
 /*--breadcrumbs-end--*/
 /*--contact-starts--*/
-.contact{
-	padding:6em 0px;
+.contact {
+	padding:2em 0px;
 }
-.contact-top{
+.contact-top {
 	text-align:center;
 }
-.contact-text{
+.contact-text {
 	margin-top:4%;
 }
 .contact-right input[type="text"] {

@@ -24,11 +24,6 @@ class MainController extends AppController
         ]);
     }
 
-    public function about(): void
-    {
-        $this->view('pages/index');
-    }
-
     public function close(): void
     {
         $user = new UserModel();
@@ -36,11 +31,6 @@ class MainController extends AppController
             redirect("/login");
         }
         $this->view('pages/index');
-    }
-
-    public function single(): void
-    {
-        $this->view('pages/show',);
     }
 
     // выбор валюты

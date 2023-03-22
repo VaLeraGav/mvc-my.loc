@@ -32,12 +32,9 @@ abstract class Model
         return (Connection::connectInstance())->connection();
     }
 
-    public static function requestObj($sql, $key = '')
+    public static function requestObj($sql)
     {
         $arrays = self::setup()->query($sql)->fetchAll();
-        if (!empty($key)) {
-            return self::changeKey($arrays, $key);
-        }
         return makeObj($arrays);
     }
 

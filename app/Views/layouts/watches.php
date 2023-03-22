@@ -2,12 +2,11 @@
 <html>
 
 <head>
+    <base href ="/">
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
 
-    <link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
 
-    <script src="/js/jquery-1.11.0.min.js"></script>
-
-    <link href="/css/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
 
     <!--//theme-style-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,11 +15,12 @@
 
     <!--start-menu-->
 
-    <link rel="stylesheet" href="/public/megamenu/css/style.css">
-    <link rel="stylesheet" href="/megamenu/css/ionicons.min.css">
+    <link rel="stylesheet" href="megamenu/css/style.css">
+    <link rel="stylesheet" href="megamenu/css/ionicons.min.css">
 
     <!--dropdown-->
-    <script src="/js/jquery.easydropdown.js"></script>
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/jquery.easydropdown.js"></script>
 
 
     <?= $this->getMeta(); ?>
@@ -56,7 +56,7 @@
                         <div class="total">
                             <span class="simpleCart_total"></span>
                         </div>
-                        <img src="/images/cart-1.png" alt=""/>
+                        <img src="images/cart-1.png" alt=""/>
                     </a>
                     <p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
                     <div class="clearfix"></div>
@@ -69,7 +69,7 @@
 <!--top-header-->
 <!--start-logo-->
 <div class="logo">
-    <a href="/">
+    <a href="<?= PATH ?>">
         <h1>Luxury Watches</h1>
     </a>
 </div>
@@ -199,10 +199,11 @@
 <!--footer-end-->
 
 <!--Slider-Starts-Here-->
-<script src="/js/responsiveslides.min.js"></script>
-<script src="/js/main.js"></script>
-<script src="/megamenu/js/megamenu.js"></script>
-
+<script src="js/responsiveslides.min.js"></script>
+<script src="js/main.js"></script>
+<script src="megamenu/js/megamenu.js"></script>
+<!--dropdown-->
+<script src="js/jquery.easydropdown.js"></script>
 <script>
     // You can also use "$(window).load(function() {"
     $(function () {
@@ -223,8 +224,15 @@
 
     });
 </script>
-
-<script src="/js/jquery.easydropdown.js"></script>
+<script>
+    // Can also be used with $(document).ready()
+    $(window).load(function() {
+        $('.flexslider').flexslider({
+            animation: "slide",
+            controlNav: "thumbnails"
+        });
+    });
+</script>
 <script type="text/javascript">
     $(function () {
 

@@ -27,6 +27,7 @@ function h($str): string
 
 function makeObj($arrays)
 {
+    $var = [];
     foreach ($arrays as $k => $v) {
         $var[$k] = (object)$v;
     }
