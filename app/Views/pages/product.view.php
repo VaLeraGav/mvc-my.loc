@@ -3,6 +3,8 @@
 $curr = \Core\App::$app->getProperty('currency');
 $cats = \Core\App::$app->getProperty('cats');
 
+// session_destroy();
+dpre($_SESSION);
 ?>
 
 <div class="breadcrumbs">
@@ -81,49 +83,51 @@ $cats = \Core\App::$app->getProperty('cats');
                             <?php
                             endif; ?>
                             <p><?= $product->content; ?></p>
-                            <div class="available">
-                                <ul>
-                                    <li>Color
-                                        <select>
-                                            <option>Выбрать цвет: </option>
-                                            <?php foreach ($mods as $mod): ?>
-                                                <option data-title="<?=$mod->title;?>"
-                                                        data-price="<?=$mod->price * $curr['value'];?>"
-                                                        value="<?=$mod->id;?>"><?=$mod->title;?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select></li>
-                                    <li class="size-in">Size<select>
-                                            <option>Large</option>
-                                            <option>Medium</option>
-                                            <option>small</option>
-                                            <option>Large</option>
-                                            <option>small</option>
-                                        </select></li>
-                                    <div class="clearfix"></div>
-                                </ul>
-                            </div>
-                            <ul class="tag-men">
-                                <li><span>Category: </span>
-                                    <span>
-                                        <a href="category/<?= $cats[$product->category_id]['alias'] ?>"><?= $cats[$product->category_id]['title'] ?></></a>
-                                    </span>
-                                </li>
-                            </ul>
-                            <style>
-                                .quantity {
-                                    margin-top: 3em;
-                                    margin-right: 10px;
-                                    float: left;
-                                }
-                            </style>
-                            <div class="quantity">
-                                <input type="number" size="4" value="1" name="quantity" min="1" step="1">
-                            </div>
-                            <a id="productAdd" data-id="<?= $product->id; ?>"
-                               href="cart/add?id=<?= $product->id; ?>"
-                               class="add-cart item_add add-to-cart-link">ADD TO CART</a>
 
+                            <?php if ($mods): ?>
+                                <div class="available">
+                                    <ul>
+                                        <li>Color
+                                            <select>
+                                                <option>Выбрать цвет </option>
+                                                <?php foreach ($mods as $mod): ?>
+                                                    <option data-title="<?=$mod->title;?>"
+                                                            data-price="<?=$mod->price * $curr['value'];?>"
+                                                            value="<?=$mod->id;?>"><?=$mod->title;?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select></li>
+<!--                                        <li class="size-in">Size<select>-->
+<!--                                                <option>Large</option>-->
+<!--                                                <option>Medium</option>-->
+<!--                                                <option>small</option>-->
+<!--                                                <option>Large</option>-->
+<!--                                                <option>small</option>-->
+<!--                                            </select></li>-->
+                                        <div class="clearfix"></div>
+                                    </ul>
+                                </div>
+                            <?php endif; ?>
+                                <ul class="tag-men">
+                                    <li><span>Category: </span>
+                                        <span>
+                                            <a href="category/<?= $cats[$product->category_id]['alias'] ?>"><?= $cats[$product->category_id]['title'] ?></></a>
+                                        </span>
+                                    </li>
+                                </ul>
+                                <style>
+                                    .quantity {
+                                        margin-top: 3em;
+                                        margin-right: 10px;
+                                        float: left;
+                                    }
+                                </style>
+                                <div class="quantity">
+                                    <input type="number" size="4" value="1" name="quantity" min="1" step="1">
+                                </div>
+                                <a id="productAdd" data-id="<?= $product->id; ?>"
+                                   href="cart/add?id=<?= $product->id; ?>"
+                                   class="add-cart item_add add-to-cart-link">ADD TO CART</a>
                         </div>
                     </div>
                     <div class="clearfix"></div>
@@ -257,90 +261,90 @@ $cats = \Core\App::$app->getProperty('cats');
                 <?php endif; ?>
 
             </div>
-            <div class="col-md-3 single-right">
-                <div class="w_sidebar">
-                    <section class="sky-form">
-                        <h4>Catogories</h4>
-                        <div class="row1 scroll-pane">
-                            <div class="col col-4">
-                                <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i></i>All
-                                    Accessories</label>
-                            </div>
-                            <div class="col col-4">
-                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Women
-                                    Watches</label>
-                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Kids
-                                    Watches</label>
-                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Men
-                                    Watches</label>
-                            </div>
-                        </div>
-                    </section>
-                    <section class="sky-form">
-                        <h4>Brand</h4>
-                        <div class="row1 row2 scroll-pane">
-                            <div class="col col-4">
-                                <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i></i>kurtas</label>
-                            </div>
-                            <div class="col col-4">
-                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Sonata</label>
-                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Titan</label>
-                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Casio</label>
-                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Omax</label>
-                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>shree</label>
-                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Fastrack</label>
-                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Sports</label>
-                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Fossil</label>
-                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Maxima</label>
-                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Yepme</label>
-                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Citizen</label>
-                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Diesel</label>
-                            </div>
-                        </div>
-                    </section>
-                    <section class="sky-form">
-                        <h4>Colour</h4>
-                        <ul class="w_nav2">
-                            <li><a class="color1" href="#"></a></li>
-                            <li><a class="color2" href="#"></a></li>
-                            <li><a class="color3" href="#"></a></li>
-                            <li><a class="color4" href="#"></a></li>
-                            <li><a class="color5" href="#"></a></li>
-                            <li><a class="color6" href="#"></a></li>
-                            <li><a class="color7" href="#"></a></li>
-                            <li><a class="color8" href="#"></a></li>
-                            <li><a class="color9" href="#"></a></li>
-                            <li><a class="color10" href="#"></a></li>
-                            <li><a class="color12" href="#"></a></li>
-                            <li><a class="color13" href="#"></a></li>
-                            <li><a class="color14" href="#"></a></li>
-                            <li><a class="color15" href="#"></a></li>
-                            <li><a class="color5" href="#"></a></li>
-                            <li><a class="color6" href="#"></a></li>
-                            <li><a class="color7" href="#"></a></li>
-                            <li><a class="color8" href="#"></a></li>
-                            <li><a class="color9" href="#"></a></li>
-                            <li><a class="color10" href="#"></a></li>
-                        </ul>
-                    </section>
-                    <section class="sky-form">
-                        <h4>discount</h4>
-                        <div class="row1 row2 scroll-pane">
-                            <div class="col col-4">
-                                <label class="radio"><input type="radio" name="radio" checked=""><i></i>60 % and
-                                    above</label>
-                                <label class="radio"><input type="radio" name="radio"><i></i>50 % and above</label>
-                                <label class="radio"><input type="radio" name="radio"><i></i>40 % and above</label>
-                            </div>
-                            <div class="col col-4">
-                                <label class="radio"><input type="radio" name="radio"><i></i>30 % and above</label>
-                                <label class="radio"><input type="radio" name="radio"><i></i>20 % and above</label>
-                                <label class="radio"><input type="radio" name="radio"><i></i>10 % and above</label>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
+<!--            <div class="col-md-3 single-right">-->
+<!--                <div class="w_sidebar">-->
+<!--                    <section class="sky-form">-->
+<!--                        <h4>Catogories</h4>-->
+<!--                        <div class="row1 scroll-pane">-->
+<!--                            <div class="col col-4">-->
+<!--                                <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i></i>All-->
+<!--                                    Accessories</label>-->
+<!--                            </div>-->
+<!--                            <div class="col col-4">-->
+<!--                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Women-->
+<!--                                    Watches</label>-->
+<!--                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Kids-->
+<!--                                    Watches</label>-->
+<!--                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Men-->
+<!--                                    Watches</label>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </section>-->
+<!--                    <section class="sky-form">-->
+<!--                        <h4>Brand</h4>-->
+<!--                        <div class="row1 row2 scroll-pane">-->
+<!--                            <div class="col col-4">-->
+<!--                                <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i></i>kurtas</label>-->
+<!--                            </div>-->
+<!--                            <div class="col col-4">-->
+<!--                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Sonata</label>-->
+<!--                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Titan</label>-->
+<!--                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Casio</label>-->
+<!--                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Omax</label>-->
+<!--                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>shree</label>-->
+<!--                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Fastrack</label>-->
+<!--                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Sports</label>-->
+<!--                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Fossil</label>-->
+<!--                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Maxima</label>-->
+<!--                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Yepme</label>-->
+<!--                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Citizen</label>-->
+<!--                                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Diesel</label>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </section>-->
+<!--                    <section class="sky-form">-->
+<!--                        <h4>Colour</h4>-->
+<!--                        <ul class="w_nav2">-->
+<!--                            <li><a class="color1" href="#"></a></li>-->
+<!--                            <li><a class="color2" href="#"></a></li>-->
+<!--                            <li><a class="color3" href="#"></a></li>-->
+<!--                            <li><a class="color4" href="#"></a></li>-->
+<!--                            <li><a class="color5" href="#"></a></li>-->
+<!--                            <li><a class="color6" href="#"></a></li>-->
+<!--                            <li><a class="color7" href="#"></a></li>-->
+<!--                            <li><a class="color8" href="#"></a></li>-->
+<!--                            <li><a class="color9" href="#"></a></li>-->
+<!--                            <li><a class="color10" href="#"></a></li>-->
+<!--                            <li><a class="color12" href="#"></a></li>-->
+<!--                            <li><a class="color13" href="#"></a></li>-->
+<!--                            <li><a class="color14" href="#"></a></li>-->
+<!--                            <li><a class="color15" href="#"></a></li>-->
+<!--                            <li><a class="color5" href="#"></a></li>-->
+<!--                            <li><a class="color6" href="#"></a></li>-->
+<!--                            <li><a class="color7" href="#"></a></li>-->
+<!--                            <li><a class="color8" href="#"></a></li>-->
+<!--                            <li><a class="color9" href="#"></a></li>-->
+<!--                            <li><a class="color10" href="#"></a></li>-->
+<!--                        </ul>-->
+<!--                    </section>-->
+<!--                    <section class="sky-form">-->
+<!--                        <h4>discount</h4>-->
+<!--                        <div class="row1 row2 scroll-pane">-->
+<!--                            <div class="col col-4">-->
+<!--                                <label class="radio"><input type="radio" name="radio" checked=""><i></i>60 % and-->
+<!--                                    above</label>-->
+<!--                                <label class="radio"><input type="radio" name="radio"><i></i>50 % and above</label>-->
+<!--                                <label class="radio"><input type="radio" name="radio"><i></i>40 % and above</label>-->
+<!--                            </div>-->
+<!--                            <div class="col col-4">-->
+<!--                                <label class="radio"><input type="radio" name="radio"><i></i>30 % and above</label>-->
+<!--                                <label class="radio"><input type="radio" name="radio"><i></i>20 % and above</label>-->
+<!--                                <label class="radio"><input type="radio" name="radio"><i></i>10 % and above</label>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </section>-->
+<!--                </div>-->
+<!--            </div>-->
             <div class="clearfix"></div>
         </div>
     </div>

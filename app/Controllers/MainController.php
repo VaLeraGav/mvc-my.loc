@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\CartModel;
 use App\Models\UserModel;
 use Core\App;
 use Core\Base\Model;
@@ -43,6 +44,7 @@ class MainController extends AppController
 
             if ($hasCurr) {
                 setcookie('currency', $currency, time() + 3600 * 24 * 7, '/');
+                CartModel::recalc( $curr[$currency]);
             }
         }
         redirect();

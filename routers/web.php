@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\admin\AdminController;
+use App\Controllers\CartController;
 use App\Controllers\CurrencyController;
 use App\Controllers\ProductController;
 use Core\Route;
@@ -21,6 +22,14 @@ Route::get('/product/([a-z0-9-]+)/?', function ($alias) {
     $app = new ProductController();
     $app->index($alias);
 });
+
+Route::get('/cart/add', CartController::class, 'add');
+
+Route::get('/cart/show', CartController::class, 'show');
+
+Route::get('/cart/delete', CartController::class, 'delete');
+
+Route::get('/cart/clear', CartController::class, 'clear');
 
 // ---------------- logout / login  ----------------
 

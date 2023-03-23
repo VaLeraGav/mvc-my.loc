@@ -50,14 +50,17 @@
             </div>
             <div class="col-md-6 top-header-left">
                 <div class="cart box_1">
-                    <a href="checkout.html">
+                    <a href="cart/show" onclick="getCart(); return false;">
                         <div class="total">
-                            <span class="simpleCart_total"></span>
+                            <img src="images/cart-1.png" alt="" />
+                            <?php if(!empty($_SESSION['cart'])): ?>
+                                <span class="simpleCart_total"><?= $_SESSION['cart.currency']['symbol_left'] . $_SESSION['cart.sum'] . $_SESSION['cart.currency']['symbol_right']; ?></span>
+                            <?php else: ?>
+                                <span class="simpleCart_total">Empty Cart</span>
+                            <?php endif; ?>
                         </div>
-                        <img src="images/cart-1.png" alt=""/>
                     </a>
-                    <p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
-                    <div class="clearfix"></div>
+                    <div class="clearfix"> </div>
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -100,7 +103,6 @@
 <!--bottom-header-->
 
 <?= $content ?>
-
 
 <!--information-starts-->
 <div class="information">
@@ -175,6 +177,28 @@
 </div>
 <!--information-end-->
 
+
+<!-- Modal -->
+<div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Cart</h4>
+            </div>
+            <div class="modal-body">
+            <!-- сюда будет подгружаться шаблон cart -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Continue shopping</button>
+                <a href="cart/view" type="button" class="btn btn-primary">Checkout</a>
+                <button type="button" class="btn btn-danger" onclick="clearCart()">Empty cart</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+
 <!--footer-starts-->
 <div class="footer">
     <div class="container">
@@ -196,10 +220,10 @@
 </div>
 <!--footer-end-->
 
-<!--Slider-Starts-Here-->
 
 <!--dropdown-->
 
+<script src="js/bootstrap.min.js "></script>
 <script src="js/responsiveslides.min.js"></script>
 
 <script src="megamenu/js/megamenu.js"></script>
