@@ -85,17 +85,19 @@ class Logger
     {
         $time = date(self::$options['logFormat']);
 
-        $backtrace = array_shift($backtrace);
+        if (!empty($backtrace)) {
+            $backtrace = array_shift($backtrace);
+            $btLineLog = $this->variableNotAvailable($backtrace['line']);
+            $btPathLog = $this->variableNotAvailable($backtrace['file']);
+        } else {
+            $btLineLog = 'N/A';
+            $btPathLog = 'N/A';
+        }
 
-        $btLineLog = $this->variableNotAvailable($backtrace['line']);
-
-        $btPathLog = $this->variableNotAvailable($backtrace['file']);
-
-        $context = json_encode($context);
-        $contextLog = empty($args['context']) ? '' : "{$context}";
+        $contextLog = json_encode($context);
 
         $this->message = sprintf(
-            "[%s] | %s . %s : %s | [%s : %s] | [%s]",
+            "[%s] | %s . %s : %s | [%s : %s] | %s",
             $time,
             $errorType,
             $this->logLevel,

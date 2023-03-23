@@ -4,6 +4,7 @@ use App\Controllers\admin\AdminController;
 use App\Controllers\CartController;
 use App\Controllers\CurrencyController;
 use App\Controllers\ProductController;
+use App\Controllers\SearchController;
 use Core\Route;
 use App\Controllers\AuthController;
 use App\Controllers\MainController;
@@ -30,6 +31,10 @@ Route::get('/cart/show', CartController::class, 'show');
 Route::get('/cart/delete', CartController::class, 'delete');
 
 Route::get('/cart/clear', CartController::class, 'clear');
+
+Route::get('/search', SearchController::class, 'index');
+
+Route::get('/search/typeahead', SearchController::class, 'typeahead');
 
 // ---------------- logout / login  ----------------
 

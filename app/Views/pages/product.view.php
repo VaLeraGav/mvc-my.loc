@@ -4,7 +4,7 @@ $curr = \Core\App::$app->getProperty('currency');
 $cats = \Core\App::$app->getProperty('cats');
 
 // session_destroy();
-dpre($_SESSION);
+// dpre($_SESSION);
 ?>
 
 <div class="breadcrumbs">
