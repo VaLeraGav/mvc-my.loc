@@ -45,6 +45,13 @@
                             </div>
                         <?php endforeach; ?>
                         <div class="clearfix"></div>
+
+                        <div class="text-center">
+                            <?php if($pagination->countPages > 1): ?>
+                                <?=$pagination;?>
+                            <?php endif; ?>
+                        </div>
+
                     </div>
                 <?php else: ?>
                     <h3>There are no products in this category...</h3>

@@ -3,7 +3,7 @@
 return [
     'admin_email' => 'admin@gmail.com',
     'shop_name' => 'show',
-    'pagination' => 4,
+    'pagination' => 6,
     'smtp_host' => 'smtp.gmail.com',
     'smtp_port' => '587',
     'smtp_protocol' => 'tls',
