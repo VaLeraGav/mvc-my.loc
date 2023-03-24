@@ -39,7 +39,11 @@
                                         </h4>
                                     </div>
                                     <div class="srch srch1">
-                                        <span>-50%</span>
+                                        <?php if($product->old_price): ?>
+                                            <div class="srch">
+                                                <span>-<?=100-round(($product->price)/($product->old_price), 2)*100;?>%</span>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>

@@ -248,9 +248,11 @@ $cats = \Core\App::$app->getProperty('cats');
                                             </h4>
                                         </div>
                                         <?php if($item['old_price']): ?>
+                                        <div class="srch srch1">
                                             <div class="srch">
                                                 <span>-<?=100-round(($item['price'])/($item['old_price']), 2)*100;?>%</span>
                                             </div>
+                                        </div>
                                         <?php endif; ?>
                                     </div>
                                 </div>
