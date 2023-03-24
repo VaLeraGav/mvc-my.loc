@@ -37,16 +37,18 @@ Route::get('/category/([a-z0-9-]+)/?', CategoryController::class, 'index');
 
 // ---------------- logout / login  ----------------
 
-Route::get('/login', AuthController::class, 'index');
+Route::get('/user/login', AuthController::class, 'index');
 
-Route::post('/login', AuthController::class, 'login');
+Route::post('/user/login', AuthController::class, 'login');
 
-Route::get('/logout', AuthController::class, 'destroy');
+Route::get('/user/logout', AuthController::class, 'destroy');
 
 // ---------------- registration ----------------
 
-Route::get('/registration', RegistrationController::class, 'index');
+Route::get('/user/signup', RegistrationController::class, 'index');
 
-Route::post('/registration', RegistrationController::class, 'registration');
+Route::post('/user/signup', RegistrationController::class, 'registration');
+
+// ---------------- admin ----------------
 
 Route::get('/admin$', AdminController::class, 'index');

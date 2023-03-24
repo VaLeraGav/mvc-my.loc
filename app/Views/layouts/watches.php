@@ -37,14 +37,26 @@
                             <?php new \app\widgets\currency\Currency(); ?>
                         </select>
                     </div>
-                    <div class="box1">
-                        <select tabindex="4" class="dropdown">
-                            <option value="" class="label">English :</option>
-                            <option value="1">English</option>
-                            <option value="2">French</option>
-                            <option value="3">German</option>
-                        </select>
+                    <div class="btn-group">
+                        <a class="dropdown-toggle" data-toggle="dropdown">ACCOUNT<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <?php if(\App\Models\UserModel::isAuth()): ?>
+                                <li><a href="user/cabinet" onclick="return false;">Welcome, <?= h($_SESSION['user']['login']);?></a></li>
+                                <li><a href="user/logout">Logout</a></li>
+                            <?php else: ?>
+                                <li><a href="user/login">Login</a></li>
+                                <li><a href="user/signup">Registration</a></li>
+                            <?php endif; ?>
+                        </ul>
                     </div>
+<!--                    <div class="box1">-->
+<!--                        <select tabindex="4" class="dropdown">-->
+<!--                            <option value="" class="label">English :</option>-->
+<!--                            <option value="1">English</option>-->
+<!--                            <option value="2">French</option>-->
+<!--                            <option value="3">German</option>-->
+<!--                        </select>-->
+<!--                    </div>-->
                     <div class="clearfix"></div>
                 </div>
             </div>
@@ -106,7 +118,7 @@
     </div>
 </div>
 <!--bottom-header-->
-
+<?php //dpre($_SESSION) ?>
 <?= $content ?>
 
 <!--information-starts-->

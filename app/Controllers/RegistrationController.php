@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
+use Core\Logger;
 
 class RegistrationController extends AppController
 {
@@ -31,7 +32,9 @@ class RegistrationController extends AppController
         } else {
             $user->attributes['password'] = password_hash($user->attributes['password'], PASSWORD_DEFAULT);
             $user->save();
-            redirect('/');
+            $user->addAuth($user->attributes['login']);
+            $_SESSION['success'] = 'You are successfully registered';
+            redirect();
         }
     }
 

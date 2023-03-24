@@ -6,13 +6,13 @@ use App\Models\UserModel;
 
 class AuthController extends AppController
 {
-    public function index($login = '', $message = '')
+    public function index($email = '', $error = '')
     {
         $this->setMeta('Вход');
 
         $this->view('pages/login', [
-            'login' => $login,
-            'message' => $message
+            'email' => $email,
+            'error' => $error
         ]);
     }
 
@@ -20,16 +20,18 @@ class AuthController extends AppController
     {
         $auth = new UserModel();
 
-        $auth->load($request);
+        $email = $request['email'];
+        $password = $request['password'];
+        $error = '';
 
-        if (!empty($auth->checkLogin($request['email']))) {
-            $message = 'Аккаунт авторизован';
-            $auth->addAuth($auth->attributes['email']);
-            redirect('/');
+        if (!empty($auth->checkLogin($email, $password))) {
+            $login = $auth->query("SELECT login FROM user WHERE email = '$email'")->fetchAll();
+            $auth->addAuth($login[0]['login']);
+            $_SESSION['success'] = 'You are successfully logged in';
         } else {
-            $message = 'Аккаунт не найден';
+            $error = 'Account not found';
         }
-        $this->view('pages/login', ['login' => $auth->attributes['email'], 'message' => $message]);
+        $this->view('pages/login', ['email' => $email, 'error' => $error]);
     }
 
     public function destroy()
@@ -37,9 +39,8 @@ class AuthController extends AppController
         if (isset($_SESSION['user'])) {
             unset($_SESSION['user']);
         }
-
         session_destroy();
-        redirect('/');
+        redirect();
     }
 
 }

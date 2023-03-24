@@ -107,7 +107,10 @@ abstract class Model
         $validator = new Validator();
 
         $validator->setRules($this->rules);
-        $validator->setRuleMessage($this->rulesMessage);
+
+        if (!empty($this->rulesMessage)) {
+            $validator->setRuleMessage($this->rulesMessage);
+        }
 
         return $validator->validate($data);
     }

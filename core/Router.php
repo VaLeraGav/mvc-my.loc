@@ -47,6 +47,7 @@ class Router
 
         $controller = new $route['controller']();
         $method = $route['method'];
+        // dpre($_POST);
         if (!empty($_POST)) {
             $controller->$method($_POST);
         } else {

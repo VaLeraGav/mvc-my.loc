@@ -194,4 +194,6 @@ class Validator
         return $this->message[$ruleName];
     }
 
+
+    // пустые символы не воспринимает за значимые
 }

@@ -10,7 +10,6 @@ class ProductController extends AppController
 {
     public function index($alias): void
     {
-        dpre($alias);
         $productModel = new ProductModel();
 
         $product = $productModel->getProduct($alias);

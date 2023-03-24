@@ -6,7 +6,7 @@ use Core\Base\Model;
 
 class UserModel extends Model
 {
-    public string $table = 'users';
+    public string $table = 'user';
 
     public array $attributes = [
         'login' => '',
@@ -14,38 +14,38 @@ class UserModel extends Model
         'email' => '',
         'name' => '',
         'address' => '',
-        'role' => '',
-        'created_at' => '',
-        'update_at' => '',
+        'role' => 'user',
     ];
 
     public array $rules = [
-        'name' => 'require|max:30|min:3|unique',
+        'login' => 'require|max:30|min:3|unique',
+        'name' => 'require|max:30|min:3',
         'email' => 'require|email',
+        'address' => 'require|min:3',
         'password' => 'require|match:password_confirmation',
         'password_confirmation' => 'require'
     ];
 
-    public array $rulesMessage = [
-        'name' => [
-            'require' =>
-                'Имя не должно быть пустым',
-            'max' =>
-                'Имя не должно превышать :max символов',
-            'min' =>
-                'Имя не должно быть меньше :min символов',
-            'unique' =>
-                'Имя должно быть уникальным',
-        ]
-    ];
+//    public array $rulesMessage = [
+//        'name' => [
+//            'require' =>
+//                'Имя не должно быть пустым',
+//            'max' =>
+//                'Имя не должно превышать :max символов',
+//            'min' =>
+//                'Имя не должно быть меньше :min символов',
+//            'unique' =>
+//                'Имя должно быть уникальным',
+//        ]
+//    ];
 
     /**
      * Поверяет существования пользователь
      */
-    public function checkLogin($email): bool
+    public function checkLogin($email, $password): bool
     {
         $email = !empty(trim($email)) ? trim($email) : null;
-        $password = !empty(trim($this->attributes['password'])) ? trim($this->attributes['password']) : null;
+        $password = !empty(trim($password)) ? trim($password) : null;
 
         if ($email && $password) {
             $user = $this->find('email', $email); // достаем по логину пользователя
