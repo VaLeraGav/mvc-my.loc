@@ -25,6 +25,7 @@ class Logger
     public function setLogFile($logFile)
     {
         $this->logFile = $logFile;
+        $this->createLogFile();
     }
 
     public function getLogFile($logFile)
@@ -153,15 +154,6 @@ class Logger
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 1);
         $this->setMessage('FATAL', $message, $backtrace, $context,);
         $this->writeLog();
-    }
-
-    //-------------------------------------------------
-    //Абсолютный путь в относительный URL ?
-    public function absToRelPath($pathToConvert)
-    {
-        $pathAbs = str_replace(['/', '\\'], '/', $pathToConvert);
-        $documentRoot = str_replace(['/', '\\'], '/', $_SERVER['DOCUMENT_ROOT']);
-        return $_SERVER['SERVER_NAME'] . str_replace($documentRoot, '', $pathAbs);
     }
 }
 

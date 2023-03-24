@@ -109,6 +109,7 @@ class ErrorHandler
         ];
 
         $path = TMP . '/errorHandler.log';
+        $log->setLogFile($path);
 
         if (!file_exists($path)) {
             throw new \Exception("Не нашел путь в logErrors {$path}");

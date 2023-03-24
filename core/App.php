@@ -24,7 +24,7 @@ class App
             $this->getParams();
             $this->handle();
         } catch (\Exception $e) {
-            throw new \Exception('App' . $e->getMessage());
+            throw new \Exception('App: ' . $e->getMessage());
         }
     }
 

@@ -2,6 +2,7 @@
 
 use App\Controllers\admin\AdminController;
 use App\Controllers\CartController;
+use App\Controllers\CategoryController;
 use App\Controllers\CurrencyController;
 use App\Controllers\ProductController;
 use App\Controllers\SearchController;
@@ -18,11 +19,7 @@ Route::get('/close', MainController::class, 'close');
 
 Route::get('/currency/change', MainController::class, 'changeCurrency');
 
-
-Route::get('/product/([a-z0-9-]+)/?', function ($alias) {
-    $app = new ProductController();
-    $app->index($alias);
-});
+Route::get('/product/([a-z0-9-]+)/?', ProductController::class, 'index');
 
 Route::get('/cart/add', CartController::class, 'add');
 
@@ -35,6 +32,8 @@ Route::get('/cart/clear', CartController::class, 'clear');
 Route::get('/search', SearchController::class, 'index');
 
 Route::get('/search/typeahead', SearchController::class, 'typeahead');
+
+Route::get('/category/([a-z0-9-]+)/?', CategoryController::class, 'index');
 
 // ---------------- logout / login  ----------------
 

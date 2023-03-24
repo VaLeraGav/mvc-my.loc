@@ -4,7 +4,6 @@ namespace Core;
 
 class Router
 {
-    use RouterHelper;
 
     public function dispatch(array $routes): void
     {
@@ -31,4 +30,27 @@ class Router
         die();
     }
 
+    protected static function filter(array $routes, string $type = 'get'): array
+    {
+        return array_filter($routes, function ($route) use ($type) {
+            return $route['type'] === $type;
+        });
+    }
+
+    protected static function controller(array $route, $params)
+    {
+        array_shift($params);
+        if (is_object($route['controller'])) {
+            call_user_func_array($route['controller'], array_values($params));
+            return;
+        }
+
+        $controller = new $route['controller']();
+        $method = $route['method'];
+        if (!empty($_POST)) {
+            $controller->$method($_POST);
+        } else {
+            $controller->$method(...$params);
+        }
+    }
 }
