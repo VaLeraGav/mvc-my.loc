@@ -44,4 +44,15 @@ class Route
     {
         return self::$handler;
     }
+
+    public static function group($head, array $routers)
+    {
+        foreach ($routers as $item) {
+            $controller = $item[2];
+            $method = $item[3] ?? 'index';
+            $type = $item[1];
+            $url = $head . $item[0];
+            self::define($type, $url, $controller, $method);
+        }
+    }
 }
