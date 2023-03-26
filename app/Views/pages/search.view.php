@@ -13,7 +13,7 @@
 <!--prdt-starts-->
 <div class="prdt">
     <div class="container">
-        <div class="prdt-top">
+        <h3 class="prdt-top">
             <div class="col-md-9 prdt-left">
 
                 <?php if (!empty($products)): ?>
@@ -51,8 +51,19 @@
                         <?php endforeach; ?>
                         <div class="clearfix"></div>
                     </div>
+
+                        <div class="text-center">
+                            <?php if($pagination->countPages > 1): ?>
+                            <h5><?=$pagination;?></h5>
+                            <?php endif; ?>
+                        </div>
+
+
+                <?php else: ?>
+                    <h3>Nothing was found for the query "<?= $query ?>"</h3>
                 <?php endif; ?>
             </div>
+
 <!--            <div class="col-md-3 prdt-right">-->
 <!--                <div class="w_sidebar">-->
 <!--                    <section class="sky-form">-->

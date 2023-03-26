@@ -2,7 +2,9 @@
 
 namespace App\Controllers;
 
+use Core\App;
 use Core\Base\Model;
+use Core\Libs\Pagination;
 use Core\Logger;
 
 class SearchController extends AppController
@@ -18,8 +20,6 @@ class SearchController extends AppController
             $products = Model::requestArr(
                 "SELECT id, title FROM product WHERE title like \"%$query%\" AND status = '1' LIMIT 11"
             );
-//            $log = new Logger('tyoe');
-//            $log->notice('',  $products);
 
             echo json_encode($products);
         }
@@ -29,13 +29,27 @@ class SearchController extends AppController
     public function index()
     {
         $query = !empty(trim($_GET['s'])) ? trim($_GET['s']) : null;
-        if($query) {
-            $products = Model::requestObj("SELECT * FROM product WHERE title LIKE  \"%$query%\" AND status = '1'");
-        }
         $this->setMeta('Поиск по: ' . h($query));
+
+        if ($query) {
+            $total = Model::requestObj("SELECT * FROM product WHERE title LIKE  \"%$query%\" AND status = '1'");
+        }
+
+        //pagination
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $perpage = App::$app->getProperty('pagination');
+
+        $pagination = new Pagination($page, $perpage, count($total));
+        $start = $pagination->getStart();
+
+        $products = Model::requestObj(
+            "SELECT * FROM product WHERE title LIKE  \"%$query%\" AND status = '1' LIMIT $start, $perpage"
+        );
+
         $this->view('pages/search', [
             'products' => $products,
-            'query' => $query
+            'query' => $query,
+            'pagination' => $pagination,
         ]);
     }
 }

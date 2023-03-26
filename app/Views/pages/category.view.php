@@ -53,7 +53,7 @@
 
                         <div class="text-center">
                             <?php if($pagination->countPages > 1): ?>
-                                <?=$pagination;?>
+                                <h5><?=$pagination;?></h5>
                             <?php endif; ?>
                         </div>
 
