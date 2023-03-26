@@ -6,13 +6,12 @@ use App\Models\UserModel;
 
 class AuthController extends AppController
 {
-    public function index($email = '', $error = '')
+    public function index($email = '')
     {
         $this->setMeta('Вход');
 
         $this->view('pages/login', [
-            'email' => $email,
-            'error' => $error
+            'email' => $email
         ]);
     }
 
@@ -20,18 +19,15 @@ class AuthController extends AppController
     {
         $auth = new UserModel();
 
-        $email = $request['email'];
-        $password = $request['password'];
-        $error = '';
+        $auth->load($request);
 
-        if (!empty($auth->checkLogin($email, $password))) {
-            $login = $auth->query("SELECT login FROM user WHERE email = '$email'")->fetchAll();
-            $auth->addAuth($login[0]['login']);
+        if ($auth->checkLogin()) {
             $_SESSION['success'] = 'You are successfully logged in';
         } else {
-            $error = 'Account not found';
+            $_SESSION['error'] = 'Account not found';
         }
-        $this->view('pages/login', ['email' => $email, 'error' => $error]);
+
+        $this->view('pages/login', ['email' => $auth->attributes['email']]);
     }
 
     public function destroy()
@@ -39,8 +35,6 @@ class AuthController extends AppController
         if (isset($_SESSION['user'])) {
             unset($_SESSION['user']);
         }
-        session_destroy();
         redirect();
     }
-
 }

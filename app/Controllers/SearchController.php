@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Controllers;
-
 
 use Core\Base\Model;
 use Core\Logger;
@@ -20,6 +18,9 @@ class SearchController extends AppController
             $products = Model::requestArr(
                 "SELECT id, title FROM product WHERE title like \"%$query%\" AND status = '1' LIMIT 11"
             );
+//            $log = new Logger('tyoe');
+//            $log->notice('',  $products);
+
             echo json_encode($products);
         }
         die;

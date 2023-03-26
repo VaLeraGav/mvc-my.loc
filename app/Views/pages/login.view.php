@@ -11,17 +11,24 @@
 </div>
 <!--end-breadcrumbs-->
 
-<?php if(isset($_SESSION['success'])): ?>
+<?php //dpre($_SESSION) ?>
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+                <?php if(isset($_SESSION['error'])): ?>
+                <div class="alert alert-danger">
+                    <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
+                </div>
+            <?php endif; ?>
+            <?php if(isset($_SESSION['success'])): ?>
                 <div class="alert alert-success">
                     <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
                 </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>
- <?php endif; ?>
 
 <!--prdt-starts-->
 <div class="prdt">
@@ -42,9 +49,9 @@
                                     $email ?>">
                                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 </div>
-                                <?php if(!empty($error)): ?>
-                                    <div class="text-danger"><?php print_r($error); ?></div>
-                                <?php endif; ?>
+<!--                                --><?php //if(!empty($error)): ?>
+<!--                                    <div class="text-danger">--><?php //print_r($error); ?><!--</div>-->
+<!--                                --><?php //endif; ?>
                                 <div class="form-group has-feedback">
                                     <input type="password" name="password" class="form-control" id="password" placeholder="Password" autocomplete="off">
                                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>

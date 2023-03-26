@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Core\Base\Model;
+use Core\Logger;
 
 class UserModel extends Model
 {
@@ -18,9 +19,9 @@ class UserModel extends Model
     ];
 
     public array $rules = [
-        'login' => 'require|max:30|min:3|unique',
+        'login' => 'require|max:30|min:3',
         'name' => 'require|max:30|min:3',
-        'email' => 'require|email',
+        'email' => 'require|email|unique',
         'address' => 'require|min:3',
         'password' => 'require|match:password_confirmation',
         'password_confirmation' => 'require'
@@ -40,17 +41,27 @@ class UserModel extends Model
 //    ];
 
     /**
-     * Поверяет существования пользователь
+     * Поверяет существования пользователь и если существует записывает в сессию
      */
-    public function checkLogin($email, $password): bool
+    public function checkLogin($isAdmin = false): bool
     {
-        $email = !empty(trim($email)) ? trim($email) : null;
-        $password = !empty(trim($password)) ? trim($password) : null;
-
+        $email = !empty(trim($this->attributes['email'])) ? trim($this->attributes['email']) : null;
+        $password = !empty(trim($this->attributes['password'])) ? trim($this->attributes['password']) : null;
         if ($email && $password) {
-            $user = $this->find('email', $email); // достаем по логину пользователя
+
+            if($isAdmin) {
+                $user = Model::requestArr("SELECT * FROM user WHERE email = $email AND role = 'admin'");
+            }else{
+                $user = $this->find('email', $email);
+            }
+
             if ($user) {
                 if (password_verify($password, $user['password'])) {
+                    foreach ($user as $k => $v) {
+                        if($k != 'password')  {
+                            $_SESSION['user'][$k] = $v;
+                        }
+                    }
                     return true;
                 }
             }
@@ -59,12 +70,15 @@ class UserModel extends Model
     }
 
     /**
-     * Авторизация пользователя
+     * Авторизация пользователя, записывает в сессию
      */
-    public function addAuth($login)
+    public function addAuth()
     {
-        $_SESSION['user']["is_auth"] = true;
-        $_SESSION['user']["login"] = $login;
+        foreach ($this->attributes as $k => $v) {
+            if($k != 'password')  {
+                $_SESSION['user'][$k] = $v;
+            }
+        }
         return null;
     }
 
@@ -73,11 +87,12 @@ class UserModel extends Model
      */
     public static function isAuth()
     {
-        if (isset($_SESSION['user'])) {
-            return $_SESSION['user']["is_auth"];
-        } else {
-            return false;
-        }
+        return isset($_SESSION['user']);
+    }
+
+    public static function isAdmin()
+    {
+        return (isset($_SESSION['user']) && $_SESSION['user']['role'] == 'admin');
     }
 
     /**
@@ -85,8 +100,8 @@ class UserModel extends Model
      */
     public static function getLogin()
     {
-        if (self::isAuth()) { //Если пользователь авторизован
-            return $_SESSION['user']["login"]; //Возвращаем логин, который записан в сессию
+        if (self::isAuth()) {
+            return $_SESSION['user']["login"];
         }
         return null;
     }

@@ -53,7 +53,7 @@ class CartModel
     public static function recalc($curr)
     {
         $curr = (object)$curr;
-        if (isset($_SESSION['cart.currency'])) {
+        if (isset($_SESSION['cart.currency']) && isset($_SESSION['cart']) && isset($_SESSION['cart.sum'])) {
             if ($_SESSION['cart.currency']['base']) {
                 $_SESSION['cart.sum'] *= $curr->value;
             } else {

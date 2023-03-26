@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\CartModel;
+use App\Models\OrderModel;
 use App\Models\UserModel;
 use Core\App;
 use Core\Base\Model;
@@ -19,6 +20,7 @@ class CartController extends AppController
         $qty = !empty($_GET['qty']) ? (int)$_GET['qty'] : null;
         $mod_id = !empty($_GET['mod']) ? (int)$_GET['mod'] : null;
         $mod = null;
+
         if ($id) {
             $product = Model::requestObj("SELECT * FROM product WHERE id = '{$id}'");
             if (!$product) {
@@ -64,4 +66,46 @@ class CartController extends AppController
         $this->loadView('cart/cart_modal');
     }
 
+    public function viewAction($data = [])
+    {
+        $this->setMeta('Cart');
+
+        $this->view('cart/view', [
+            'data' => $data,
+        ]);
+    }
+
+    public function checkout($request)
+    {
+        $this->setMeta('Cart');
+
+        $user = new UserModel();
+        if (!UserModel::isAuth()) {
+            $user->load($request, ['password_confirmation', 'note']);
+            $errors = $user->validate($request);
+
+            if (!empty($errors)) {
+                $this->view('cart/view', [
+                    'users' => $user->attributes,
+                    'errors' => $errors
+                ]);
+            } else {
+                $user->attributes['password'] = password_hash($user->attributes['password'], PASSWORD_DEFAULT);
+                $user->save();
+                $user->addAuth();
+            }
+        }
+        $user_id = $user->find('email', $_SESSION['user']['email'])['id'];
+        $user_email = $_SESSION['user']['email'] ?? $_POST['email'];
+
+        $data['user_id'] = ($user_id) ? $user_id : 1;
+        $data['note'] = !empty($request['note']) ? $request['note'] : '';
+
+        $order = new OrderModel();
+        $order_id = $order->saveOrder($data);
+
+        // $order->mailOrder($order_id, $user_email);
+
+        redirect();
+    }
 }

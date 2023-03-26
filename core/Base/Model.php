@@ -120,7 +120,7 @@ abstract class Model
      */
     public function find(string $key, string $value)
     {
-        $sql = "SELECT * FROM {$this->table} WHERE " . $key . " = :value";
+        $sql = "SELECT * FROM {$this->table} WHERE " . $key . " = :value"; // не подготовленный запрос
         $search = $this->query($sql, [':value' => $value])->fetch();
 
         return empty($search) ? false : $search;
@@ -129,7 +129,7 @@ abstract class Model
     /**
      * Вставка в Модель с явно указанными переменными
      */
-    public function insertGetModel(array $dataUser): void
+    public function insertGetModel(array $dataUser)
     {
         $ignores = ['created_at', 'update_at'];
 
@@ -139,22 +139,25 @@ abstract class Model
 
         $keysFields = implode(', ', array_keys($fields));
 
+        dpre($dataUser);
+
         foreach ($fields as $k => $v) {
             $params[':' . $k] = $dataUser[$k];
         }
 
         $strParams = implode(', ', array_keys($params));
 
-        $sql = "INSERT INTO {$this->table} ({$keysFields}) VALUES ({$strParams})";
+        $sql = "INSERT INTO `{$this->table}`({$keysFields}) VALUES ({$strParams})";
 
         $this->query($sql, $params);
     }
 
     /**
-     * Сохраняет модель
+     * Сохраняет модель, возвращает id последней вставленной строки
      */
-    public function save(): void
+    public function save()
     {
         $this->insertGetModel($this->attributes);
+        return $this->connect->lastInsertId();
     }
 }

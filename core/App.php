@@ -33,7 +33,7 @@ class App
         require_once ROOT . '/routers/web.php';
         $router = new Router();
 
-        // dpre(Route::list());
+        dpre(Route::list());
         $router->dispatch(Route::list());
     }
 

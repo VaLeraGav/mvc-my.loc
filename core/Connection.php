@@ -23,7 +23,9 @@ class Connection
         if (empty($option)) {
             $this->options = [
                 \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-                \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC // Устанавливает режим выборки по умолчанию
+                \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,// Устанавливает режим выборки по умолчанию
+                \PDO::ATTR_STRINGIFY_FETCHES => false,
+                \PDO::ATTR_EMULATE_PREPARES => false,
             ];
         } else {
             $this->options = $option;

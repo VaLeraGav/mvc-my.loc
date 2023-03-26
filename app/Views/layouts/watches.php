@@ -41,7 +41,7 @@
                         <a class="dropdown-toggle" data-toggle="dropdown">ACCOUNT<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <?php if(\App\Models\UserModel::isAuth()): ?>
-                                <li><a href="user/cabinet" onclick="return false;">Welcome, <?= h($_SESSION['user']['login']);?></a></li>
+                                <li><a href="user/cabinet" onclick="return false;">Welcome, <?php echo h($_SESSION['user']['login']);?></a></li>
                                 <li><a href="user/logout">Logout</a></li>
                             <?php else: ?>
                                 <li><a href="user/login">Login</a></li>
@@ -118,6 +118,7 @@
     </div>
 </div>
 <!--bottom-header-->
+<?php //session_destroy() ?>
 <?php //dpre($_SESSION) ?>
 <?= $content ?>
 

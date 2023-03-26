@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
-use Core\Logger;
 
 class RegistrationController extends AppController
 {
@@ -23,19 +22,18 @@ class RegistrationController extends AppController
         $user->load($request, ['password_confirmation']);
 
         $errors = $user->validate($request);
-
         if (!empty($errors)) {
             $this->view('pages/register', [
                 'users' => $user->attributes,
                 'errors' => $errors
             ]);
         } else {
+            $_SESSION['success'] = 'You are successfully registered';
+
             $user->attributes['password'] = password_hash($user->attributes['password'], PASSWORD_DEFAULT);
             $user->save();
-            $user->addAuth($user->attributes['login']);
-            $_SESSION['success'] = 'You are successfully registered';
+            $user->addAuth();
             redirect();
         }
     }
-
 }
