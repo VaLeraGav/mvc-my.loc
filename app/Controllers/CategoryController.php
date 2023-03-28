@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\AppController;
 use App\Models\BreadCrumbs;
 use App\Models\CategoryModel;
+use App\Widgets\Filter\Filter;
 use Core\App;
 use Core\Base\Model;
 use Core\Libs\Pagination;
@@ -32,15 +33,45 @@ class CategoryController extends AppController
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $perpage = App::$app->getProperty('pagination');
 
-        $total = Model::requestArr("SELECT * FROM product WHERE category_id IN ($ids)");
+
+        $sql_part = '';
+        if (!empty($_GET['filter'])) {
+            $filter = Filter::getFilter();
+            if ($filter) {
+                // или
+                // $sql_part = "AND id IN (SELECT product_id FROM attribute_product WHERE attr_id IN ($filter))";
+
+                //  SELECT * FROM product WHERE category_id IN(6) and id IN
+                //  (
+                //      SELECT product_id FROM attribute_product WHERE attr_id IN(1, 5)
+                //  ) LIMIT 0, 4;
+
+                // и
+                $cnt = Filter::getCountGroups($filter);
+                $sql_part = "AND id IN (SELECT product_id FROM attribute_product WHERE attr_id IN ($filter) 
+                            GROUP BY product_id HAVING COUNT(product_id) = $cnt)";
+            }
+        }
+
+        $total = Model::requestArr("SELECT * FROM product WHERE category_id IN ($ids) $sql_part");
 
         $pagination = new Pagination($page, $perpage, count($total));
         $start = $pagination->getStart();
 
-        $products = Model::requestObj("SELECT * FROM product WHERE category_id IN ($ids) LIMIT $start, $perpage");
+        $products = Model::requestObj(
+            "SELECT * FROM product WHERE category_id IN ($ids) $sql_part LIMIT $start, $perpage"
+        );
         $this->setMeta($category->title, $category->description, $category->keywords);
 
-        $this->view('pages/category', [
+
+        if ($this->isAjax()) {
+            $this->loadView('category/filter', [
+                'products' => $products,
+                'pagination' => $pagination,
+            ]);
+        }
+
+        $this->view('category/category', [
             'products' => $products,
             'breadcrumbs' => $breadcrumbs,
             'pagination' => $pagination,

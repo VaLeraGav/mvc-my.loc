@@ -238,6 +238,9 @@
 </div>
 <!--footer-end-->
 
+<div class="preloader">
+    <img src="images/ring.svg" alt="">
+</div>
 
 <!--dropdown-->
 

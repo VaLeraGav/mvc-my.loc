@@ -17,15 +17,11 @@ class App
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-        try {
-            new ErrorHandler();
-            self::$app = Registry::instance();
+        new ErrorHandler();
+        self::$app = Registry::instance();
 
-            $this->getParams();
-            $this->handle();
-        } catch (\Exception $e) {
-            throw new \Exception('App: ' . $e->getMessage());
-        }
+        $this->getParams();
+        $this->handle();
     }
 
     public function handle()
