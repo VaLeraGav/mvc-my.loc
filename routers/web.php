@@ -1,15 +1,15 @@
 <?php
 
+use Core\Route;
 use App\Controllers\MainController;
-use App\Controllers\admin\MainController as AdminMainController;
-use App\Controllers\admin\UserController as AdminUserController;
 use App\Controllers\CartController;
 use App\Controllers\CategoryController;
 use App\Controllers\ProductController;
 use App\Controllers\SearchController;
-use Core\Route;
 use App\Controllers\AuthController;
-use App\Controllers\RegistrationController;
+use App\Controllers\admin\UserController as AdminUserController;
+use App\Controllers\admin\MainController as AdminMainController;
+use App\Controllers\admin\OrderController;
 
 //dd($_SERVER);
 
@@ -48,12 +48,18 @@ Route::group('/user', [
 
 // ---------------- admin ----------------
 
-//Route::group('/admin', [
-//    ['', 'get', AdminMainController::class, 'index'],
-//]);
+Route::group('/admin', [
+    ['', 'get', AdminMainController::class, 'index'],
+    ['/user/login-admin', 'get', AdminUserController::class, 'index'],
+    ['/user/login-admin', 'post', AdminUserController::class, 'login'],
+    ['/order', 'get', OrderController::class, 'index'],
+    ['/order/view', 'get', OrderController::class, 'viewAction'],
+    ['/order/change', 'get', OrderController::class, 'change'],
+    ['/order/delete', 'get', OrderController::class, 'delete']
+]);
 
-Route::get('/admin$', AdminMainController::class, 'index');
-Route::get('/admin/?', AdminMainController::class, 'index');
-Route::get('/admin/user/login-admin', AdminUserController::class, 'index');
-Route::post('/admin/user/login-admin', AdminUserController::class, 'login');
+//Route::get('/admin$', AdminMainController::class, 'index');
+//Route::get('/admin/?', AdminMainController::class, 'index');
+//Route::get('/admin/user/login-admin', AdminUserController::class, 'index');
+//Route::post('/admin/user/login-admin', AdminUserController::class, 'login');
 

@@ -1,11 +1,13 @@
 <?php
 
-function dpre($value): void
+function dpre($value, $die = false): void
 {
     echo '<pre>';
     print_r($value);
-    // var_dump($value);
     echo '</pre>';
+    if ($die) {
+        die;
+    }
 }
 
 function redirect($http = false, $statusCode = 302)
@@ -16,7 +18,7 @@ function redirect($http = false, $statusCode = 302)
         $redirect = $_SERVER['HTTP_REFERER'] ?? '/'; // на ту же самую
     }
     header('Location: ' . $redirect, true, $statusCode);
-    return null;
+    exit;
 }
 
 function h($str): string

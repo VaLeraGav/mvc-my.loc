@@ -79,28 +79,28 @@
                                                 <div class="text-danger"><?php print_r(array_shift($errors['login'])) ?></div>
                                             <?php endif; ?>
                                             <input type="text" name="login" class="form-control" id="login" placeholder="Login" data-error="Login must be at least 4 characters"
-                                                   value="<?= $users['login'] ?? '' ?>"  required>
+                                                   value="<?= $users['login'] ?? '' ?>" >
                                         </div>
 
                                         <div class="form-group has-feedback">
                                             <?php if(!empty($errors['name'])): ?>
                                                 <div class="text-danger"><?php print_r(array_shift($errors['name'])) ?></div>
                                             <?php endif; ?>
-                                            <input type="text" name="name" class="form-control" id="name" placeholder="Name" value="<?= $users['name'] ?? '' ?>" required>
+                                            <input type="text" name="name" class="form-control" id="name" placeholder="Name" value="<?= $users['name'] ?? '' ?>" >
                                         </div>
 
                                         <div class="form-group has-feedback">
                                             <?php if(!empty($errors['email'])): ?>
                                                 <div class="text-danger"><?php print_r(array_shift($errors['email'])) ?></div>
                                             <?php endif; ?>
-                                            <input type="text" name="email" class="form-control" id="email" placeholder="Email" value="<?=  $users['email'] ?? '' ?>" required>
+                                            <input type="text" name="email" class="form-control" id="email" placeholder="Email" value="<?=  $users['email'] ?? '' ?>" >
                                         </div>
 
                                         <div class="form-group has-feedback">
                                             <?php if(!empty($errors['address'])): ?>
                                                 <div class="text-danger"><?php print_r(array_shift($errors['address'])) ?></div>
                                             <?php endif; ?>
-                                            <input type="text" name="address" class="form-control" id="address" placeholder="Address" value="<?= $users['address'] ?? '' ?>" required>
+                                            <input type="text" name="address" class="form-control" id="address" placeholder="Address" value="<?= $users['address'] ?? '' ?>" >
                                         </div>
                                     </div>
 
@@ -110,11 +110,11 @@
                                             <?php if(!empty($errors['password'])): ?>
                                                 <div class="text-danger"><?php print_r(array_shift($errors['password'])) ?></div>
                                             <?php endif; ?>
-                                            <input type="password" name="password" class="form-control" id="password" placeholder="Password" data-minlength="6" data-error="Password must be at least 6 characters" required>
+                                            <input type="password" name="password" class="form-control" id="password" placeholder="Password" data-minlength="6" data-error="Password must be at least 6 characters">
                                         </div>
 
                                         <div class="form-group has-feedback">
-                                            <input type="password" name="password_confirmation" class="form-control" id="password_retype" placeholder="Retype password" data-match="#password" data-match-error="Whoops, these don't match" required
+                                            <input type="password" name="password_confirmation" class="form-control" id="password_retype" placeholder="Retype password" data-match="#password" data-match-error="Whoops, these don't match"
                                                    data-required-error="Fill in this field">
                                         </div>
 

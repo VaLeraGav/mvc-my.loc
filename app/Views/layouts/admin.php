@@ -22,6 +22,8 @@
 
     <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
 
+    <link rel="stylesheet" href="admin.css">
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -39,11 +41,9 @@
 
     <header class="main-header">
         <!-- Logo -->
-        <a href="index2.html" class="logo">
-            <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini"><b>A</b>LT</span>
-            <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Admin</b>LTE</span>
+        <a href="<?= PATH ?>" class="logo" target="_blank">
+            <span class="logo-mini"><b>W</b>LT</span>
+            <span class="logo-lg"><b>WATCHES</b> LT</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
@@ -265,7 +265,7 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                            <span class="hidden-xs">Alexander Pierce</span>
+                            <span class="hidden-xs"><?= $_SESSION['user']['name'] ?></span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -273,32 +273,18 @@
                                 <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                                 <p>
-                                    Alexander Pierce - Web Developer
+                                    <?= $_SESSION['user']['name'] ?>
                                     <small>Member since Nov. 2012</small>
                                 </p>
                             </li>
-                            <!-- Menu Body -->
-                            <li class="user-body">
-                                <div class="row">
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Followers</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Sales</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Friends</a>
-                                    </div>
-                                </div>
-                                <!-- /.row -->
-                            </li>
+
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                    <a href="<?= ADMIN ?>/user/edit?id=<?=$_SESSION['user']['id'] ?>" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="/user/logout" class="btn btn-default btn-flat">Sign out</a>
                                 </div>
                             </li>
                         </ul>
@@ -321,7 +307,7 @@
                     <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
-                    <p>Alexander Pierce</p>
+                    <p><?= $_SESSION['user']['name'] ?></p>
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
             </div>
@@ -347,7 +333,7 @@
                     </a>
                 </li>
 
-                <li class="treeview">
+                <li>
                     <a href="<?= ADMIN ?>/order">
                         <i class="nav-icon fa fa-shopping-cart"></i></i> <span>Заказы</span>
                         <span class="pull-right-container"></span>
@@ -377,7 +363,7 @@
                     </ul>
                 </li>
 
-                <li class="treeview">
+                <li>
                     <a href="<?= ADMIN ?>/order">
                         <i class="nav-icon fa fa-database"></i> <span>Кеширование</span>
                         <span class="pull-right-container"></span>
@@ -403,18 +389,29 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
 
+        <?php if(isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger">
+                <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
+            </div>
+        <?php endif; ?>
+        <?php if(isset($_SESSION['success'])): ?>
+            <div class="alert alert-success">
+                <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
+            </div>
+        <?php endif; ?>
+
         <?= $content ?>
 
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-    <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 2.4.18
-        </div>
-        <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE</a>.</strong> All rights
-        reserved.
-    </footer>
+<!--    <footer class="main-footer">-->
+<!--        <div class="pull-right hidden-xs">-->
+<!--            <b>Version</b> 2.4.18-->
+<!--        </div>-->
+<!--        <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE</a>.</strong> All rights-->
+<!--        reserved.-->
+<!--    </footer>-->
 
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark" style="display: none;">
@@ -623,6 +620,8 @@
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
+
+<script src="admin.js"></script>
 
 </body>
 </html>

@@ -48,17 +48,17 @@ class UserModel extends Model
         $email = !empty(trim($this->attributes['email'])) ? trim($this->attributes['email']) : null;
         $password = !empty(trim($this->attributes['password'])) ? trim($this->attributes['password']) : null;
         if ($email && $password) {
-
-            if($isAdmin) {
-                $user = Model::requestArr("SELECT * FROM user WHERE email = '$email' AND role = 'admin'")[0];
-            }else{
+            if ($isAdmin) {
+                $user = Model::requestArr("SELECT * FROM user WHERE email = '$email' AND role = 'admin'");
+                $user = empty($user) ? false : $user[0];
+            } else {
                 $user = $this->find('email', $email);
             }
 
             if ($user) {
                 if (password_verify($password, $user['password'])) {
                     foreach ($user as $k => $v) {
-                        if($k != 'password')  {
+                        if ($k != 'password') {
                             $_SESSION['user'][$k] = $v;
                         }
                     }
@@ -75,7 +75,7 @@ class UserModel extends Model
     public function addAuth()
     {
         foreach ($this->attributes as $k => $v) {
-            if($k != 'password')  {
+            if ($k != 'password') {
                 $_SESSION['user'][$k] = $v;
             }
         }
