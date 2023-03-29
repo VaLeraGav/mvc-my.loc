@@ -50,7 +50,7 @@ class UserModel extends Model
         if ($email && $password) {
 
             if($isAdmin) {
-                $user = Model::requestArr("SELECT * FROM user WHERE email = $email AND role = 'admin'");
+                $user = Model::requestArr("SELECT * FROM user WHERE email = '$email' AND role = 'admin'")[0];
             }else{
                 $user = $this->find('email', $email);
             }
@@ -92,7 +92,7 @@ class UserModel extends Model
 
     public static function isAdmin()
     {
-        return (isset($_SESSION['user']) && $_SESSION['user']['role'] == 'admin');
+        return (isset($_SESSION['user'])) && $_SESSION['user']['role'] == 'admin';
     }
 
     /**

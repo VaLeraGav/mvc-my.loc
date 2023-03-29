@@ -3,6 +3,8 @@
 
 <head>
     <base href ="/">
+    <link rel="shortcut icon" href="images/star.png" type="image/png" />
+
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
 
 

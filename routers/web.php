@@ -1,13 +1,14 @@
 <?php
 
-use App\Controllers\admin\AdminController;
+use App\Controllers\MainController;
+use App\Controllers\admin\MainController as AdminMainController;
+use App\Controllers\admin\UserController as AdminUserController;
 use App\Controllers\CartController;
 use App\Controllers\CategoryController;
 use App\Controllers\ProductController;
 use App\Controllers\SearchController;
 use Core\Route;
 use App\Controllers\AuthController;
-use App\Controllers\MainController;
 use App\Controllers\RegistrationController;
 
 //dd($_SERVER);
@@ -47,7 +48,12 @@ Route::group('/user', [
 
 // ---------------- admin ----------------
 
-Route::get('/admin$', AdminController::class, 'index');
+//Route::group('/admin', [
+//    ['', 'get', AdminMainController::class, 'index'],
+//]);
 
-
+Route::get('/admin$', AdminMainController::class, 'index');
+Route::get('/admin/?', AdminMainController::class, 'index');
+Route::get('/admin/user/login-admin', AdminUserController::class, 'index');
+Route::post('/admin/user/login-admin', AdminUserController::class, 'login');
 
