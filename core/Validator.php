@@ -144,7 +144,6 @@ class Validator
             return null;
         }
         $raw = $this->getRuleMessage($ruleName, $field);
-        // dpre($raw);
         $str = $this->replaceLines($raw);
         return $str;
     }

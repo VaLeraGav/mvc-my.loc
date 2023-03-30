@@ -98,6 +98,7 @@ class Menu
         return $str;
     }
 
+    // $category, $tab, $id - передаются в шаблон
     protected function catToTemplate($category, $tab, $id)
     {
         ob_start();

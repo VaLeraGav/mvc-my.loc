@@ -139,8 +139,6 @@ abstract class Model
 
         $keysFields = implode(', ', array_keys($fields));
 
-        dpre($dataUser);
-
         foreach ($fields as $k => $v) {
             $params[':' . $k] = $dataUser[$k];
         }
@@ -150,6 +148,22 @@ abstract class Model
         $sql = "INSERT INTO `{$this->table}`({$keysFields}) VALUES ({$strParams})";
 
         $this->query($sql, $params);
+    }
+
+    /**
+     * Вставка в Модель с явно указанными переменными
+     */
+    public function updatetGetModel($id)
+    {
+        $str = '';
+        foreach ($this->attributes as $k => $v) {
+            $str .= "$k = '$v', ";
+        }
+        $str = rtrim($str, ', ');
+
+        $sql = ("UPDATE `{$this->table}` SET {$str} WHERE `{$this->table}`.id = $id");
+
+        $this->query($sql);
     }
 
     /**

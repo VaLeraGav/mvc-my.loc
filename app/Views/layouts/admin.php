@@ -340,7 +340,6 @@
                     </a>
                 </li>
 
-
                 <li class="treeview">
                     <a href="#"><i class="fa fa-navicon"></i> <span>Категории</span>
                         <span class="pull-right-container">
@@ -364,7 +363,7 @@
                 </li>
 
                 <li>
-                    <a href="<?= ADMIN ?>/order">
+                    <a href="<?= ADMIN ?>/cache">
                         <i class="nav-icon fa fa-database"></i> <span>Кеширование</span>
                         <span class="pull-right-container"></span>
                     </a>
