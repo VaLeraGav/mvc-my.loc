@@ -5,6 +5,7 @@ namespace App\Controllers\admin;
 use App\Models\CategoryModel;
 use Core\App;
 use Core\Base\Model;
+use Core\Logger;
 
 class CategoryController extends AppController
 {
@@ -53,25 +54,21 @@ class CategoryController extends AppController
     public function store($request)
     {
         $this->setMeta('Добавить категорию');
-        $category = new CategoryModel();
+        $cat = new CategoryModel();
 
-        $category->load($request);
+        $cat->load($request);
 
-        $errors = $category->validate($request);
-        $boolUnique = $category->uniqueAlias();
+        $cat->hasErrors($request);
+        $cat->uniqueAlias();
 
-//      $alias = $category->str2url($category->attributes['title']);
-
-        if (!empty($errors) || $boolUnique) {
-            $errors['alias'] = ($boolUnique) ? ['alias не уникальный'] : '';
-
+        if (!empty($cat->errors)) {
             $this->view('admin/category/add', [
-                'category' => $category->attributes,
-                'errors' => $errors,
+                'category' => $cat->attributes,
+                'errors' => $cat->errors,
             ]);
         } else {
             $_SESSION['success'] = 'Категория добавлена';
-            $category->save();
+            $cat->save();
             redirect();
         }
     }
@@ -97,19 +94,18 @@ class CategoryController extends AppController
         $this->setMeta('Редактирование категории');
 
         $cat = new CategoryModel();
-
         $cat->load($request);
-
-        $errors = $cat->validate($request);
-        $boolUnique = $cat->uniqueAlias();
-
         $id = $this->getRequestID(false);
-        if (!empty($errors) || $boolUnique) {
-            $errors['alias'] = ($boolUnique) ? 'alias не уникальный' : '';
-            $_SESSION['val'] = $errors;
+
+        $cat->hasErrors($request);
+        $cat->uniqueAliasId($id);
+
+        if (!empty($cat->errors)) {
+            $_SESSION['val'] = $cat->errors;
             redirect("/admin/category/edit?id=$id");
         } else {
             $cat->updatetGetModel($id);
+
             $_SESSION['success'] = 'Категория сохранена';
             unset($_SESSION['val']);
             redirect();

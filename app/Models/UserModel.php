@@ -21,10 +21,10 @@ class UserModel extends Model
     public array $rules = [
         'login' => 'require|max:30|min:3',
         'name' => 'require|max:30|min:3',
-        'email' => 'require|email|unique',
+        'email' => 'require|email',
         'address' => 'require|min:3',
-        'password' => 'require|match:password_confirmation',
-        'password_confirmation' => 'require'
+        'password' => 'require',
+        'password_confirmation' => 'require|match:password'
     ];
 
 //    public array $rulesMessage = [
@@ -67,6 +67,18 @@ class UserModel extends Model
             }
         }
         return false;
+    }
+
+    public function uniqueEmail()
+    {
+        $user = $this->find('email', $this->attributes['email']);
+        if ($user) {
+            if ($user['email'] == $this->attributes['email']) {
+                $this->errors['email'][] = 'This email is already taken';
+            }
+            return false;
+        }
+        return true;
     }
 
     /**

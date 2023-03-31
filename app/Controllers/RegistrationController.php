@@ -3,29 +3,29 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
+use Core\Base\Model;
 
 class RegistrationController extends AppController
 {
-    public function index($data = []): void
+    public function index(): void
     {
         $this->setMeta('Регистрация');
 
-        $this->view('pages/register', [
-            'data' => $data
-        ]);
+        $this->view('pages/register');
     }
 
-    public function registration($request)
+    public function signup($request)
     {
         $user = new UserModel();
 
-        $user->load($request, ['password_confirmation']);
+        $user->load($request);
+        $user->hasErrors($request);
+        $user->uniqueEmail();
 
-        $errors = $user->validate($request);
-        if (!empty($errors)) {
+        if (!empty($user->errors)) {
             $this->view('pages/register', [
                 'users' => $user->attributes,
-                'errors' => $errors
+                'errors' => $user->errors
             ]);
         } else {
             $_SESSION['success'] = 'You are successfully registered';

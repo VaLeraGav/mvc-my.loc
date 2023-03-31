@@ -12,11 +12,6 @@
 
 <div class="row">
     <div class="col-md-12">
-        <?php if(isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger">
-                <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
-            </div>
-        <?php endif; ?>
         <?php if(isset($_SESSION['success'])): ?>
             <div class="alert alert-success">
                 <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
@@ -36,24 +31,27 @@
 
                         <div class="form-group">
                             <label for="title">Наименование категории</label>
+                            <?php if(!empty($_SESSION['val']['title'])): ?>
+                                <div class="text-danger"><?php print_r(array_shift($_SESSION['val']['title'])); unset($_SESSION['val']['title'])?></div>
+                            <?php endif; ?>
                             <input type="text" name="title" class="form-control" id="title"
                                    placeholder="Наименование категории" value="<?= $category['title'] ?? '' ?>" required>
                         </div>
-                        <?php if(!empty($_SESSION['val']['title'])): ?>
-                            <div class="text-danger"><?php print_r(array_shift($_SESSION['val']['title'])); unset($_SESSION['val']['title'])?></div>
-                        <?php endif; ?>
 
                         <div class="form-group">
                             <label for="title">Alias</label>
+                            <?php if(!empty($_SESSION['val']['alias'])): ?>
+                                <div class="text-danger"><?php print_r(array_shift($_SESSION['val']['alias']));  unset($_SESSION['val']['alias'])?></div>
+                            <?php endif; ?>
                             <input type="text" name="alias" class="form-control" id="title"
                                    placeholder="alias для поиска" value="<?= $category['alias'] ?? '' ?>" required>
                         </div>
-                        <?php if(!empty($_SESSION['val']['alias'])): ?>
-                            <div class="text-danger"><?php print_r($_SESSION['val']['alias']);  unset($_SESSION['val']['alias'])?></div>
-                        <?php endif; ?>
 
                         <div class="form-group">
                             <label for="parent_id">Родительская категория</label>
+                            <?php if(!empty($_SESSION['val']['parent_id'])): ?>
+                                <div class="text-danger"><?php print_r(array_shift($_SESSION['val']['parent_id'])); unset($_SESSION['val']['parent_id']) ?></div>
+                            <?php endif; ?>
                             <?php new \App\Widgets\Menu\Menu([
                                 'tpl' => WWW . '/menu/select.php',
                                 'container' => 'select',
@@ -67,10 +65,6 @@
                                 'prepend' => '<option value="0">Самостоятельная категория</option>',
                             ]);?>
                         </div>
-                        <?php if(!empty($_SESSION['val']['parent_id'])): ?>
-                            <div class="text-danger"><?php print_r(array_shift($_SESSION['val']['parent_id'])); unset($_SESSION['val']['parent_id']) ?></div>
-                        <?php endif; ?>
-
 
                         <div class="form-group">
                             <label for="keywords">Ключевые слова</label>

@@ -16,6 +16,7 @@ abstract class Model
     public array $attributes = []; // // атрибуты для модели
     public array $rules;
     public array $rulesMessage;
+    public array $errors;
 
     private \PDO $connect;
 
@@ -75,7 +76,7 @@ abstract class Model
     public static function request($table, $addSQL = '', $bindings = [])
     {
         if (!empty($addSQL)) {
-            $sql = "SELECT * FROM `{$table}`$addSQL";
+            $sql = "SELECT * FROM `{$table}` $addSQL";
         } else {
             $sql = "SELECT * FROM `{$table}`";
         }

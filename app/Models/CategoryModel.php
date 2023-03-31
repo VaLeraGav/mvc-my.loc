@@ -38,9 +38,31 @@ class CategoryModel extends Model
 
     public function uniqueAlias()
     {
-        $sql = "SELECT * FROM {$this->table} WHERE alias = :value"; // не подготовленный запрос
+        $sql = "SELECT * FROM {$this->table} WHERE alias = :value";
         $search = $this->query($sql, [':value' => $this->attributes['alias']])->fetch();
-        return !empty($search);
+
+        if (!empty($search)) {
+            $this->errors['alias'][] = 'alias не уникальный';
+            return false;
+        }
+        return true;
+    }
+
+    public function uniqueAliasId($id)
+    {
+        $cat = Model::requestArr(
+            "$this->table", 'WHERE alias = ? AND id <> ?',
+            [$this->attributes['alias'], $id]
+        );
+
+        if (!empty($cat)) {
+            $cat = $cat[0];
+            if ($cat['alias'] == $this->attributes['alias']) {
+                $this->errors['alias'][] = 'alias не уникальный';
+            }
+            return false;
+        }
+        return true;
     }
 
     public function str2url($str)

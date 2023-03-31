@@ -45,7 +45,7 @@ Route::group('/user', [
     ['/login', 'post', AuthController::class, 'login'],
     ['/logout', 'get', AuthController::class, 'destroy'],
     ['/signup', 'get', RegistrationController::class, 'index'],
-    ['/signup', 'post', RegistrationController::class, 'registration'],
+    ['/signup', 'post', RegistrationController::class, 'signup'],
 ]);
 
 // ---------------- admin ----------------
@@ -58,10 +58,12 @@ Route::group('/admin', [
 
 Route::group('/admin/user', [
     ['/login-admin', 'get', AdminUserController::class, 'index'],
-    ['/login-admin', 'post', AdminUserController::class, 'login']
-    ,
+    ['/login-admin', 'post', AdminUserController::class, 'login'],
+    ['', 'get', AdminUserController::class, 'show'],
+    ['/edit', 'get', AdminUserController::class, 'edit'],
+    ['/edit', 'post', AdminUserController::class, 'update'],
     ['/add', 'get', AdminUserController::class, 'add'],
-    ['/edit', 'get', AdminUserController::class, 'edit']
+    ['/add', 'post', AdminUserController::class, 'signup'],
 ]);
 
 Route::group('/admin/category', [

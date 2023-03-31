@@ -58,6 +58,10 @@
                         <div class="text-danger"><?php print_r(array_shift($errors['password'])) ?></div>
                     <?php endif; ?>
                     <input name="password" placeholder="Password" type="password" autocomplete="off">
+
+                    <?php if(!empty($errors['password_confirmation'])): ?>
+                        <div class="text-danger"><?php print_r(array_shift($errors['password_confirmation'])) ?></div>
+                    <?php endif; ?>
                     <input name="password_confirmation" placeholder="Retype password" type="password" autocomplete="off">
                 </div>
                 <div class="clearfix"></div>

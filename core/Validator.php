@@ -127,16 +127,16 @@ class Validator
         return empty($value) ? $str : null;
     }
 
-    private function unique($ruleName, $field, $value): ?string
-    {
-        // TODO: подключение к определенному методу
-        $db = new \App\Models\UserModel();
-        $dbData = $db->find($field, $value);
-
-        $raw = $this->getRuleMessage($ruleName, $field);
-        $str = $this->replaceLines($raw, [':value'], [$value]);
-        return $dbData ? $str : null;
-    }
+//    private function unique($ruleName, $field, $value): ?string
+//    {
+//        // TODO: подключение к определенному методу
+//        $db = new \App\Models\UserModel();
+//        $dbData = $db->find($field, $value);
+//
+//        $raw = $this->getRuleMessage($ruleName, $field);
+//        $str = $this->replaceLines($raw, [':value'], [$value]);
+//        return $dbData ? $str : null;
+//    }
 
     private function email($ruleName, $field, $value): ?string
     {

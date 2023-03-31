@@ -71,6 +71,24 @@ trait ModelHelper
         return $validator->validate($data);
     }
 
+    public function hasErrors($data)
+    {
+        $validator = new Validator();
+
+        $validator->setRules($this->rules);
+
+        if (!empty($this->rulesMessage)) {
+            $validator->setRuleMessage($this->rulesMessage);
+        }
+        $hasErrors = $validator->validate($data);
+
+        if (empty($hasErrors)) {
+            return false;
+        }
+        $this->errors = $hasErrors;
+        return true;
+    }
+
     /**
      * Поиск строки
      */
@@ -85,10 +103,8 @@ trait ModelHelper
     /**
      * Вставка в Модель с явно указанными переменными
      */
-    public function insertGetModel(array $dataUser)
+    public function insertGetModel(array $dataUser, $ignores = [])
     {
-        $ignores = ['created_at', 'update_at'];
-
         $fields = array_filter($this->attributes, function ($name) use ($ignores) {
             return !in_array($name, $ignores);
         }, ARRAY_FILTER_USE_KEY);
@@ -127,7 +143,7 @@ trait ModelHelper
      */
     public function save()
     {
-        $this->insertGetModel($this->attributes);
+        $this->insertGetModel($this->attributes, ['password_confirmation', 'created_at', 'update_at']);
         return $this->connect->lastInsertId();
     }
 }
