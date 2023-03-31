@@ -11,7 +11,8 @@ class ProductModel extends Model
 
     public function getProduct($alias)
     {
-        $productFind = $this->requestObj("SELECT * FROM {$this->table} WHERE alias = '{$alias}' AND status = '1'");
+        $productFind = $this->requestObj("{$this->table}", "WHERE alias = ? AND status = '1'", [$alias]);
+
         if (!$productFind) {
             throw new \Exception('Станица не найдена', 404);
         }
@@ -21,13 +22,15 @@ class ProductModel extends Model
     public function relatedProducts($id)
     {
         return $this->requestArr(
-            "SELECT * FROM related_product JOIN {$this->table} ON product.id = related_product.related_id WHERE related_product.product_id = {$id}"
+            "related_product",
+            "JOIN {$this->table} ON product.id = related_product.related_id WHERE related_product.product_id = ?",
+            [$id]
         );
     }
 
     public function getGallery($id)
     {
-        return $this->requestObj("SELECT * FROM gallery WHERE product_id = {$id}");
+        return $this->requestObj('gallery', 'WHERE product_id = ?', [$id]);
     }
 
     // добавляет просмотренный товар

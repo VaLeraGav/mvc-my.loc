@@ -49,7 +49,7 @@ class UserModel extends Model
         $password = !empty(trim($this->attributes['password'])) ? trim($this->attributes['password']) : null;
         if ($email && $password) {
             if ($isAdmin) {
-                $user = Model::requestArr("SELECT * FROM user WHERE email = '$email' AND role = 'admin'");
+                $user = Model::requestArr("user", "WHERE email = ? AND role = 'admin'", [$email]);
                 $user = empty($user) ? false : $user[0];
             } else {
                 $user = $this->find('email', $email);

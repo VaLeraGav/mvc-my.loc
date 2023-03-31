@@ -27,10 +27,10 @@ class Currency
 
     public static function getCurrencies()
     {
-        return Model::requestArr(
-            "SELECT code, title, symbol_left, symbol_right, value, base FROM currency ORDER BY base DESC",
-            'code'
+        $data = Model::queryNew(
+            "SELECT code, title, symbol_left, symbol_right, value, base FROM currency ORDER BY base DESC"
         );
+        return Model::changeKey($data, 'code');
     }
 
     public static function getCurrency($currencies)

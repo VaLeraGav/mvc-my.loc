@@ -17,7 +17,7 @@ class SearchController extends AppController
         }
 
         if ($query) {
-            $products = Model::requestArr(
+            $products = Model::queryNew(
                 "SELECT id, title FROM product WHERE title like \"%$query%\" AND status = '1' LIMIT 11"
             );
 
@@ -32,7 +32,7 @@ class SearchController extends AppController
         $this->setMeta('Поиск по: ' . h($query));
 
         if ($query) {
-            $total = Model::requestObj("SELECT * FROM product WHERE title LIKE  \"%$query%\" AND status = '1'");
+            $total = Model::requestObj('product', "WHERE title LIKE  ? AND status = '1'", ["%{$query}%"]);
         }
 
         //pagination
@@ -43,7 +43,7 @@ class SearchController extends AppController
         $start = $pagination->getStart();
 
         $products = Model::requestObj(
-            "SELECT * FROM product WHERE title LIKE  \"%$query%\" AND status = '1' LIMIT $start, $perpage"
+            'product', "WHERE title LIKE ? AND status = '1' LIMIT ?, ?", ["%{$query}%", $start, $perpage]
         );
 
         $this->view('pages/search', [

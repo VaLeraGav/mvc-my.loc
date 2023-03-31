@@ -11,7 +11,7 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="<?=ADMIN?>"><i class="fa fa-dashboard"></i>Главная</a></li>
-        <li><a href="<?=ADMIN?>/order"></a>Список заказов</li>
+        <li><a href="<?=ADMIN?>/order">Список заказов</a></li>
         <li class="active">Заказ №<?=$order['id']?></li>
     </ol>
 </section>

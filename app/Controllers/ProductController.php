@@ -25,10 +25,10 @@ class ProductController extends AppController
         $recentlyViewed = null;
         if ($r_viewed) {
             $slot = implode(', ', $r_viewed);
-            $recentlyViewed = Model::requestArr("SELECT * FROM product  WHERE id IN ({$slot}) LIMIT 3");
+            $recentlyViewed = Model::requestArr("product", "WHERE id IN ({$slot}) LIMIT 3");
         }
 
-        $mods = Model::requestObj("SELECT * FROM modification WHERE product_id = '{$product->id}'");
+        $mods = Model::requestObj('modification', 'WHERE product_id = ?', [$product->id]);
 
         $breadcrumbs = BreadCrumbs::getBreadCrumbs($product->category_id, $product->title);
 

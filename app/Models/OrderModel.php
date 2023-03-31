@@ -36,7 +36,7 @@ class OrderModel extends Model
                 $sql_part .= "($order_id, $product_id, {$product['qty']}, '{$product['title']}', {$product['price']}),";
             }
             $sql_part = rtrim($sql_part, ',');
-            Model::setup()->query(
+            Model::queryNew(
                 "INSERT INTO order_product (order_id, product_id, qty, title, price) VALUES $sql_part"
             );
             unset($_SESSION['cart']);

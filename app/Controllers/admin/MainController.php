@@ -10,18 +10,13 @@ class MainController extends AppController
     {
         $this->setMeta('Панель управления');
 
-        // TODO: переписать в отдельный метод
-        $orders = Model::requestArr("SELECT COUNT(*) FROM `order` WHERE status = '0'");
-        $countNewOrders = $orders[0]['COUNT(*)'];
+        $countNewOrders = Model::count('order', "status = '0'");
 
-        $user = Model::requestArr("SELECT COUNT(*) FROM `user`");
-        $countUsers = $user[0]['COUNT(*)'];
+        $countUsers = Model::count('user');
 
-        $product = Model::requestArr("SELECT COUNT(*) FROM `product`");
-        $countProducts = $product[0]['COUNT(*)'];
+        $countProducts = Model::count('product');
 
-        $categories = Model::requestArr("SELECT COUNT(*) FROM `category`");
-        $countCategories = $categories[0]['COUNT(*)'];
+        $countCategories = Model::count('category');
 
         $this->view(
             'admin/pages/index',

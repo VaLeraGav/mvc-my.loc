@@ -15,7 +15,7 @@ class CategoryController extends AppController
 
     public function index($alias)
     {
-        $category = Model::requestObj("SELECT * FROM category WHERE alias = '{$alias}'");
+        $category = Model::requestObj('category', 'WHERE alias = ?', [$alias]);
 
         if (!$category) {
             throw new \Exception('Страница не найдена', 404);
@@ -53,16 +53,16 @@ class CategoryController extends AppController
             }
         }
 
-        $total = Model::requestArr("SELECT * FROM product WHERE category_id IN ($ids) $sql_part");
+        $total = Model::requestArr('product', "WHERE category_id IN (?) $sql_part", [$ids]);
 
         $pagination = new Pagination($page, $perpage, count($total));
         $start = $pagination->getStart();
 
         $products = Model::requestObj(
-            "SELECT * FROM product WHERE category_id IN ($ids) $sql_part LIMIT $start, $perpage"
+            'product', "WHERE status = '1' AND category_id IN ($ids) $sql_part LIMIT ?, ?", [$start, $perpage]
         );
-        $this->setMeta($category->title, $category->description, $category->keywords);
 
+        $this->setMeta($category->title, $category->description, $category->keywords);
 
         if ($this->isAjax()) {
             $this->loadView('category/filter', [

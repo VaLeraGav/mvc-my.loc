@@ -43,12 +43,15 @@ class Filter
 
     protected function getGroups()
     {
-        return Model::requestArr('SELECT id, title FROM attribute_group', 'id');
+        $data = Model::queryNew('SELECT id, title FROM attribute_group');
+        return Model::changeKey($data, 'id');
     }
 
     protected static function getAttrs()
     {
-        $data = Model::requestArr('SELECT * FROM attribute_value', 'id');
+        $data = Model::queryNew('SELECT * FROM attribute_value');
+        $data = Model::changeKey($data, 'id');
+
         $attrs = [];
         foreach ($data as $k => $v) {
             $attrs[$v['attr_group_id']][$k] = $v['value'];
@@ -60,7 +63,7 @@ class Filter
     {
         ob_start();
         $filter = self::getFilter();
-        if(!empty($filter)) {
+        if (!empty($filter)) {
             $filter = explode(',', $filter);
         }
         require $this->tpl;
@@ -83,14 +86,14 @@ class Filter
 
         $cache = Cache::instance();
         $attrs = $cache->get('filter_attrs');
-        if(!$attrs) {
+        if (!$attrs) {
             $attrs = self::getAttrs();
         }
 
         $data = [];
-        foreach($attrs as $key => $item) {
-            foreach($item as $k => $v) {
-                if(in_array($k, $filters)) {
+        foreach ($attrs as $key => $item) {
+            foreach ($item as $k => $v) {
+                if (in_array($k, $filters)) {
                     $data[] = $key;
                     break;
                 }

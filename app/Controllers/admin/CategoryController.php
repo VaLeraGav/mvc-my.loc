@@ -17,19 +17,18 @@ class CategoryController extends AppController
     public function delete()
     {
         $id = $this->getRequestID();
-        $children = Model::requestArr("SELECT COUNT(*) FROM `category` WHERE parent_id = $id");
-        $countChildren = $children[0]['COUNT(*)'];
+
+        $countChildren = Model::count('category', 'parent_id = ?', [$id]);
 
         $errors = '';
         if ($countChildren) {
-            $errors .= '<li>Удаление невозможно, в категории есть вложенные категории</li>';
+            $errors .= "<li>Удаление невозможно, в категории есть вложенные категории: $countChildren</li>";
         }
 
-        $products = Model::requestArr("SELECT COUNT(*) FROM product WHERE category_id = $id");
-        $countProducts = $products[0]['COUNT(*)'];
+        $countProducts = Model::count('product', 'category_id = ?', [$id]);
 
         if ($countProducts) {
-            $errors .= '<li>Удаление невозможно, в категории есть товары</li>';
+            $errors .= "<li>Удаление невозможно, в категории есть товары: $countProducts</li>";
         }
 
         if ($errors) {
@@ -37,7 +36,7 @@ class CategoryController extends AppController
             redirect();
         }
 
-        Model::requestObj(
+        Model::queryNew(
             " DELETE FROM `category` WHERE `category`.id = $id"
         );
 

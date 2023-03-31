@@ -15,9 +15,9 @@ class MainController extends AppController
 
     public function index(): void
     {
-        $brands = Model::requestObj("SELECT * FROM brand LIMIT 3");
+        $brands = Model::requestObj("brand", "LIMIT 3");
 
-        $hits = Model::requestObj("SELECT * FROM product WHERE hit = '1' AND status = '1' LIMIT 8");
+        $hits = Model::requestObj("product", "WHERE hit = '1' AND status = '1' LIMIT 8");
 
         $this->view('pages/index', [
             'brands' => $brands,
@@ -44,7 +44,7 @@ class MainController extends AppController
 
             if ($hasCurr) {
                 setcookie('currency', $currency, time() + 3600 * 24 * 7, '/');
-                CartModel::recalc( $curr[$currency]);
+                CartModel::recalc($curr[$currency]);
             }
         }
         redirect();

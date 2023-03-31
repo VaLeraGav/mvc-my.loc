@@ -16,12 +16,12 @@ class OrderController extends AppController
 
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $perpage = 10;
-        $orders = Model::requestArr("SELECT COUNT(*) FROM `order`");
-        $countOrders = $orders[0]['COUNT(*)'];
+
+        $countOrders = Model::count('order');
         $pagination = new Pagination($page, $perpage, $countOrders);
         $start = $pagination->getStart();
 
-        $orders = Model::requestArr(
+        $orders = Model::queryNew(
             "SELECT `order`.`id`, `order`.`user_id`, `order`.`status`, `order`.`date`, `order`.`update_at`, `order`.`currency`, `user`.`name`, 
                     ROUND(SUM(`order_product`.`price`), 2) AS `sum` 
                     FROM `order` 
@@ -38,7 +38,6 @@ class OrderController extends AppController
         //  $ex = Model::requestArr(" DROP INDEX index_test ON `order`");
         //  $sql = Model::requestArr("SHOW INDEX FROM `order`");
 
-
         $this->view('admin/order/index', [
             'pagination' => $pagination,
             'orders' => $orders
@@ -49,7 +48,7 @@ class OrderController extends AppController
     {
         $order_id = $this->getRequestID();
 
-        $orders = Model::requestArr(
+        $orders = Model::queryNew(
             "SELECT `order`.*, `user`.`name`,
                     ROUND(SUM(`order_product`.`price`), 2) AS `sum`
                     FROM `order`
@@ -66,7 +65,7 @@ class OrderController extends AppController
             throw new \Exception('Страница не найдена', 404);
         }
 
-        $order_products = Model::requestObj("SELECT * FROM `order_product` WHERE order_id = $order_id");
+        $order_products = Model::requestObj('order_product', "WHERE order_id = $order_id");
 
         $this->view('admin/order/view', [
             'order' => $order,
@@ -81,7 +80,7 @@ class OrderController extends AppController
 
         $update_at = date("Y-m-d H:i:s");
 
-        Model::requestObj(
+        Model::queryNew(
             "UPDATE `order` SET status = '$status', update_at = '$update_at' WHERE `order`.id = $order_id"
         );
 
@@ -93,8 +92,8 @@ class OrderController extends AppController
     {
         $order_id = $this->getRequestID();
 
-        Model::requestObj(
-            " DELETE FROM `order` WHERE `order`.id = $order_id"
+        Model::queryNew(
+            "DELETE FROM `order` WHERE `order`.id = $order_id"
         );
 
         $_SESSION['success'] = 'Заказ успешно удален';

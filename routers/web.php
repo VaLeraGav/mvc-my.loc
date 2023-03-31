@@ -1,5 +1,7 @@
 <?php
 
+use App\Controllers\admin\CacheController;
+use App\Controllers\RegistrationController;
 use Core\Route;
 use App\Controllers\MainController;
 use App\Controllers\CartController;
@@ -42,17 +44,24 @@ Route::group('/user', [
     ['/login', 'get', AuthController::class, 'index'],
     ['/login', 'post', AuthController::class, 'login'],
     ['/logout', 'get', AuthController::class, 'destroy'],
-    ['/signup', 'get', AuthController::class, 'index'],
-    ['/signup', 'post', AuthController::class, 'registration'],
-
+    ['/signup', 'get', RegistrationController::class, 'index'],
+    ['/signup', 'post', RegistrationController::class, 'registration'],
 ]);
 
 // ---------------- admin ----------------
 
 Route::group('/admin', [
     ['', 'get', AdminMainController::class, 'index'],
-    ['/user/login-admin', 'get', AdminUserController::class, 'index'],
-    ['/user/login-admin', 'post', AdminUserController::class, 'login'],
+    ['/cache', 'get', CacheController::class, 'index'],
+    ['/cache/delete', 'get', CacheController::class, 'delete']
+]);
+
+Route::group('/admin/user', [
+    ['/login-admin', 'get', AdminUserController::class, 'index'],
+    ['/login-admin', 'post', AdminUserController::class, 'login']
+    ,
+    ['/add', 'get', AdminUserController::class, 'add'],
+    ['/edit', 'get', AdminUserController::class, 'edit']
 ]);
 
 Route::group('/admin/category', [

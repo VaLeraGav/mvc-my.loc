@@ -22,12 +22,12 @@ class CartController extends AppController
         $mod = null;
 
         if ($id) {
-            $product = Model::requestObj("SELECT * FROM product WHERE id = '{$id}'");
+            $product = Model::requestObj('product', 'WHERE id = ? ', [$id]);
             if (!$product) {
                 return false;
             }
             if ($mod_id) {
-                $mod = Model::requestObj("SELECT * FROM modification WHERE id = '{$mod_id}' AND product_id = '{$id}'");
+                $mod = Model::requestObj('modification', 'WHERE id = ? AND product_id = ?', [$mod_id, $id]);
             }
         };
 

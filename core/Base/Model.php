@@ -8,12 +8,15 @@ use Exception;
 
 abstract class Model
 {
+    use ModelHelper;
+
     protected string $table; // имя таблицы
     protected string $pk = 'id'; // первичный ключ
-    public array $attributes = []; // // атрибуты для модели
 
+    public array $attributes = []; // // атрибуты для модели
     public array $rules;
     public array $rulesMessage;
+
     private \PDO $connect;
 
     public function __construct()
@@ -22,156 +25,75 @@ abstract class Model
         $this->connect = $db->connection();
     }
 
-    public function getConnect(): \PDO
-    {
-        return $this->connect;
-    }
-
     public static function setup(): \PDO
     {
         return (Connection::connectInstance())->connection();
     }
 
-    public static function requestObj($sql)
+    public static function changeKey($data, $key = '')
     {
-        $arrays = self::setup()->query($sql)->fetchAll();
-        return makeObj($arrays);
-    }
-
-    public static function requestArr($sql, $key = '')
-    {
-        $arrays = self::setup()->query($sql)->fetchAll();
-        if (!empty($key)) {
-            return self::changeKey($arrays, $key);
-        }
-        return $arrays;
-    }
-
-    protected static function changeKey($arrays, $key = '')
-    {
-        foreach ($arrays as $arr) {
+        foreach ($data as $arr) {
             $cur = $arr[$key];
-            $newCurr[$cur] = $arr;
+            $new[$cur] = $arr;
         }
-        return $newCurr;
+        return $new;
     }
 
-    /**
-     * Пользовательская query
-     */
-    public function query($sql, array $params = null)
+    public static function count($table, $addSQL = '', $bindings = [])
     {
-        try {
-            if (!$params) {
-                return $this->connect->query($sql);
-            }
-            $connect = $this->connect->prepare($sql);
-            $connect->execute($params);
-        } catch (Exception $e) {
-            throw new Exception("Не верный запрос {$sql}");
+        if (!empty($addSQL)) {
+            $sql = "SELECT COUNT(*) FROM `{$table}` WHERE $addSQL";
+            $sth = self::setup()->prepare($sql);
+            $sth->execute($bindings);
+        } else {
+            $sql = "SELECT COUNT(*) FROM `{$table}`";
+            $sth = self::setup()->query($sql);
         }
-        return $connect;
+        $countArr = $sth->fetchAll();
+        return $countArr[0]['COUNT(*)'];
     }
 
-    /**
-     * Возвращает все данные из таблицы
-     */
-    public function findAll()
+    public static function requestObj($table, $addSQL = '', $bindings = []): array
     {
-        $sql = "SELECT * FROM {$this->table}";
-        return $this->connect->query($sql)->fetchAll();
+        $sth = self::request($table, $addSQL, $bindings);
+
+        $arr = $sth->fetchAll();
+        return makeObj($arr);
     }
 
-    /**
-     * Объявляет поля у метода
-     *
-     */
-    public function load($PostData, $ignores = []): void
+    public static function requestArr($table, $addSQL = '', $bindings = [], $key = '')
     {
-        $removeFields = array_filter($PostData, function ($name) use ($ignores) {
-            return !in_array($name, $ignores);
-        }, ARRAY_FILTER_USE_KEY);
+        $sth = self::request($table, $addSQL, $bindings);
 
-        foreach ($removeFields as $name => $value) {
-            if (isset($PostData[$name])) {
-                $this->attributes[$name] = $PostData[$name];
-            }
+        $arr = $sth->fetchAll();
+        if (!empty($key)) {
+            return self::changeKey($arr, $key);
         }
+        return $arr;
     }
 
-    /**
-     * Запустите проверки и возвращает массив ошибок
-     */
-    public function validate(array $data): array
+    public static function request($table, $addSQL = '', $bindings = [])
     {
-        $validator = new Validator();
-
-        $validator->setRules($this->rules);
-
-        if (!empty($this->rulesMessage)) {
-            $validator->setRuleMessage($this->rulesMessage);
+        if (!empty($addSQL)) {
+            $sql = "SELECT * FROM `{$table}`$addSQL";
+        } else {
+            $sql = "SELECT * FROM `{$table}`";
         }
-
-        return $validator->validate($data);
-    }
-
-    /**
-     * Поиск строки
-     */
-    public function find(string $key, string $value)
-    {
-        $sql = "SELECT * FROM {$this->table} WHERE " . $key . " = :value"; // не подготовленный запрос
-        $search = $this->query($sql, [':value' => $value])->fetch();
-
-        return empty($search) ? false : $search;
-    }
-
-    /**
-     * Вставка в Модель с явно указанными переменными
-     */
-    public function insertGetModel(array $dataUser)
-    {
-        $ignores = ['created_at', 'update_at'];
-
-        $fields = array_filter($this->attributes, function ($name) use ($ignores) {
-            return !in_array($name, $ignores);
-        }, ARRAY_FILTER_USE_KEY);
-
-        $keysFields = implode(', ', array_keys($fields));
-
-        foreach ($fields as $k => $v) {
-            $params[':' . $k] = $dataUser[$k];
+        if (!$bindings) {
+            return self::setup()->query($sql);
         }
-
-        $strParams = implode(', ', array_keys($params));
-
-        $sql = "INSERT INTO `{$this->table}`({$keysFields}) VALUES ({$strParams})";
-
-        $this->query($sql, $params);
+        $prep = self::setup()->prepare($sql);
+        $prep->execute($bindings);
+        return $prep;
     }
 
-    /**
-     * Вставка в Модель с явно указанными переменными
-     */
-    public function updatetGetModel($id)
+    public static function queryNew($sql, $params = [])
     {
-        $str = '';
-        foreach ($this->attributes as $k => $v) {
-            $str .= "$k = '$v', ";
+        if (!$params) {
+            return self::setup()->query($sql)->fetchAll();
         }
-        $str = rtrim($str, ', ');
-
-        $sql = ("UPDATE `{$this->table}` SET {$str} WHERE `{$this->table}`.id = $id");
-
-        $this->query($sql);
-    }
-
-    /**
-     * Сохраняет модель, возвращает id последней вставленной строки
-     */
-    public function save()
-    {
-        $this->insertGetModel($this->attributes);
-        return $this->connect->lastInsertId();
+        $prep = self::setup()->prepare($sql);
+        $prep->execute($params);
+        return $prep->fetchAll();
     }
 }

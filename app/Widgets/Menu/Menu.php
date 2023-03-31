@@ -47,7 +47,8 @@ class Menu
             $this->data = App::$app->getProperty('cats');
 
             if (!$this->data) {
-                $this->data = Model::requestArr("SELECT * FROM {$this->table}", 'id');
+                $arr = Model::queryNew("SELECT * FROM {$this->table}");
+                $this->data = Model::changeKey($arr, 'id');
             }
 
             $this->tree = $this->getTree();
