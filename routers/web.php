@@ -12,6 +12,7 @@ use App\Controllers\AuthController;
 use App\Controllers\admin\UserController as AdminUserController;
 use App\Controllers\admin\MainController as AdminMainController;
 use App\Controllers\admin\CategoryController as AdminCategoryController;
+use App\Controllers\admin\ProductController as AdminProductController;
 use App\Controllers\admin\OrderController;
 
 //dd($_SERVER);
@@ -80,6 +81,14 @@ Route::group('/admin/order', [
     ['/view', 'get', OrderController::class, 'viewAction'],
     ['/change', 'get', OrderController::class, 'change'],
     ['/delete', 'get', OrderController::class, 'delete'],
+]);
+
+Route::group('/admin/product', [
+    ['', 'get', AdminProductController::class, 'index'],
+    ['/add', 'get', AdminProductController::class, 'add'],
+    ['/add', 'post', AdminProductController::class, 'store'],
+//    ['/add', 'get', OrderController::class, 'change'],
+//    ['/delete', 'get', OrderController::class, 'delete'],
 ]);
 
 

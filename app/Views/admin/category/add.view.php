@@ -36,24 +36,27 @@
 
                         <div class="form-group">
                             <label for="title">Наименование категории</label>
+                            <?php if(!empty($errors['title'])): ?>
+                                <div class="text-danger"><?php print_r(array_shift($errors['title'])) ?></div>
+                            <?php endif; ?>
                             <input type="text" name="title" class="form-control" id="title"
-                                   placeholder="Наименование категории" value="<?= $category['title'] ?? '' ?>" required>
+                                   placeholder="Наименование категории" value="<?= $category['title'] ?? '' ?>">
                         </div>
-                        <?php if(!empty($errors['title'])): ?>
-                            <div class="text-danger"><?php print_r(array_shift($errors['title'])) ?></div>
-                        <?php endif; ?>
 
                         <div class="form-group">
                             <label for="title">Alias</label>
+                            <?php if(!empty($errors['alias'])): ?>
+                                <div class="text-danger"><?php print_r(array_shift($errors['alias'])) ?></div>
+                            <?php endif; ?>
                             <input type="text" name="alias" class="form-control" id="title"
-                                   placeholder="alias для поиска" value="<?= $category['alias'] ?? '' ?>" required>
+                                   placeholder="alias для поиска" value="<?= $category['alias'] ?? '' ?>">
                         </div>
-                        <?php if(!empty($errors['alias'])): ?>
-                            <div class="text-danger"><?php print_r(array_shift($errors['alias'])) ?></div>
-                        <?php endif; ?>
 
                         <div class="form-group">
                             <label for="parent_id">Родительская категория</label>
+                            <?php if(!empty($errors['parent_id'])): ?>
+                                <div class="text-danger"><?php print_r(array_shift($errors['parent_id'])) ?></div>
+                            <?php endif; ?>
                             <?php new \App\Widgets\Menu\Menu([
                                 'tpl' => WWW . '/menu/select.php',
                                 'container' => 'select',
@@ -67,10 +70,6 @@
                                 'prepend' => '<option value="0">Самостоятельная категория</option>',
                             ]);?>
                         </div>
-                        <?php if(!empty($errors['parent_id'])): ?>
-                            <div class="text-danger"><?php print_r(array_shift($errors['parent_id'])) ?></div>
-                        <?php endif; ?>
-
 
                         <div class="form-group">
                             <label for="keywords">Ключевые слова</label>
@@ -96,3 +95,4 @@
     <!-- /.row -->
 </section>
 <!-- /.content -->
+
