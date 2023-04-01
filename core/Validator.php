@@ -4,6 +4,8 @@ namespace Core;
 
 class Validator
 {
+    use Rules;
+
     public array $rules;
 
     public array $cleanData;
@@ -11,16 +13,24 @@ class Validator
     public array $message = [
         'require' =>
             'The field :name must not be empty',
+        'english' =>
+            'The field :name must in English',
+        'cyrillic' =>
+            'The field :name must be a Cyrillic',
+        'numeric' =>
+            'The field :name must be a number',
+        'integer' =>
+            'The field :name must be a integer',
         'max' =>
             'The field :name must not be larger than :max',
         'min' =>
             'The field :name must not be less than :min',
-        'unique' =>
-            'This field :value is already in use in another account',
         'match' =>
             'Password and confirmation don\'t match',
         'email' =>
             'The email was entered incorrectly',
+//        'unique' =>
+//            'This field :value is already in use in another account',
     ];
 
     /**
@@ -94,13 +104,14 @@ class Validator
         $this->checkAvailableRule($ruleName);
 
         $callable = [$this, $ruleName];
+        $strError = $this->getRuleMessage($ruleName, $field);
 
         // вызов правила по количеству аргументов
         if (strpos($rule, ':')) {
             $argument = $ruleByParts[1];
-            $methodCall = call_user_func_array($callable, [$ruleName, $field, $value, $argument]);
+            $methodCall = call_user_func_array($callable, [$strError, $field, $value, $argument]);
         } else {
-            $methodCall = call_user_func_array($callable, [$ruleName, $field, $value]);
+            $methodCall = call_user_func_array($callable, [$strError, $field, $value]);
         }
         return $methodCall;
     }
@@ -115,63 +126,6 @@ class Validator
         }, ARRAY_FILTER_USE_KEY);
 
         return empty($res);
-    }
-
-    /**
-     * Правила
-     */
-    private function require($ruleName, $field, $value): ?string
-    {
-        $raw = $this->getRuleMessage($ruleName, $field);
-        $str = $this->replaceLines($raw, [":name"], [$field]);
-        return empty($value) ? $str : null;
-    }
-
-//    private function unique($ruleName, $field, $value): ?string
-//    {
-//        // TODO: подключение к определенному методу
-//        $db = new \App\Models\UserModel();
-//        $dbData = $db->find($field, $value);
-//
-//        $raw = $this->getRuleMessage($ruleName, $field);
-//        $str = $this->replaceLines($raw, [':value'], [$value]);
-//        return $dbData ? $str : null;
-//    }
-
-    private function email($ruleName, $field, $value): ?string
-    {
-        if (filter_var($value, FILTER_VALIDATE_EMAIL) ?? preg_match('/@.+./', $value)) {
-            return null;
-        }
-        $raw = $this->getRuleMessage($ruleName, $field);
-        $str = $this->replaceLines($raw);
-        return $str;
-    }
-
-    private function max($ruleName, $field, $value, $matchValue): ?string
-    {
-        $raw = $this->getRuleMessage($ruleName, $field);
-        $str = $this->replaceLines($raw, [':name', ':max'], [$field, $matchValue]);
-        return $matchValue < strlen($value) ? $str : null;
-    }
-
-    private function min($ruleName, $field, $value, $matchValue): ?string
-    {
-        $raw = $this->getRuleMessage($ruleName, $field);
-        $str = $this->replaceLines($raw, [':name', ':min'], [$field, $matchValue]);
-        return $matchValue > strlen($value) ? $str : null;
-    }
-
-    private function match($ruleName, $field, $value, $matchValue): ?string
-    {
-        if ($this->haveField($this->cleanData, $matchValue)) {
-            return "Неправильное имя поля для совпадения {$field}";
-        }
-        $argumentField = $this->cleanData[$matchValue];
-
-        $raw = $this->getRuleMessage($ruleName, $field);
-        $str = $this->replaceLines($raw);
-        return $value !== $argumentField ? $str : null;
     }
 
     public function replaceLines($strMessRule, $search = [], $replace = [])
@@ -192,7 +146,84 @@ class Validator
         }
         return $this->message[$ruleName];
     }
+}
 
+trait Rules
+{
+    private function require($str, $field, $value): ?string
+    {
+        $str = $this->replaceLines($str, [":name"], [$field]);
+        return empty($value) ? $str : null;
+    }
 
-    // пустые символы не воспринимает за значимые
+    private function email($str, $field, $value): ?string
+    {
+        if (filter_var($value, FILTER_VALIDATE_EMAIL) ?? preg_match('/@.+./', $value)) {
+            return null;
+        }
+        $str = $this->replaceLines($str);
+        return $str;
+    }
+
+    private function max($str, $field, $value, $matchValue): ?string
+    {
+        $str = $this->replaceLines($str, [':name', ':max'], [$field, $matchValue]);
+        return $matchValue < strlen($value) ? $str : null;
+    }
+
+    private function min($str, $field, $value, $matchValue): ?string
+    {
+        $str = $this->replaceLines($str, [':name', ':min'], [$field, $matchValue]);
+        return $matchValue > strlen($value) ? $str : null;
+    }
+
+    private function match($str, $field, $value, $matchValue): ?string
+    {
+        if ($this->haveField($this->cleanData, $matchValue)) {
+            return "Неправильное имя поля для совпадения {$field}";
+        }
+        $argumentField = $this->cleanData[$matchValue];
+        $str = $this->replaceLines($str);
+        return $value !== $argumentField ? $str : null;
+    }
+
+    // доработать
+    private function english($str, $field, $value): ?string
+    {
+        $str = $this->replaceLines($str, [":name"], [$field]);
+        return preg_match('/[^A-Za-z0-9]/', $value) ? $str : null;
+    }
+
+    // доработать
+    private function numeric($str, $field, $value): ?string
+    {
+        $str = $this->replaceLines($str, [":name"], [$field]);
+        return preg_match('/[^0-9]/', $value) ? $str : null;
+    }
+
+    // доработать
+    private function cyrillic($str, $field, $value): ?string
+    {
+        $str = $this->replaceLines($str, [":name"], [$field]);
+        return !preg_match('/[^а-яё0-9]/iu', $value) ? $str : null;
+    }
+
+    private function integer($str, $field, $value): ?string
+    {
+        $str = $this->replaceLines($str, [":name"], [$field]);
+        if (!is_numeric($value)) {
+            return $str;
+        }
+        $value = $value * 1;
+        return !is_int($value) ? $str : null;
+    }
+
+//    private function unique($str, $field, $value): ?string
+//    {
+//        $db = new \App\Models\UserModel();
+//        $dbData = $db->find($field, $value);
+//        $str = $this->replaceLines($raw, [':value'], [$value]);
+//        return $dbData ? $str : null;
+//    }
+
 }
