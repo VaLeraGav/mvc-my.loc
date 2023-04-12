@@ -2,6 +2,7 @@
 
 namespace Core\Base;
 
+use Core\Logger;
 use Core\Validator;
 
 trait ModelHelper
@@ -117,7 +118,7 @@ trait ModelHelper
 
         $strParams = implode(', ', array_keys($params));
 
-        $sql = "INSERT INTO `{$this->table}`({$keysFields}) VALUES ({$strParams})";
+        $sql = "INSERT INTO `{$this->table}` ({$keysFields}) VALUES ({$strParams})";
 
         $this->query($sql, $params);
     }
@@ -127,23 +128,30 @@ trait ModelHelper
      */
     public function updatetGetModel($id)
     {
-        $str = '';
-        foreach ($this->attributes as $k => $v) {
-            $str .= "$k = '$v', ";
-        }
-        $str = rtrim($str, ', ');
+        $str = $this->getSqlPart($this->attributes);
 
         $sql = ("UPDATE `{$this->table}` SET {$str} WHERE `{$this->table}`.id = $id");
 
         $this->query($sql);
     }
 
+
+    public function getSqlPart($attr): string
+    {
+        $str = '';
+        foreach ($attr as $k => $v) {
+            $str .= "$k = '$v', ";
+        }
+        return rtrim($str, ', ');
+    }
+
     /**
      * Сохраняет модель, возвращает id последней вставленной строки
      */
-    public function save()
+    public function save($ignores)
     {
-        $this->insertGetModel($this->attributes, ['password_confirmation', 'created_at', 'update_at']);
+        $ignores = array_merge(['password_confirmation', 'created_at', 'update_at'], $ignores);
+        $this->insertGetModel($this->attributes, $ignores);
         return $this->connect->lastInsertId();
     }
 }

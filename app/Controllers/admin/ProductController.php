@@ -5,6 +5,7 @@ namespace App\Controllers\admin;
 use App\Models\admin\ProductModel;
 use Core\Base\Model;
 use Core\Libs\Pagination;
+use Core\Logger;
 
 class ProductController extends AppController
 {
@@ -60,9 +61,13 @@ class ProductController extends AppController
         } else {
             $product->attributes['status'] = $product->attributes['status'] ? '1' : '0';
             $product->attributes['hit'] = $product->attributes['hit'] ? '1' : '0';
+            $product->attributes['old_price'] = $product->attributes['old_price'] ?: '0';
 
             $_SESSION['success'] = 'Товар добавлен';
-            $product->save();
+
+            $id = $product->save(['attrs']);
+            $product->editFilter($id, $request['attrs']);
+
             redirect();
         }
     }

@@ -35,7 +35,6 @@ class Validator
 
     /**
      * Sets the rules
-     *
      */
     public function setRules($rules)
     {
@@ -75,7 +74,10 @@ class Validator
         return array_filter($data, fn($keyData) => in_array($keyData, $keyRules, true), ARRAY_FILTER_USE_KEY);
     }
 
-    public function cleanEmpty($array): array
+    /**
+     * Удаляет пустые поля
+     */
+    private function cleanEmpty($array): array
     {
         foreach ($array as $key => $value) {
             if (is_array($value)) {
@@ -87,6 +89,37 @@ class Validator
             }
         }
         return $array;
+    }
+
+    /**
+     * Проверяет наличие поля в данных из запроса
+     */
+    private function haveField($prepareData, $rulesCondition): bool
+    {
+        $res = array_filter($prepareData, function ($k) use ($rulesCondition) {
+            return $k === $rulesCondition;
+        }, ARRAY_FILTER_USE_KEY);
+
+        return empty($res);
+    }
+
+    private function replaceLines($strMessRule, $search = [], $replace = [])
+    {
+        return str_replace($search, $replace, $strMessRule);
+    }
+
+    private function getRuleMessage($ruleName, $field)
+    {
+        if (!empty($this->message[$field]) && is_array($this->message[$field])) {
+            if (empty($this->message[$field][$ruleName])) {
+                return "The {$field} field has no error text: {$ruleName}";
+            }
+            return $this->message[$field][$ruleName];
+        }
+        if (empty($this->message[$ruleName])) {
+            return "The $field field is empty";
+        }
+        return $this->message[$ruleName];
     }
 
     private function checkAvailableRule($name): void
@@ -109,42 +142,11 @@ class Validator
         // вызов правила по количеству аргументов
         if (strpos($rule, ':')) {
             $argument = $ruleByParts[1];
-            $methodCall = call_user_func_array($callable, [$strError, $field, $value, $argument]);
+            $strMess = call_user_func_array($callable, [$strError, $field, $value, $argument]);
         } else {
-            $methodCall = call_user_func_array($callable, [$strError, $field, $value]);
+            $strMess = call_user_func_array($callable, [$strError, $field, $value]);
         }
-        return $methodCall;
-    }
-
-    /**
-     * Проверяет наличие поля в данных из запроса
-     */
-    public function haveField($prepareData, $rulesCondition): bool
-    {
-        $res = array_filter($prepareData, function ($k) use ($rulesCondition) {
-            return $k === $rulesCondition;
-        }, ARRAY_FILTER_USE_KEY);
-
-        return empty($res);
-    }
-
-    public function replaceLines($strMessRule, $search = [], $replace = [])
-    {
-        return str_replace($search, $replace, $strMessRule);
-    }
-
-    public function getRuleMessage($ruleName, $field)
-    {
-        if (!empty($this->message[$field]) && is_array($this->message[$field])) {
-            if (empty($this->message[$field][$ruleName])) {
-                return "У поля {$field} нет текста ошибки: {$ruleName}";
-            }
-            return $this->message[$field][$ruleName];
-        }
-        if (empty($this->message[$ruleName])) {
-            return "Полe $field является пустым";
-        }
-        return $this->message[$ruleName];
+        return $strMess;
     }
 }
 

@@ -33,7 +33,6 @@ class Logger
         return $this->logFile;
     }
 
-
     public function createLogFile(): void
     {
         if (!file_exists(ROOT . '/tmp')) {
@@ -107,6 +106,8 @@ class Logger
             $btLineLog,
             $contextLog
         );
+
+        $this->writeLog();
     }
 
     public function variableNotAvailable($variable): string
@@ -114,46 +115,47 @@ class Logger
         return empty($variable) ? 'N/A' : $variable;
     }
 
+    public static function mistake(array $context = [], $message = '')
+    {
+        $backtrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 1);
+        $new = new Logger('static');
+        $new->setMessage('NOTICE', $message, $backtrace, $context);
+    }
+
     public function debug($message, array $context = [])
     {
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 1);
         $this->setMessage('DEBUG', $message, $backtrace, $context);
-        $this->writeLog();
     }
 
     public function notice($message, array $context = [])
     {
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 1);
         $this->setMessage('NOTICE', $message, $backtrace, $context,);
-        $this->writeLog();
     }
 
     public function info($message, array $context = [])
     {
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 1);
         $this->setMessage('INFO', $message, $backtrace, $context,);
-        $this->writeLog();
     }
 
     public function warning($message, array $context = [])
     {
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 1);
         $this->setMessage('WARNING', $message, $backtrace, $context,);
-        $this->writeLog();
     }
 
     public function error($message, array $context = [])
     {
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 1);
         $this->setMessage('ERROR', $message, $backtrace, $context,);
-        $this->writeLog();
     }
 
     public function fatal($message, array $context = [])
     {
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 1);
         $this->setMessage('FATAL', $message, $backtrace, $context,);
-        $this->writeLog();
     }
 }
 
