@@ -7,9 +7,10 @@
             </li>
          <?php $i++; endforeach; ?>
 
-        <li class="pt-1 pl-2">
-            <a href="#" id="reset-filter" class="btn btn-danger btn-sm">Сброс</a>
+        <li class="pull-right">
+            <a href="#" id="reset-filter" onclick="return false;">Сброс</a>
         </li>
+
     </ul>
     <div class="tab-content">
         <?php if(!empty($this->attrs[$group_id])): ?>

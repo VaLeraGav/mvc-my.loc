@@ -87,6 +87,7 @@ Route::controller('/admin/product', AdminProductController::class, [
     ['', 'get', 'index'],
     ['/add', 'get', 'add'],
     ['/add', 'post', 'store'],
+    ['/related-product', 'get', 'related']
 ]);
 
 //Route::get('/admin$', AdminMainController::class, 'index');

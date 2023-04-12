@@ -65,10 +65,31 @@ class ProductController extends AppController
 
             $_SESSION['success'] = 'Товар добавлен';
 
-            $id = $product->save(['attrs']);
-            $product->editFilter($id, $request['attrs']);
+            $id = $product->save(['attrs', 'related']);
+
+            $product->editFilter($id, $request);
+            $product->editRelatedFilter($id, $request);
 
             redirect();
         }
+    }
+
+    public function related()
+    {
+        $q = $_GET['q'] ?? '';
+        $data['items'] = [];
+
+        $products = Model::queryNew('SELECT id, title FROM product WHERE title LIKE ? LIMIT 10', ["%{$q}%"]);
+
+        if ($products) {
+            $i = 0;
+            foreach ($products as $product) {
+                $data['items'][$i]['id'] = $product['id'];
+                $data['items'][$i]['text'] = $product['title'];
+                $i++;
+            }
+        }
+
+        echo json_encode($data);
     }
 }

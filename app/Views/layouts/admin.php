@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
+
+    <link rel="stylesheet" href="bower_components/select2/dist/css/select2.min.css">
+
     <!-- Theme style -->
     <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
 
@@ -618,6 +621,7 @@
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
+<script src="bower_components/select2/dist/js/select2.full.js"></script>
 <!--CKEditor-->
 <script src="bower_components/ckeditor/ckeditor.js"></script>
 <!-- AdminLTE App -->
