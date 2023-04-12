@@ -27,18 +27,18 @@ Route::get('/product/([a-z0-9-]+)/?', ProductController::class, 'index');
 
 Route::get('/category/([a-z0-9-]+)/?', CategoryController::class, 'index');
 
-Route::group('/cart', [
-    ['/view', 'get', CartController::class, 'viewAction'],
-    ['/clear', 'get', CartController::class, 'clear'],
-    ['/checkout', 'post', CartController::class, 'checkout'],
-    ['/add', 'get', CartController::class, 'add'],
-    ['/show', 'get', CartController::class, 'show'],
-    ['/delete', 'get', CartController::class, 'delete'],
+Route::controller('/cart', CartController::class, [
+    ['/view', 'get', 'viewAction'],
+    ['/clear', 'get', 'clear'],
+    ['/checkout', 'post', 'checkout'],
+    ['/add', 'get', 'add'],
+    ['/show', 'get', 'show'],
+    ['/delete', 'get', 'delete'],
 ]);
 
-Route::group('/search', [
-    ['', 'get', SearchController::class, 'index'],
-    ['/typeahead', 'get', SearchController::class, 'typeahead'],
+Route::controller('/search', SearchController::class, [
+    ['', 'get', 'index'],
+    ['/typeahead', 'get', 'typeahead'],
 ]);
 
 Route::group('/user', [
@@ -57,40 +57,37 @@ Route::group('/admin', [
     ['/cache/delete', 'get', CacheController::class, 'delete']
 ]);
 
-Route::group('/admin/user', [
-    ['/login-admin', 'get', AdminUserController::class, 'index'],
-    ['/login-admin', 'post', AdminUserController::class, 'login'],
-    ['', 'get', AdminUserController::class, 'show'],
-    ['/edit', 'get', AdminUserController::class, 'edit'],
-    ['/edit', 'post', AdminUserController::class, 'update'],
-    ['/add', 'get', AdminUserController::class, 'add'],
-    ['/add', 'post', AdminUserController::class, 'signup'],
+Route::controller('/admin/user', AdminUserController::class, [
+    ['/login-admin', 'get', 'index'],
+    ['/login-admin', 'post', 'login'],
+    ['', 'get', 'show'],
+    ['/edit', 'get', 'edit'],
+    ['/edit', 'post', 'update'],
+    ['/add', 'get', 'add'],
+    ['/add', 'post', 'signup'],
 ]);
 
-Route::group('/admin/category', [
-    ['', 'get', AdminCategoryController::class, 'index'],
-    ['/delete', 'get', AdminCategoryController::class, 'delete'],
-    ['/add', 'get', AdminCategoryController::class, 'add'],
-    ['/add', 'post', AdminCategoryController::class, 'store'],
-    ['/edit', 'get', AdminCategoryController::class, 'edit'],
-    ['/edit', 'post', AdminCategoryController::class, 'update'],
+Route::controller('/admin/category', AdminCategoryController::class, [
+    ['', 'get', 'index'],
+    ['/delete', 'get', 'delete'],
+    ['/add', 'get', 'add'],
+    ['/add', 'post', 'store'],
+    ['/edit', 'get', 'edit'],
+    ['/edit', 'post', 'update'],
 ]);
 
-Route::group('/admin/order', [
-    ['', 'get', OrderController::class, 'index'],
-    ['/view', 'get', OrderController::class, 'viewAction'],
-    ['/change', 'get', OrderController::class, 'change'],
-    ['/delete', 'get', OrderController::class, 'delete'],
+Route::controller('/admin/order', OrderController::class, [
+    ['', 'get', 'index'],
+    ['/view', 'get', 'viewAction'],
+    ['/change', 'get', 'change'],
+    ['/delete', 'get', 'delete'],
 ]);
 
-Route::group('/admin/product', [
-    ['', 'get', AdminProductController::class, 'index'],
-    ['/add', 'get', AdminProductController::class, 'add'],
-    ['/add', 'post', AdminProductController::class, 'store'],
-//    ['/add', 'get', OrderController::class, 'change'],
-//    ['/delete', 'get', OrderController::class, 'delete'],
+Route::controller('/admin/product', AdminProductController::class, [
+    ['', 'get', 'index'],
+    ['/add', 'get', 'add'],
+    ['/add', 'post', 'store'],
 ]);
-
 
 //Route::get('/admin$', AdminMainController::class, 'index');
 //Route::get('/admin/?', AdminMainController::class, 'index');

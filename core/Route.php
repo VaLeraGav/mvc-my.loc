@@ -55,4 +55,14 @@ class Route
             self::define($type, $url, $controller, $method);
         }
     }
+
+    public static function controller($head, $controller, array $routers)
+    {
+        foreach ($routers as $item) {
+            $method = $item[2] ?? 'index';
+            $type = $item[1];
+            $url = $head . $item[0];
+            self::define($type, $url, $controller, $method);
+        }
+    }
 }
