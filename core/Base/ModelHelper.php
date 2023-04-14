@@ -148,7 +148,7 @@ trait ModelHelper
     /**
      * Сохраняет модель, возвращает id последней вставленной строки
      */
-    public function save($ignores)
+    public function save($ignores = [])
     {
         $ignores = array_merge(['password_confirmation', 'created_at', 'update_at'], $ignores);
         $this->insertGetModel($this->attributes, $ignores);

@@ -338,13 +338,13 @@
 
                 <li>
                     <a href="<?= ADMIN ?>/order">
-                        <i class="nav-icon fa fa-shopping-cart"></i></i> <span>Заказы</span>
+                        <i class="nav-icon fa fa-shopping-cart"></i></i><span>Заказы</span>
                         <span class="pull-right-container"></span>
                     </a>
                 </li>
 
                 <li class="treeview">
-                    <a href="#"><i class="fa fa-navicon"></i> <span>Категории</span>
+                    <a href="#"><i class="fa fa-navicon"></i><span>Категории</span>
                         <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                         </span> </a>
@@ -355,7 +355,7 @@
                 </li>
 
                 <li class="treeview">
-                    <a href="#"><i class="nav-icon fa fa-cubes"></i> <span>Товары</span>
+                    <a href="#"><i class="nav-icon fa fa-cubes"></i><span>Товары</span>
                         <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                         </span> </a>
@@ -367,23 +367,49 @@
 
                 <li>
                     <a href="<?= ADMIN ?>/cache">
-                        <i class="nav-icon fa fa-database"></i> <span>Кеширование</span>
+                        <i class="nav-icon fa fa-database"></i><span>Кеширование</span>
                         <span class="pull-right-container"></span>
                     </a>
                 </li>
 
                 <li class="treeview">
-                    <a href="#"><i class="nav-icon fa fa-users"></i></i> <span>Пользователи</span>
+                    <a href="#">
+                        <i class="nav-icon fa fa-users"></i></i><span>Пользователи</span>
                         <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                         </span> </a>
                     <ul class="treeview-menu">
                         <li><a href="<?= ADMIN ?>/user">Список пользователей</a></li>
-                        <li><a href="<?= ADMIN ?>/user/add"">Добавить пользователя</a></li>
+                        <li><a href="<?= ADMIN ?>/user/add">Добавить пользователя</a></li>
+                    </ul>
+                </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="nav-icon fa fa-usd"></i></i><span>Валюты</span>
+                        <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                        </span> </a>
+                    <ul class="treeview-menu">
+                        <li><a href="<?= ADMIN ?>/currency">Список валют</a></li>
+                        <li><a href="<?= ADMIN ?>/currency/add">Добавить валюту</a></li>
+                    </ul>
+                </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="nav-icon fa fa-filter"></i></i><span>Фильтры</span>
+                        <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                        </span> </a>
+                    <ul class="treeview-menu">
+                        <li><a href="<?= ADMIN ?>/filter/attribute-group">Группы фильтров</a></li>
+                        <li><a href="<?= ADMIN ?>/filter/attribute">Фильтры</a></li>
                     </ul>
                 </li>
 
             </ul>
+
         </section>
         <!-- /.sidebar -->
     </aside>

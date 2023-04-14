@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\admin\CacheController;
+use App\Controllers\admin\FilterController;
 use App\Controllers\RegistrationController;
 use Core\Route;
 use App\Controllers\MainController;
@@ -92,6 +93,22 @@ Route::controller('/admin/product', AdminProductController::class, [
     ['/edit', 'get', 'edit'],
     ['/edit', 'post', 'update'],
     ['/delete-gallery', 'post', 'deleteGallery']
+]);
+
+Route::controller('/admin/filter', FilterController::class, [
+    ['/attribute', 'get', 'attribute'],
+    ['/attribute-group', 'get', 'attributeGroup'],
+    ['/attribute-delete', 'get', 'attributeDelete'],
+    ['/attribute-add', 'get', 'attributeAdd'],
+    ['/attribute-add', 'post', 'attributeStore'],
+    ['/attribute-edit', 'get', 'attributeEdit'],
+    ['/attribute-edit', 'post', 'attributeUpdate'],
+
+    ['/group-delete', 'get', 'groupDelete'],
+    ['/group-add', 'get', 'groupAdd'],
+    ['/group-add', 'post', 'groupStore'],
+    ['/group-edit', 'get', 'groupEdit'],
+    ['/group-edit', 'post', 'groupUpdate'],
 
 ]);
 
