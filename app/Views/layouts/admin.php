@@ -627,6 +627,7 @@
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 
+<script src="/js/ajaxupload.js "></script>
 <script src="admin.js"></script>
 
 </body>

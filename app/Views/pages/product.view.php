@@ -30,11 +30,12 @@ $cats = \Core\App::$app->getProperty('cats');
                             <div class="flexslider">
                                 <ul class="slides">
                                     <?php foreach ($gallery as $item): ?>
-
-                                    <li data-thumb="images/<?= $item->img ?>">
-                                        <div class="thumb-image"><img src="images/<?= $item->img ?>" data-imagezoom="true"
-                                                                      class="img-responsive" alt=""/></div>
-                                    </li>
+                                        <?php if(file_exists(WWW . "/images/$item->img")): ?>
+                                            <li data-thumb="images/<?= $item->img ?>">
+                                                <div class="thumb-image"><img src="images/<?= $item->img ?>" data-imagezoom="true"
+                                                                              class="img-responsive" alt=""/></div>
+                                            </li>
+                                        <?php endif; ?>
                                     <?php endforeach; ?>
                                 </ul>
                             </div>

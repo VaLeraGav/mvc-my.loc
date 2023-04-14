@@ -5,7 +5,7 @@ namespace App\Models;
 use Core\App;
 use Core\Base\Model;
 
-class CategoryModel extends Model
+class CategoryModel extends AppModel
 {
     public string $table = 'category';
 
@@ -34,35 +34,6 @@ class CategoryModel extends Model
             }
         }
         return $ids;
-    }
-
-    public function uniqueAlias()
-    {
-        $sql = "SELECT * FROM {$this->table} WHERE alias = :value";
-        $search = $this->query($sql, [':value' => $this->attributes['alias']])->fetch();
-
-        if (!empty($search)) {
-            $this->errors['alias'][] = 'alias не уникальный';
-            return false;
-        }
-        return true;
-    }
-
-    public function uniqueAliasId($id)
-    {
-        $cat = Model::requestArr(
-            "$this->table", 'WHERE alias = ? AND id <> ?',
-            [$this->attributes['alias'], $id]
-        );
-
-        if (!empty($cat)) {
-            $cat = $cat[0];
-            if ($cat['alias'] == $this->attributes['alias']) {
-                $this->errors['alias'][] = 'alias не уникальный';
-            }
-            return false;
-        }
-        return true;
     }
 
     public function str2url($str)
