@@ -4,10 +4,8 @@ namespace App\Controllers\admin;
 
 use App\Models\admin\FilterAttrModel;
 use App\Models\admin\FilterGroupModel;
-use App\Models\OrderModel;
 use Core\Base\Model;
-use Core\Libs\Pagination;
-use Core\Logger;
+
 
 class FilterController extends AppController
 {

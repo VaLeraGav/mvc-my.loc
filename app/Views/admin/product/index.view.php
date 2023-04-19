@@ -40,13 +40,10 @@
                                             <i class="fa fa-fw fa-eye"></i>
                                         </a>
                                         <a href="<?=ADMIN;?>/product/edit-modification?id=<?=$product['id'];?>">
-                                            <i class="fa fa-fw fa-eye ml-3"></i>
+                                            <i class="fa fa-fw fa-clone"></i>
                                         </a>
-                                        <a href="<?=ADMIN;?>/product/edit-detail?id=<?=$product['id'];?>">
-                                            <i class="fa fa-fw fa-eye ml-3"></i>
-                                        </a>
-                                        <a class="delete" href="<?=ADMIN;?>/product/delete?id=<?=$product['id'];?>">
-                                            <i class="delete fa fa-fw fa-close text-danger ml-3"></i>
+                                        <a href="<?=ADMIN;?>/product/delete?id=<?=$product['id'];?>">
+                                            <i class="delete fa fa-fw fa-close text-danger"></i>
                                         </a>
                                     </td>
                                 </tr>

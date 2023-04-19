@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\admin\CacheController;
+use App\Controllers\admin\CurrencyController;
 use App\Controllers\admin\FilterController;
 use App\Controllers\RegistrationController;
 use Core\Route;
@@ -92,7 +93,8 @@ Route::controller('/admin/product', AdminProductController::class, [
     ['/add-image', 'post', 'addImage'],
     ['/edit', 'get', 'edit'],
     ['/edit', 'post', 'update'],
-    ['/delete-gallery', 'post', 'deleteGallery']
+    ['/delete-gallery', 'post', 'deleteGallery'],
+    ['/delete', 'get', 'delete'],
 ]);
 
 Route::controller('/admin/filter', FilterController::class, [
@@ -109,8 +111,17 @@ Route::controller('/admin/filter', FilterController::class, [
     ['/group-add', 'post', 'groupStore'],
     ['/group-edit', 'get', 'groupEdit'],
     ['/group-edit', 'post', 'groupUpdate'],
-
 ]);
+
+Route::controller('/admin/currency', CurrencyController::class, [
+    ['', 'get', 'index'],
+    ['/add', 'get', 'add'],
+    ['/add', 'post', 'store'],
+    ['/edit', 'get', 'edit'],
+    ['/edit', 'post', 'update'],
+    ['/delete', 'get', 'delete']
+]);
+
 
 //Route::get('/admin$', AdminMainController::class, 'index');
 //Route::get('/admin/?', AdminMainController::class, 'index');

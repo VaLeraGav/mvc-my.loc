@@ -186,4 +186,20 @@ class ProductController extends AppController
         }
     }
 
+
+    public function delete()
+    {
+        $id = $this->getRequestID();
+        $count = Model::count('order_product', 'product_id = ?', [$id]);
+
+        if ($count) {
+            $_SESSION['error'] = "Есть связь с товаром в заказе. В $count заказе(ах)";
+            redirect();
+        }
+
+        Model::queryNew('DELETE FROM product WHERE id = ?', [$id]);
+        $_SESSION['success'] = 'Товар удален';
+        redirect();
+    }
+
 }

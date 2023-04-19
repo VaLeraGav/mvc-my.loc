@@ -46,7 +46,7 @@
         <!-- Logo -->
         <a href="<?= PATH ?>" class="logo" target="_blank">
             <span class="logo-mini"><b>W</b>LT</span>
-            <span class="logo-lg"><b>WATCHES</b> LT</span>
+            <span class="logo-lg"><b>WATCHES</b> LTE</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">

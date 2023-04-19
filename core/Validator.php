@@ -200,7 +200,7 @@ trait Rules
     private function numeric($str, $field, $value): ?string
     {
         $str = $this->replaceLines($str, [":name"], [$field]);
-        return preg_match('/[^0-9]/', $value) ? $str : null;
+        return !preg_match('/[0-9]*[.]?[0-9]+/', $value) ? $str : null;
     }
 
     // доработать
